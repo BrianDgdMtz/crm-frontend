@@ -1,11 +1,12 @@
 import React from "react";
-import { Card, CardContent, Divider, Typography, Box } from "@mui/material";
+import { CardContent, Divider, Typography } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import { Link as RouterLink } from "react-router-dom";
 import type { Empresa } from "../../../mock/empresasMock";
 import type { Contacto } from "../../../mock/contactosMock";
+import SectionCard from "../../ui/SectionCard";
 
 interface DealInfoPanelProps {
   empresa: Empresa | null;
@@ -30,10 +31,7 @@ const DealInfoPanel: React.FC<DealInfoPanelProps> = ({
   estado,
   etapa
 }) => (
-  <Card sx={{ mb: 2 }}>
-    <Box px={2} py={1.5}>
-      <Typography variant="h6" fontWeight="bold">Información general</Typography>
-    </Box>
+  <SectionCard title="Información general" hover intro>
     <Divider />
     <CardContent>
       <Grid container spacing={2}>
@@ -128,7 +126,7 @@ const DealInfoPanel: React.FC<DealInfoPanelProps> = ({
         </Grid>
       </Grid>
     </CardContent>
-  </Card>
+  </SectionCard>
 );
 
 export default DealInfoPanel;

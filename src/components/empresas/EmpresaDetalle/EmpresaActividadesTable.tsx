@@ -1,8 +1,9 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import type { Actividad } from '../../../mock/actividadesMock';
 import { tipoActividadMock } from '../../../mock/tipoActividadMock';
 import { usuariosMock } from '../../../mock/usuariosMock';
+import SectionCard from '../../ui/SectionCard';
 
 interface EmpresaActividadesTableProps {
     actividades: Actividad[];
@@ -13,7 +14,7 @@ const EmpresaActividadesTable: React.FC<EmpresaActividadesTableProps> = ({
     actividades,
     onRowClick
 }) => (
-    <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
+    <SectionCard title='Actividades' hover intro>
         <Table size="small">
             <TableHead>
                 <TableRow>
@@ -59,7 +60,7 @@ const EmpresaActividadesTable: React.FC<EmpresaActividadesTableProps> = ({
                 )}
             </TableBody>
         </Table>
-    </TableContainer>
+    </SectionCard>
 )
 
 export default EmpresaActividadesTable;

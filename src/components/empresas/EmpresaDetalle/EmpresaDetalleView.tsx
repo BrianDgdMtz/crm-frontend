@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Card, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import EmpresaHeader from "./EmpresaHeader";
 import EmpresaInfoPanel from "./EmpresaInfoPanel";
@@ -47,41 +47,40 @@ const EmpresaDetalleView: React.FC<EmpresaDetalleViewProps> = ({ empresa }) => {
       />
 
       {/* Panel de información general */}
-      <EmpresaInfoPanel
-        industria={industriasMock.find(i => i.id === empresa.industria_id)?.nombre || "—"}
-        rfc={empresa.rfc || "—"}
-        estatus={estatusEmpresasMock.find(e => e.id === empresa.estatus_id)?.nombre || "—"}
-        fechaAlta={empresa.fecha_alta || "—"}
-      />
+      <Box sx={{ mb: 2, p: 1 }}>
+        <EmpresaInfoPanel
+          industria={industriasMock.find(i => i.id === empresa.industria_id)?.nombre || "—"}
+          rfc={empresa.rfc || "—"}
+          estatus={estatusEmpresasMock.find(e => e.id === empresa.estatus_id)?.nombre || "—"}
+          fechaAlta={empresa.fecha_alta || "—"}
+        />
+      </Box>
 
       {/* Tablas de contactos, actividades y deals */}
       <Grid container spacing={2} sx={{ mt: 1 }}>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Card sx={{ p: 2, mb: 2 }}>
-            <Typography variant="h6" fontWeight="bold" gutterBottom>Contactos</Typography>
+          <Box sx={{ p: 1 }}>
             <EmpresaContactosTable
               contactos={contactosEmpresa}
               onRowClick={(id) => navigate(`/contactos/${id}`)}
             />
-          </Card>
+          </Box>
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Card sx={{ p: 2, mb: 2 }}>
-            <Typography variant="h6" fontWeight="bold" gutterBottom>Actividades</Typography>
+          <Box sx={{ p: 1 }}>
             <EmpresaActividadesTable
               actividades={actividadesEmpresa}
               onRowClick={(id) => navigate(`/actividades/${id}`)}
             />
-          </Card>
+          </Box>
         </Grid>
         <Grid size={{ xs: 12 }}>
-          <Card sx={{ p: 2 }}>
-            <Typography variant="h6" fontWeight="bold" gutterBottom>Deals vinculados</Typography>
+          <Box sx={{ p: 1 }}>
             <EmpresaDealsTable
               deals={dealsEmpresa}
               onRowClick={(id) => navigate(`/deals/${id}`)}
             />
-          </Card>
+          </Box>
         </Grid>
       </Grid>
     </Box>

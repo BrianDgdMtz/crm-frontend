@@ -1,6 +1,6 @@
 import React from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
-//import type { ContactoConEmpresa } from "../../pages/ContactosPage";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import SectionCard from "../ui/SectionCard";
 
 export interface ContactoTabla {
   id: number;
@@ -20,7 +20,7 @@ const ContactosTable: React.FC<ContactosTableProps> = ({
   onRowClick,
 }) => {
   return (
-    <TableContainer component={Paper}>
+    <SectionCard hover intro>
       <Table>
         <TableHead>
           <TableRow>
@@ -46,7 +46,7 @@ const ContactosTable: React.FC<ContactosTableProps> = ({
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
+    </SectionCard>
   );
 };
 

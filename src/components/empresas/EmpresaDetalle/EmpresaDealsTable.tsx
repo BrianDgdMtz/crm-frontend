@@ -1,8 +1,9 @@
 import React from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import type { Deal } from "../../../mock/dealsMock";
 import { estadoDealsMock } from "../../../mock/estadoDealsMock";
 import { etapaDealsMock } from "../../../mock/etapaDealsMock";
+import SectionCard from "../../ui/SectionCard";
 
 interface EmpresaDealsTableProps {
     deals: Deal[];
@@ -13,7 +14,7 @@ const EmpresaDealsTable: React.FC<EmpresaDealsTableProps> = ({
     deals,
     onRowClick
 }) => (
-    <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
+    <SectionCard title="Deals vinculados" hover intro>
         <Table size="small">
             <TableHead>
                 <TableRow>
@@ -53,7 +54,7 @@ const EmpresaDealsTable: React.FC<EmpresaDealsTableProps> = ({
                 )}
             </TableBody>
         </Table>
-    </TableContainer>
+    </SectionCard>
 );
 
 export default EmpresaDealsTable;

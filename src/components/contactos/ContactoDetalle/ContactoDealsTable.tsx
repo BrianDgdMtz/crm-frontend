@@ -7,6 +7,7 @@ import {
   TableBody,
   Typography,
 } from "@mui/material";
+import SectionCard from "../../ui/SectionCard";
 import type { Deal } from "../../../mock/dealsMock";
 import type { estadoDeal } from "../../../mock/estadoDealsMock";
 import type { etapaDeal } from "../../../mock/etapaDealsMock";
@@ -25,10 +26,7 @@ const ContactoDealsTable: React.FC<ContactoDealsTableProps> = ({
   onRowClick
 }) => {
   return (
-    <>
-      <Typography variant="h6" fontWeight="bold">
-        Deals vinculados
-      </Typography>
+    <SectionCard title="Deals vinculados" hover intro>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -75,7 +73,7 @@ const ContactoDealsTable: React.FC<ContactoDealsTableProps> = ({
           )}
         </TableBody>
       </Table>
-    </>
+    </SectionCard>
   );
 };
 

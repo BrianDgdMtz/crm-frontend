@@ -1,7 +1,8 @@
 import React from "react";
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography,
+  Table, TableBody, TableCell, TableHead, TableRow, Typography,
 } from "@mui/material";
+import SectionCard from "../ui/SectionCard";
 
 export interface DealTabla {
   id: number;
@@ -19,7 +20,7 @@ interface DealsTableProps {
 }
 
 const DealsTable: React.FC<DealsTableProps> = ({ deals, onSeleccionarDeal }) => (
-  <TableContainer component={Paper}>
+  <SectionCard hover intro>
     <Table>
       <TableHead>
         <TableRow>
@@ -61,7 +62,7 @@ const DealsTable: React.FC<DealsTableProps> = ({ deals, onSeleccionarDeal }) => 
         )}
       </TableBody>
     </Table>
-  </TableContainer>
+  </SectionCard>
 );
 
 export default DealsTable;

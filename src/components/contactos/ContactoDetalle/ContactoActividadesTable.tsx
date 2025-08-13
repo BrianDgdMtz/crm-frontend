@@ -1,29 +1,32 @@
 import React from "react";
-import { Table, TableHead, TableRow, TableCell, TableBody, Typography } from "@mui/material";
+import { 
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Typography
+} from "@mui/material";
+import SectionCard from "../../ui/SectionCard";
 import type { Actividad } from "../../../mock/actividadesMock";
 import type { tipoActividad } from "../../../mock/tipoActividadMock";
 import type { Usuario } from "../../../mock/usuariosMock";
-
-// Si quieres mostrar el nombre del tipo y del responsable, pasa los catálogos como props
 
 interface ContactoActividadesTableProps {
   actividades: Actividad[];
   tiposActividad?: tipoActividad[];
   usuarios?: Usuario[];
-  onRowClick?: (actividadId: number) => void
+  onRowClick?: (actividadId: number) => void;
 }
 
 const ContactoActividadesTable: React.FC<ContactoActividadesTableProps> = ({
   actividades,
   tiposActividad = [],
   usuarios = [],
-  onRowClick
+  onRowClick,
 }) => {
   return (
-    <>
-      <Typography variant="h6" fontWeight="bold">
-        Actividades
-      </Typography>
+    <SectionCard title="Actividades" hover intro>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -52,26 +55,16 @@ const ContactoActividadesTable: React.FC<ContactoActividadesTableProps> = ({
                 onClick={() => onRowClick?.(actividad.id)}
               >
                 <TableCell>{actividad.asunto}</TableCell>
-                <TableCell>
-                  {tiposActividad.find((t) => t.id === actividad.tipo_id)?.nombre || "—"}
-                </TableCell>
-                <TableCell>
-                  {usuarios.find((u) => u.id === actividad.usuario_id)?.nombre || "—"}
-                </TableCell>
-                <TableCell>
-                  {actividad.realizada ? "Realizada" : "Pendiente"}
-                </TableCell>
-                <TableCell>
-                  {actividad.realizada
-                    ? actividad.fecha_realizacion
-                    : actividad.fecha_programada}
-                </TableCell>
+                <TableCell>{tiposActividad.find(t => t.id === actividad.tipo_id)?.nombre || "—"}</TableCell>
+                <TableCell>{usuarios.find(u => u.id === actividad.usuario_id)?.nombre || "—"}</TableCell>
+                <TableCell>{actividad.realizada ? "Realizada" : "Pendiente"}</TableCell>
+                <TableCell>{actividad.realizada ? actividad.fecha_realizacion : actividad.fecha_programada}</TableCell>
               </TableRow>
             ))
           )}
         </TableBody>
       </Table>
-    </>
+    </SectionCard>
   );
 };
 

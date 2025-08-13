@@ -1,17 +1,18 @@
 import React from "react";
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography,
+  Table, TableBody, TableCell, TableHead, TableRow, Typography,
 } from "@mui/material";
 import { etapaDealsMock } from "../../../mock/etapaDealsMock";
 import { usuariosMock } from "../../../mock/usuariosMock";
 import type { HistorialEtapaDeal } from "../../../mock/historialEtapaDealsMock";
+import SectionCard from "../../ui/SectionCard";
 
 interface DealHistorialTableProps {
   items: HistorialEtapaDeal[];
 }
 
 const DealHistorialTable: React.FC<DealHistorialTableProps> = ({ items }) => (
-  <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
+  <SectionCard title="Historial del deal" hover intro>
     <Table size="small">
       <TableHead>
         <TableRow>
@@ -47,7 +48,7 @@ const DealHistorialTable: React.FC<DealHistorialTableProps> = ({ items }) => (
         )}
       </TableBody>
     </Table>
-  </TableContainer>
+  </SectionCard>
 );
 
 export default DealHistorialTable;

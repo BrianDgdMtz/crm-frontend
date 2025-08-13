@@ -1,6 +1,8 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import type { Contacto } from '../../../mock/contactosMock';
+import SectionCard from '../../ui/SectionCard';
+
 
 interface EmpresaContactosTableProps {
   contactos: Contacto[];
@@ -8,7 +10,7 @@ interface EmpresaContactosTableProps {
 }
 
 const EmpresaContactosTable: React.FC<EmpresaContactosTableProps> = ({ contactos, onRowClick }) => (
-    <TableContainer component={Paper} sx={{ boxShadow: "none"}}>
+    <SectionCard title='Contactos' hover intro>
         <Table size="small">
             <TableHead>
                 <TableRow>
@@ -42,7 +44,7 @@ const EmpresaContactosTable: React.FC<EmpresaContactosTableProps> = ({ contactos
                 )}
             </TableBody>
         </Table>
-    </TableContainer>
+    </SectionCard>
 )
 
 export default EmpresaContactosTable;

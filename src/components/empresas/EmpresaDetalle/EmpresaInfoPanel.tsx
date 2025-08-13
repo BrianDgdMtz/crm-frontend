@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, Typography, Box } from '@mui/material';
+import { Typography, Box } from '@mui/material';
+import SectionCard from '../../ui/SectionCard';
 
 interface EmpresaInfoPanelProps {
     industria: string;
@@ -14,7 +15,7 @@ const EmpresaInfoPanel: React.FC<EmpresaInfoPanelProps> = ({
     estatus,
     fechaAlta,
 }) => (
-    <Card sx={{ mb: 2, p: 2 }}>
+  <SectionCard hover intro>
     <Box display="flex" flexWrap="wrap" gap={4}>
       <Box>
         <Typography variant="subtitle1" fontWeight="bold">Industria:</Typography>
@@ -33,7 +34,7 @@ const EmpresaInfoPanel: React.FC<EmpresaInfoPanelProps> = ({
         <Typography>{fechaAlta}</Typography>
       </Box>
     </Box>
-  </Card>
+  </SectionCard>
 );
 
 export default EmpresaInfoPanel;

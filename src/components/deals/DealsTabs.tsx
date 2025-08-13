@@ -20,7 +20,7 @@ const DealsTabs: React.FC<DealsTabsProps> = ({
     onCambiarEstado,
 }) => {
     return (
-        <Box mb={2}>
+        <Box mb={3}>
             <Tabs
                 value={estadoSeleccionado}
                 onChange={(_e, nuevoValor) =>

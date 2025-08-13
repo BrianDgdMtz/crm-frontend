@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import SectionCard from "../ui/SectionCard";
 
-// Aquí va el tipo que representa cada empresa (ajusta según tu mock real)
 export interface EmpresaTabla {
   id: number;
   nombre: string;
@@ -17,7 +17,7 @@ interface EmpresasTableProps {
 
 export const EmpresasTable: React.FC<EmpresasTableProps> = ({ empresas, onRowClick }) => {
   return (
-    <TableContainer component={Paper}>
+    <SectionCard hover intro>
       <Table>
         <TableHead>
           <TableRow>
@@ -43,6 +43,6 @@ export const EmpresasTable: React.FC<EmpresasTableProps> = ({ empresas, onRowCli
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
+    </SectionCard>
   );
 };

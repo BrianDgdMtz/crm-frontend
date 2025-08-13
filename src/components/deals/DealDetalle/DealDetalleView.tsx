@@ -60,7 +60,8 @@ const DealDetalleView: React.FC<DealDetalleViewProps> = ({
       {/* Información general */}
       <Grid container spacing={2} sx={{ mt: 1 }}>
         <Grid size={{ xs:12, md:6 }}>
-          <DealInfoPanel
+          <Box mb={2}>
+            <DealInfoPanel
             empresa={empresa}
             montoEstimado={deal.monto_estimado}
             contacto={contacto}
@@ -71,26 +72,25 @@ const DealDetalleView: React.FC<DealDetalleViewProps> = ({
             etapa={etapaNombre}
             estado={estadoNombre}
           />
+          </Box>
         </Grid>
           <Grid size={{ xs:12, md:6 }}>
-            <Card sx={{ p: 2, mb: 2 }}>
-              <Typography variant="h6" fontWeight="bold" gutterBottom>Historial del deal</Typography>
+            <Box mb={3}>
               <DealHistorialTable items={historial} />
-            </Card>
-            <Card sx={{ p:2 }}>
-              <Typography variant="h6" fontWeight="bold" gutterBottom>Cotizaciones</Typography>
-              {/* <DealCotizacionesPn cotizaciones={...} /> */}
-              <Typography variant="body2" color="text.secondary">Disponible mas adelante</Typography>
-            </Card>
-          </Grid>
-
-          <Grid size={{ xs: 12 }}>
-            <Card sx={{ p: 2, mb: 2 }}>
-              <Typography variant="h6" fontWeight="bold" gutterBottom>Actividades relacionadas</Typography>
+            </Box>
+            <Box>
               <DealActividadesTable
                 actividades={actividadesDeal} 
                 onRowClick={(id) => navigate(`/actividades/${id}`)}
               />
+            </Box>
+          </Grid>
+
+          <Grid size={{ xs: 12 }}>
+            <Card sx={{ p:2 }}>
+              <Typography variant="h6" fontWeight="bold" gutterBottom>Cotizaciones</Typography>
+              {/* <DealCotizacionesPn cotizaciones={...} /> */}
+              <Typography variant="body2" color="text.secondary">Disponible mas adelante</Typography>
             </Card>
           </Grid>
       </Grid>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid, Paper } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ContactoHeader from "./ContactoHeader";
 import ContactoAcciones from "./ContactoAcciones";
@@ -47,7 +47,6 @@ const ContactoDetalleView: React.FC<ContactoDetalleViewProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  // Bloque de acciones como JSX para pasar al header
   const acciones = (
     <ContactoAcciones
       onNuevaActividad={() => alert("Agregar actividad")}
@@ -59,7 +58,6 @@ const ContactoDetalleView: React.FC<ContactoDetalleViewProps> = ({
 
   return (
     <Box>
-      {/* Header con botón volver, nombre y acciones */}
       <ContactoHeader
         nombre={contacto.nombre}
         onVolver={() => navigate("/contactos")}
@@ -67,32 +65,36 @@ const ContactoDetalleView: React.FC<ContactoDetalleViewProps> = ({
       />
 
       <Grid container spacing={3}>
-        <Grid size = {{xs:12, md:4}}>
-          <ContactoInfoPanel
-            contacto={contacto}
-            empresa={empresa}
-            industria={industria}
-            zona={zona}
-            estatus={estatus}
-          />
+        <Grid size={{ xs: 12, md: 4 }}>
+          <Box sx={{ mb: 3, p: 1 }}>
+            <ContactoInfoPanel
+              contacto={contacto}
+              empresa={empresa}
+              industria={industria}
+              zona={zona}
+              estatus={estatus}
+            />
+          </Box>
         </Grid>
-        <Grid size = {{xs:12, md:8}}>
-          <Paper sx={{ mb: 3, p: 2 }}>
+
+        <Grid size={{ xs: 12, md: 8 }}>
+          <Box sx={{ mb: 3, p: 1 }}>
             <ContactoDealsTable
               deals={deals}
               estadoDeals={estadoDeals}
               etapaDeals={etapaDeals}
               onRowClick={(id) => navigate(`/deals/${id}`)}
             />
-          </Paper>
-          <Paper sx={{ p: 2 }}>
+          </Box>
+
+          <Box sx={{ p: 1 }}>
             <ContactoActividadesTable
               actividades={actividades}
               tiposActividad={tiposActividad}
               usuarios={usuarios}
               onRowClick={(id) => navigate(`/actividades/${id}`)}
             />
-          </Paper>
+          </Box>
         </Grid>
       </Grid>
     </Box>

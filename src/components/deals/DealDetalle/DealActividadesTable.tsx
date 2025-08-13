@@ -1,11 +1,11 @@
 import React from "react";
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography
+  Table, TableBody, TableCell, TableHead, TableRow, Typography
 } from "@mui/material";
-
 import type { Actividad } from "../../../mock/actividadesMock";
 import { tipoActividadMock } from "../../../mock/tipoActividadMock";
 import { usuariosMock } from "../../../mock/usuariosMock";
+import SectionCard from "../../ui/SectionCard";
 
 interface DealActividadesTableProps {
   actividades: Actividad[];
@@ -13,7 +13,7 @@ interface DealActividadesTableProps {
 }
 
 const DealActividadesTable: React.FC<DealActividadesTableProps> = ({ actividades, onRowClick }) => (
-  <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
+  <SectionCard title="Actividades relacionadas" hover intro>
     <Table size="small">
       <TableHead>
         <TableRow>
@@ -56,7 +56,7 @@ const DealActividadesTable: React.FC<DealActividadesTableProps> = ({ actividades
         )}
       </TableBody>
     </Table>
-  </TableContainer>
+  </SectionCard>
 );
 
 export default DealActividadesTable;
