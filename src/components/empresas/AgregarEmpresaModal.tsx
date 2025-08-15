@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -12,8 +12,8 @@ import Grid from "@mui/material/Grid";
 import type { Industria } from "../../mock/industriasMock";
 import type { Zona } from "../../mock/zonasMock";
 import type { estatusEmpresa } from "../../mock/estatusEmpresasMock";
+import { empresasMock } from "../../mock/empresasMock";
 
-// Props para reutilizar el modal
 interface AgregarEmpresaModalProps {
   open: boolean;
   onClose: () => void;
@@ -21,9 +21,9 @@ interface AgregarEmpresaModalProps {
   industrias: Industria[];
   zonas: Zona[];
   estatus: estatusEmpresa[];
+  empresaId?: number;
 }
 
-// Solo los campos del formulario
 export interface NuevaEmpresaForm {
   nombre: string;
   industria_id: number;
@@ -40,6 +40,7 @@ export const AgregarEmpresaModal: React.FC<AgregarEmpresaModalProps> = ({
   industrias,
   zonas,
   estatus,
+  empresaId,
 }) => {
   const [form, setForm] = useState<NuevaEmpresaForm>({
     nombre: "",
@@ -50,7 +51,33 @@ export const AgregarEmpresaModal: React.FC<AgregarEmpresaModalProps> = ({
     fecha_alta: "",
   });
 
-  // Limpiar al cerrar
+  useEffect(() => {
+    if (!open) return;
+
+    if (empresaId) {
+      const empresa = empresasMock.find(e => e.id === empresaId);
+      if (empresa) {
+        setForm({
+          nombre: empresa.nombre ?? "",
+          industria_id: empresa.industria_id ?? 0,
+          rfc: empresa.rfc ?? "",
+          estatus_id: empresa.estatus_id ?? 0,
+          zona_id: empresa.zona_id ?? 0,
+          fecha_alta: empresa.fecha_alta ?? "",
+        });
+      }
+    } else {
+      setForm({
+        nombre: "",
+        industria_id: 0,
+        rfc: "",
+        estatus_id: 0,
+        zona_id: 0,
+        fecha_alta: "",
+      });
+    }
+  }, [open, empresaId]);
+
   const handleClose = () => {
     setForm({
       nombre: "",
@@ -72,7 +99,6 @@ export const AgregarEmpresaModal: React.FC<AgregarEmpresaModalProps> = ({
   };
 
   const handleSave = () => {
-    // Validación simple
     if (!form.nombre || !form.industria_id || !form.rfc || !form.estatus_id || !form.zona_id || !form.fecha_alta) {
       alert("Por favor, completa todos los campos.");
       return;
@@ -81,9 +107,11 @@ export const AgregarEmpresaModal: React.FC<AgregarEmpresaModalProps> = ({
     handleClose();
   };
 
+  const isEdit = Boolean(empresaId);
+
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Agregar empresa</DialogTitle>
+      <DialogTitle>{isEdit ? "Editar empresa" : "Agregar empresa"}</DialogTitle>
       <DialogContent>
         <Grid container spacing={2} sx={{ mt: 1 }}>
           <Grid size={{ xs: 12 }}>
@@ -179,7 +207,7 @@ export const AgregarEmpresaModal: React.FC<AgregarEmpresaModalProps> = ({
           Cancelar
         </Button>
         <Button onClick={handleSave} variant="contained" color="primary">
-          Guardar
+          {isEdit ? "Guardar cambios" : "Guardar"}
         </Button>
       </DialogActions>
     </Dialog>

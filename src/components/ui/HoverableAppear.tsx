@@ -1,4 +1,3 @@
-// components/common/HoverableAppear.tsx
 import React, { useEffect, useRef, useState, cloneElement, isValidElement } from "react";
 import { Box, useTheme } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material";
@@ -8,7 +7,7 @@ type HoverableAppearProps = {
   children: React.ReactNode;
   sx?: SxProps<Theme>;
   className?: string;
-  asChild?: boolean;              // <-- NUEVO: aplica estilos al hijo directamente
+  asChild?: boolean;
 
   intro?: boolean;
   introDurationMs?: number;
@@ -27,7 +26,7 @@ const HoverableAppear: React.FC<HoverableAppearProps> = ({
   children,
   sx,
   className,
-  asChild = true,                  // por defecto: aplica al hijo (ideal para Cards outlined)
+  asChild = true,
   intro = true,
   introDurationMs = 250,
   introBlurPx = 12,
@@ -71,7 +70,6 @@ const HoverableAppear: React.FC<HoverableAppearProps> = ({
     setPlayingIntro(false);
   };
 
-  // Aplica estilos al hijo directamente (evita wrapper que recorte)
   if (asChild && isValidElement(children)) {
     const child = children as React.ReactElement<any>;
     const mergedSx = Array.isArray(child.props.sx) ? [...child.props.sx, animatedSx] : [child.props.sx, animatedSx];
@@ -85,7 +83,6 @@ const HoverableAppear: React.FC<HoverableAppearProps> = ({
     });
   }
 
-  // Fallback: wrapper (útil si el hijo no acepta sx). Evita recortes: usa el mismo radius.
   return (
     <Box
       onAnimationEnd={handleEnd}
@@ -93,9 +90,6 @@ const HoverableAppear: React.FC<HoverableAppearProps> = ({
       sx={{
         display: "inline-block",
         borderRadius: theme.shape.borderRadius,
-        // OJO: si usas wrapper y ves recortes, quita overflow hidden o sube un poco el radius:
-        // overflow: "hidden",
-        // borderRadius: `calc(${theme.shape.borderRadius} + 2px)`,
       }}
     >
       <Box sx={animatedSx}>{children}</Box>

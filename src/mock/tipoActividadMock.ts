@@ -1,6 +1,6 @@
 export interface tipoActividad {
     id: number;
-    nombre: string; // Nombre de la actividad, por ejemplo: "Llamada", "Reunión", "Correo Electrónico"
+    nombre: string;
 }
 
 export const tipoActividadMock: tipoActividad[] = [

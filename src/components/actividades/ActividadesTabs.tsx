@@ -1,6 +1,5 @@
-// src/components/actividades/ActividadesTabs.tsx
 import React from "react";
-import { Tabs, Tab } from "@mui/material";
+import { Tabs, Tab, Box } from "@mui/material";
 
 export type TabKey = "todos" | "completadas" | "sin-realizar";
 
@@ -20,15 +19,17 @@ const ActividadesTabs: React.FC<ActividadesTabsProps> = ({
   pendientes = 0,
 }) => {
   return (
-    <Tabs
-      value={value}
-      onChange={(_, v: TabKey) => onChange(v)}
-      sx={{ mb: 2 }}
-    >
-      <Tab value="todos" label={`Todos (${total})`} sx={{ fontWeight: "bold", minWidth: 120}} />
-      <Tab value="completadas" label={`Completadas (${completadas})`} sx={{ fontWeight: "bold", minWidth: 120}} />
-      <Tab value="sin-realizar" label={`Sin realizar (${pendientes})`} sx={{ fontWeight: "bold", minWidth: 120}} />
-    </Tabs>
+    <Box mb={3}>
+      <Tabs
+        value={value}
+        onChange={(_, v: TabKey) => onChange(v)}
+        sx={{ mb: 2 }}
+      >
+        <Tab value="todos" label={`Todos (${total})`} sx={{ fontWeight: "bold", minWidth: 120}} />
+        <Tab value="completadas" label={`Completadas (${completadas})`} sx={{ fontWeight: "bold", minWidth: 120}} />
+        <Tab value="sin-realizar" label={`Sin realizar (${pendientes})`} sx={{ fontWeight: "bold", minWidth: 120}} />
+      </Tabs>
+    </Box>
   );
 };
 

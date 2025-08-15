@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ContactoHeader from "./ContactoHeader";
-import ContactoAcciones from "./ContactoAcciones";
 import ContactoInfoPanel from "./ContactoInfoPanel";
 import ContactoDealsTable from "./ContactoDealsTable";
 import ContactoActividadesTable from "./ContactoActividadesTable";
@@ -17,6 +16,12 @@ import type { estadoDeal } from "../../../mock/estadoDealsMock";
 import type { etapaDeal } from "../../../mock/etapaDealsMock";
 import type { tipoActividad } from "../../../mock/tipoActividadMock";
 import type { Usuario } from "../../../mock/usuariosMock";
+import { empresasMock } from "../../../mock/empresasMock";
+import { estatusContactosMock } from "../../../mock/estatusContactosMock";
+import AgregarActividadModal from "../../actividades/AgregarActividadModal";
+import AgregarDealModal from "../../deals/AgregarDealModal";
+import AgregarContactoModal from "../../contactos/AgregarContactoModal";
+import ContactoAcciones from "./ContactoAcciones";
 
 interface ContactoDetalleViewProps {
   contacto: Contacto;
@@ -31,6 +36,12 @@ interface ContactoDetalleViewProps {
   tiposActividad?: tipoActividad[];
   usuarios?: Usuario[];
 }
+
+type ModalName =
+  | "agregar-actividad"
+  | "agregar-deal"
+  | "editar-contacto"
+  | undefined;
 
 const ContactoDetalleView: React.FC<ContactoDetalleViewProps> = ({
   contacto,
@@ -47,12 +58,19 @@ const ContactoDetalleView: React.FC<ContactoDetalleViewProps> = ({
 }) => {
   const navigate = useNavigate();
 
+  const [modal, setModal] = useState<{ name: ModalName }>({ name: undefined });
+  const closeModal = () => setModal({ name: undefined });
+
   const acciones = (
     <ContactoAcciones
-      onNuevaActividad={() => alert("Agregar actividad")}
-      onEditarContacto={() => alert("Editar contacto")}
-      onNuevoDeal={() => alert("Nuevo Deal")}
-      onEliminarContacto={() => alert("Eliminar Contacto")}
+      context={{ id: contacto.id, empresaId: empresa?.id ?? contacto.empresa_id }}
+      handlers={{
+        openAgregarActividad: () => setModal({ name: "agregar-actividad" }),
+        openAgregarDeal: () => setModal({ name: "agregar-deal" }),
+        openEditarContacto: () => setModal({ name: "editar-contacto" }),
+        onEliminar: () => alert("Eliminar Contacto"),
+      }}
+      align="right"
     />
   );
 
@@ -97,6 +115,53 @@ const ContactoDetalleView: React.FC<ContactoDetalleViewProps> = ({
           </Box>
         </Grid>
       </Grid>
+
+      {modal.name === "agregar-actividad" && (
+        <AgregarActividadModal
+          key="agregar-actividad"
+          open
+          onClose={closeModal}
+          defaultEmpresaId={empresa?.id ?? contacto.empresa_id}
+          defaultContactoId={contacto.id}
+          onSave={(actividad) => {
+            console.log("Actividad guardada:", actividad);
+            alert("Actividad agregada");
+            closeModal();
+          }}
+        />
+      )}
+
+      {modal.name === "agregar-deal" && (
+        <AgregarDealModal
+          key="agregar-deal"
+          open
+          onClose={closeModal}
+          defaultEmpresaId={empresa?.id ?? contacto.empresa_id}
+          defaultContactoId={contacto.id}
+          onSave={(deal) => {
+            console.log("Deal guardado:", deal);
+            alert("Deal agregado");
+            closeModal();
+          }}
+        />
+      )}
+
+      {modal.name === "editar-contacto" && (
+        <AgregarContactoModal
+          key="editar-contacto"
+          open
+          onClose={closeModal}
+          onSave={(contactoForm) => {
+            console.log("Contacto actualizado/creado:", contactoForm);
+            alert("Contacto guardado");
+            closeModal();
+          }}
+          empresas={empresasMock}
+          estatusContactos={estatusContactosMock}
+          contactoId={contacto.id}
+          defaultEmpresaId={empresa?.id ?? contacto.empresa_id}
+        />
+      )}
     </Box>
   );
 };

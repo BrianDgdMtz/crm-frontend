@@ -7,6 +7,7 @@ import ContactoDetallePage from "./pages/contactos/ContactoDetallePage";
 import DealsPage from "./pages/DealsPage";
 import DealDetallePage from "./pages/deals/DealDetallePage";
 import ActividadesPage from "./pages/ActividadesPage";
+import ActividadDetallePage from "./pages/actividades/ActividadDetallePage";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         {/* Detalle de deal */}
         <Route path="deals/:id" element={<DealDetallePage />} />
         <Route path="actividades" element={<ActividadesPage />} />
+        <Route path="actividades/:id" element={<ActividadDetallePage />} />
         <Route path="dashboard" element={<div><h1>Contenido del Dashboard</h1></div>} />
         {/* Ruta catch-all */}
         <Route path="*" element={<Navigate to="/" />} />

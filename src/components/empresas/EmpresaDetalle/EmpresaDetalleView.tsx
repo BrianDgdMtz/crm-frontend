@@ -1,39 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import { useNavigate } from "react-router-dom";
 import EmpresaHeader from "./EmpresaHeader";
 import EmpresaInfoPanel from "./EmpresaInfoPanel";
-import EmpresaAcciones from "./EmpresaAcciones";
 import EmpresaContactosTable from "./EmpresaContactosTable";
 import EmpresaActividadesTable from "./EmpresaActividadesTable";
 import EmpresaDealsTable from "./EmpresaDealsTable";
+import EmpresaAcciones from "./EmpresaAcciones";
 import { contactosMock } from "../../../mock/contactosMock";
 import { actividadesMock } from "../../../mock/actividadesMock";
 import { dealsMock } from "../../../mock/dealsMock";
 import { industriasMock } from "../../../mock/industriasMock";
 import { estatusEmpresasMock } from "../../../mock/estatusEmpresasMock";
+import { zonasMock } from "../../../mock/zonasMock";
 import type { Empresa } from "../../../mock/empresasMock";
-import { useNavigate } from "react-router-dom";
+import { empresasMock } from "../../../mock/empresasMock";
+import { estatusContactosMock } from "../../../mock/estatusContactosMock";
+import AgregarActividadModal from "../../actividades/AgregarActividadModal";
+import AgregarDealModal from "../../deals/AgregarDealModal";
+import AgregarEmpresaModal from "../AgregarEmpresaModal";
+import AgregarContactoModal from "../../contactos/AgregarContactoModal";
 
 interface EmpresaDetalleViewProps {
   empresa: Empresa;
+  onEliminar?: () => void;
 }
 
-const EmpresaDetalleView: React.FC<EmpresaDetalleViewProps> = ({ empresa }) => {
+type ModalName =
+  | "agregar-actividad"
+  | "agregar-deal"
+  | "editar-empresa"
+  | "agregar-contacto"
+  | undefined;
+
+const EmpresaDetalleView: React.FC<EmpresaDetalleViewProps> = ({ empresa, onEliminar }) => {
   const navigate = useNavigate();
 
-  const contactosEmpresa = contactosMock.filter(c => c.empresa_id === empresa.id);
-  const actividadesEmpresa = actividadesMock.filter(a => a.empresa_id === empresa.id);
-  const dealsEmpresa = dealsMock.filter(d => d.empresa_id === empresa.id);
+  const contactosEmpresa = contactosMock.filter((c) => c.empresa_id === empresa.id);
+  const actividadesEmpresa = actividadesMock.filter((a) => a.empresa_id === empresa.id);
+  const dealsEmpresa = dealsMock.filter((d) => d.empresa_id === empresa.id);
 
-  // Acciones como JSX para pasar al header
+  const [modal, setModal] = useState<{ name: ModalName }>({ name: undefined });
+  const closeModal = () => setModal({ name: undefined });
+
   const acciones = (
     <EmpresaAcciones
-      onNuevaActividad={() => alert("Nueva Actividad")}
-      onNuevoDeal={() => alert("Nuevo Deal")}
-      onEditarEmpresa={() => alert("Editar Empresa")}
-      onAgregarContacto={() => alert("Agregar Contacto")}
-      onEliminarEmpresa={() => alert("Eliminar Empresa")}
+      context={{ id: empresa.id, nombre: empresa.nombre }}
+      handlers={{
+        openAgregarActividad: () => setModal({ name: "agregar-actividad" }),
+        openAgregarDeal: () => setModal({ name: "agregar-deal" }),
+        openAgregarEmpresa: () => setModal({ name: "editar-empresa" }),
+        openAgregarContacto: () => setModal({ name: "agregar-contacto" }),
+        onEliminar: () => (onEliminar ? onEliminar() : alert("Eliminar empresa")),
+      }}
+      align="right"
     />
   );
 
@@ -49,10 +70,12 @@ const EmpresaDetalleView: React.FC<EmpresaDetalleViewProps> = ({ empresa }) => {
       {/* Panel de información general */}
       <Box sx={{ mb: 2, p: 1 }}>
         <EmpresaInfoPanel
-          industria={industriasMock.find(i => i.id === empresa.industria_id)?.nombre || "—"}
+          industria={industriasMock.find((i) => i.id === empresa.industria_id)?.nombre || "—"}
+          zona={zonasMock.find((z) => z.id === empresa.zona_id)?.nombre || "—"}
           rfc={empresa.rfc || "—"}
-          estatus={estatusEmpresasMock.find(e => e.id === empresa.estatus_id)?.nombre || "—"}
+          estatus={estatusEmpresasMock.find((e) => e.id === empresa.estatus_id)?.nombre || "—"}
           fechaAlta={empresa.fecha_alta || "—"}
+          fechaUltimaActividad={empresa.fecha_ultima_actividad || "—"}
         />
       </Box>
 
@@ -83,6 +106,67 @@ const EmpresaDetalleView: React.FC<EmpresaDetalleViewProps> = ({ empresa }) => {
           </Box>
         </Grid>
       </Grid>
+
+      {modal.name === "agregar-actividad" && (
+        <AgregarActividadModal
+          key="agregar-actividad"
+          open
+          onClose={closeModal}
+          onSave={(actividad) => {
+            console.log("Actividad guardada:", actividad);
+            alert("Actividad agregada");
+            closeModal();
+          }}
+          defaultEmpresaId={empresa.id}
+        />
+      )}
+
+      {modal.name === "agregar-deal" && (
+        <AgregarDealModal
+          key="agregar-deal"
+          open
+          onClose={closeModal}
+          defaultEmpresaId={empresa.id}
+          onSave={(deal) => {
+            console.log("Deal guardado:", deal);
+            alert("Deal agregado");
+            closeModal();
+          }}
+        />
+      )}
+
+      {modal.name === "editar-empresa" && (
+        <AgregarEmpresaModal
+          key="editar-empresa"
+          open
+          onClose={closeModal}
+          onSave={(empresaForm) => {
+            console.log("Empresa guardada/actualizada:", empresaForm);
+            alert("Empresa actualizada");
+            closeModal();
+          }}
+          industrias={industriasMock}
+          zonas={zonasMock}
+          estatus={estatusEmpresasMock}
+          empresaId={empresa.id}
+        />
+      )}
+
+      {modal.name === "agregar-contacto" && (
+        <AgregarContactoModal
+          key="agregar-contacto"
+          open
+          onClose={closeModal}
+          onSave={(contacto) => {
+            console.log("Contacto guardado:", contacto);
+            alert("Contacto agregado");
+            closeModal();
+          }}
+          empresas={empresasMock}
+          estatusContactos={estatusContactosMock}
+          defaultEmpresaId={empresa.id}
+        />
+      )}
     </Box>
   );
 };

@@ -32,7 +32,6 @@ const ContactoInfoPanel: React.FC<ContactoInfoPanelProps> = ({
             <Row label="Posición / Cargo:" value={contacto.posicion} />
             <Row label="Teléfono:" value={contacto.telefono} />
             <Row label="Correo electrónico:" value={contacto.correo} />
-            {/* Empresa como enlace clickable */}
             <Box display="flex" gap={1} alignItems="center">
               <Typography
                 variant="body2"

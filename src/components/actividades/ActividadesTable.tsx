@@ -1,11 +1,12 @@
 import React from "react";
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Link,
+  Table, TableBody, TableCell, TableHead, TableRow, Typography, Link,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import type { Actividad } from "../../mock/actividadesMock";
 import { contactosMock } from "../../mock/contactosMock";
 import { empresasMock } from "../../mock/empresasMock";
+import SectionCard from "../ui/SectionCard";
 
 interface ActividadesTableProps {
   actividades: Actividad[];
@@ -14,7 +15,7 @@ interface ActividadesTableProps {
 
 const ActividadesTable: React.FC<ActividadesTableProps> = ({ actividades, onRowClick }) => {
   return (
-    <TableContainer component={Paper}>
+    <SectionCard hover intro>
       <Table>
         <TableHead>
           <TableRow>
@@ -86,7 +87,7 @@ const ActividadesTable: React.FC<ActividadesTableProps> = ({ actividades, onRowC
           )}
         </TableBody>
       </Table>
-    </TableContainer>
+    </SectionCard>
   );
 };
 

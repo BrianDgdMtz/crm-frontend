@@ -1,58 +1,73 @@
-// src/pages/ActividadesPage.tsx
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
-
 import ActividadesToolbar from "../components/actividades/ActividadesToolbar";
 import ActividadesTabs from "../components/actividades/ActividadesTabs";
 import ActividadesTable from "../components/actividades/ActividadesTable";
+import AgregarActividadModal, {
+  type NuevaActividad,
+} from "../components/actividades/AgregarActividadModal";
+import {
+  actividadesMock,
+  type Actividad,
+} from "../mock/actividadesMock";
 
-import { actividadesMock, type Actividad } from "../mock/actividadesMock";
-import { contactosMock } from "../mock/contactosMock";
-import { empresasMock } from "../mock/empresasMock";
-
-// Tipo para las tabs
 type TabKey = "todos" | "completadas" | "sin-realizar";
 
 const ActividadesPage: React.FC = () => {
   const navigate = useNavigate();
-  const [estadoSeleccionado, setEstadoSeleccionado] = useState<TabKey>("todos");
 
-  // Contadores para mostrar en las Tabs
+  const [actividades, setActividades] = useState<Actividad[]>(actividadesMock);
+
+  const [estadoSeleccionado, setEstadoSeleccionado] = useState<TabKey>("todos");
+  const [modalAbierto, setModalAbierto] = useState(false);
+
+  // Contadores para mostrar en Tabs
   const counts = useMemo(() => {
-    const total = actividadesMock.length;
-    const completadas = actividadesMock.filter(a => a.realizada).length;
+    const total = actividades.length;
+    const completadas = actividades.filter((a) => a.realizada).length;
     const pendientes = total - completadas;
     return { total, completadas, pendientes };
-  }, []);
+  }, [actividades]);
 
-  // Filtrar según el estado seleccionado
-  const actividadesFiltradas: Actividad[] = useMemo(() => {
-    return actividadesMock.filter(a => {
+  // Filtro por pestaña
+  const actividadesFiltradas = useMemo(() => {
+    return actividades.filter((a) => {
       if (estadoSeleccionado === "completadas") return a.realizada;
       if (estadoSeleccionado === "sin-realizar") return !a.realizada;
       return true;
     });
-  }, [estadoSeleccionado]);
+  }, [actividades, estadoSeleccionado]);
 
-  // Enriquecer con datos de contacto y empresa para la tabla
-  const actividadesParaTabla = useMemo(() => {
-    return actividadesFiltradas.map(a => {
-      const contacto = contactosMock.find(c => c.id === a.contacto_id);
-      const empresa = empresasMock.find(e => e.id === a.empresa_id);
-      return {
-        ...a,
-        nombreContacto: contacto?.nombre ?? "—",
-        nombreEmpresa: empresa?.nombre ?? "—"
-      };
+  const handleAbrirModal = () => setModalAbierto(true);
+  const handleCerrarModal = () => setModalAbierto(false);
+
+  const handleGuardarActividad = (nueva: NuevaActividad) => {
+    setActividades((prev) => {
+      const nextId = prev.length ? Math.max(...prev.map((x) => x.id)) + 1 : 1;
+
+      const nuevaActividad: Actividad = {
+        id: nextId,
+        asunto: nueva.asunto,
+        tipo_id: nueva.tipo_id,
+        empresa_id: nueva.empresa_id ?? null,
+        contacto_id: nueva.contacto_id ?? null,
+        deal_id: nueva.deal_id ?? null,
+        fecha_programada: nueva.fecha_programada,
+        realizada: false,
+        usuario_id: 1,
+        notas: nueva.notas ?? "",
+      } as unknown as Actividad;
+
+      return [...prev, nuevaActividad];
     });
-  }, [actividadesFiltradas]);
+
+    setModalAbierto(false);
+  };
 
   return (
     <Box>
-      <ActividadesToolbar
-        onAgregarActividad={() => alert("Agregar actividad (pendiente)")}
-      />
+      <ActividadesToolbar onAgregarActividad={handleAbrirModal} />
 
       <ActividadesTabs
         value={estadoSeleccionado}
@@ -63,8 +78,14 @@ const ActividadesPage: React.FC = () => {
       />
 
       <ActividadesTable
-        actividades={actividadesParaTabla}
+        actividades={actividadesFiltradas}
         onRowClick={(id) => navigate(`/actividades/${id}`)}
+      />
+
+      <AgregarActividadModal
+        open={modalAbierto}
+        onClose={handleCerrarModal}
+        onSave={handleGuardarActividad}
       />
     </Box>
   );

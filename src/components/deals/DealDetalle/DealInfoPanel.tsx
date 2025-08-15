@@ -1,5 +1,5 @@
 import React from "react";
-import { CardContent, Divider, Typography } from "@mui/material";
+import { CardContent, Typography } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
@@ -32,7 +32,6 @@ const DealInfoPanel: React.FC<DealInfoPanelProps> = ({
   etapa
 }) => (
   <SectionCard title="Información general" hover intro>
-    <Divider />
     <CardContent>
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 6 }}>

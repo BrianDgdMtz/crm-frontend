@@ -5,8 +5,8 @@ import HoverableAppear from "./HoverableAppear";
 type SectionCardProps = {
   title?: string;
   children: React.ReactNode;
-  hover?: boolean;           // hover flotante
-  intro?: boolean;           // blur/expand al montar
+  hover?: boolean;
+  intro?: boolean;
 };
 
 const SectionCard: React.FC<SectionCardProps> = ({
@@ -20,7 +20,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
       variant="outlined"
       sx={{
         borderColor: "divider",
-        boxShadow: 1, // 👈 mismo “peso” visual que los otros
+        boxShadow: 1,
         transition:
           "transform 0.4s cubic-bezier(.4,0,.2,1), box-shadow 0.3s cubic-bezier(.4,0,.2,1)",
         ...(hover && {

@@ -1,57 +1,57 @@
-import React from 'react';
-import { Box, Button } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EventNoteIcon from '@mui/icons-material/EventNote';
-import WorkIcon from '@mui/icons-material/Work';
+import ActionBar from "../../ui/actions/ActionBar";
+import type { ActionButtonConfig } from "../../ui/actions/types";
+import { Edit, Delete, EventNote, Work } from "@mui/icons-material";
 
-interface ContactoAccionesProps {
-  onNuevaActividad: () => void;
-  onNuevoDeal?: () => void;
-  onEditarContacto: () => void;
-  onEliminarContacto: () => void;
+interface ContactoCtx {
+  id: number;
+  empresaId: number;
+  nombre?: string;
 }
 
-const ContactoAcciones: React.FC<ContactoAccionesProps> = ({
-  onNuevaActividad,
-  onNuevoDeal,
-  onEditarContacto,
-  onEliminarContacto,
-}) => (
-  <Box display="flex" gap={2}>
-    <Button
-      variant="contained"
-      color="primary"
-      startIcon={<EventNoteIcon />}
-      onClick={onNuevaActividad}
-    >
-      Nueva Actividad
-    </Button>
-    <Button
-        variant="contained"
-        color="primary"
-        startIcon={<WorkIcon />}
-        onClick={onNuevoDeal}
-        >
-        Nuevo Deal
-    </Button>
-    <Button
-      variant="contained"
-      color="primary"
-      startIcon={<EditIcon />}
-      onClick={onEditarContacto}
-    >
-      Editar
-    </Button>
-    <Button
-      variant="contained"
-      color="error"
-      startIcon={<DeleteIcon />}
-      onClick={onEliminarContacto}
-    >
-      Eliminar
-    </Button>
-  </Box>
-);
+export default function ContactoAcciones(props: {
+  context: ContactoCtx;
+  handlers: {
+    openAgregarActividad: () => void;
+    openAgregarDeal: () => void;
+    openEditarContacto: () => void;
+    onEliminar?: () => void;
+  };
+  dense?: boolean;
+  align?: "left" | "right";
+}) {
+  const { context, handlers, dense, align } = props;
 
-export default ContactoAcciones;
+  const actions: ActionButtonConfig<ContactoCtx>[] = [
+    {
+      id: "nueva-actividad",
+      label: "Nueva Actividad",
+      icon: <EventNote />,
+      kind: "primary",
+      onClick: () => handlers.openAgregarActividad(),
+    },
+    {
+      id: "nuevo-deal",
+      label: "Nuevo Deal",
+      icon: <Work />,
+      kind: "primary",
+      onClick: () => handlers.openAgregarDeal(),
+    },
+    {
+      id: "editar-contacto",
+      label: "Editar",
+      icon: <Edit />,
+      kind: "primary",
+      onClick: () => handlers.openEditarContacto(),
+    },
+    {
+      id: "eliminar-contacto",
+      label: "Eliminar",
+      icon: <Delete />,
+      kind: "danger",
+      onClick: () => handlers.onEliminar?.(),
+      confirm: { title: "Eliminar contacto", description: "Esta acción no se puede deshacer.", confirmLabel: "Eliminar" },
+    },
+  ];
+
+  return <ActionBar actions={actions} context={context} dense={dense} align={align} />;
+}

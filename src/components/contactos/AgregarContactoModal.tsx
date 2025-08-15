@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -11,6 +11,7 @@ import {
 import Grid from "@mui/material/Grid";
 import type { Empresa } from "../../mock/empresasMock";
 import type { estatusContacto } from "../../mock/estatusContactosMock";
+import { contactosMock } from "../../mock/contactosMock";
 
 interface AgregarContactoModalProps {
   open: boolean;
@@ -18,6 +19,8 @@ interface AgregarContactoModalProps {
   onSave: (contacto: NuevoContactoForm) => void;
   empresas: Empresa[];
   estatusContactos: estatusContacto[];
+  defaultEmpresaId?: number;
+  contactoId?: number;
 }
 
 export interface NuevoContactoForm {
@@ -31,49 +34,66 @@ export interface NuevoContactoForm {
   notas: string;
 }
 
+const emptyForm: NuevoContactoForm = {
+  nombre: "",
+  correo: "",
+  telefono: "",
+  empresa_id: 0,
+  posicion: "",
+  fecha_creacion: "",
+  estatus_id: 0,
+  notas: "",
+};
+
 const AgregarContactoModal: React.FC<AgregarContactoModalProps> = ({
   open,
   onClose,
   onSave,
   empresas,
   estatusContactos,
+  defaultEmpresaId,
+  contactoId,
 }) => {
-  const [form, setForm] = useState<NuevoContactoForm>({
-    nombre: "",
-    correo: "",
-    telefono: "",
-    empresa_id: 0,
-    posicion: "",
-    fecha_creacion: "",
-    estatus_id: 0,
-    notas: "",
-  });
+  const [form, setForm] = useState<NuevoContactoForm>(emptyForm);
 
-  // Limpiar al cerrar
+  useEffect(() => {
+    if (!open) return;
+
+    if (contactoId) {
+      const c = contactosMock.find(x => x.id === contactoId);
+      if (c) {
+        setForm({
+          nombre: c.nombre ?? "",
+          correo: c.correo ?? "",
+          telefono: c.telefono ?? "",
+          empresa_id: c.empresa_id ?? 0,
+          posicion: (c as any).posicion ?? "",
+          fecha_creacion: (c as any).fecha_creacion ?? "",
+          estatus_id: (c as any).estatus_id ?? 0,
+          notas: (c as any).notas ?? "",
+        });
+        return;
+      }
+    }
+    setForm({ ...emptyForm, empresa_id: defaultEmpresaId ?? 0 });
+  }, [open, contactoId, defaultEmpresaId]);
+
+  const reset = () => setForm(emptyForm);
+
   const handleClose = () => {
-    setForm({
-      nombre: "",
-      correo: "",
-      telefono: "",
-      empresa_id: 0,
-      posicion: "",
-      fecha_creacion: "",
-      estatus_id: 0,
-      notas: "",
-    });
+    reset();
     onClose();
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setForm((prev) => ({
+    setForm(prev => ({
       ...prev,
       [name]: name.endsWith("_id") ? Number(value) : value,
     }));
   };
 
   const handleSave = () => {
-    // Validación simple
     if (
       !form.nombre ||
       !form.correo ||
@@ -90,12 +110,14 @@ const AgregarContactoModal: React.FC<AgregarContactoModalProps> = ({
     handleClose();
   };
 
+  const isEdit = Boolean(contactoId);
+
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Agregar nuevo contacto</DialogTitle>
+      <DialogTitle>{isEdit ? "Editar contacto" : "Agregar nuevo contacto"}</DialogTitle>
       <DialogContent>
         <Grid container spacing={2} sx={{ mt: 1 }}>
-          <Grid size = {{xs : 12}}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               name="nombre"
               label="Nombre completo"
@@ -105,7 +127,8 @@ const AgregarContactoModal: React.FC<AgregarContactoModalProps> = ({
               required
             />
           </Grid>
-          <Grid size = {{xs : 12, sm : 6}}>
+
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               name="correo"
               label="Correo electrónico"
@@ -115,7 +138,8 @@ const AgregarContactoModal: React.FC<AgregarContactoModalProps> = ({
               required
             />
           </Grid>
-          <Grid size = {{xs : 12, sm : 6}}>
+
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               name="telefono"
               label="Teléfono"
@@ -125,7 +149,8 @@ const AgregarContactoModal: React.FC<AgregarContactoModalProps> = ({
               required
             />
           </Grid>
-          <Grid size = {{xs : 12, sm : 6}}>
+
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               name="empresa_id"
               label="Empresa asociada"
@@ -143,7 +168,8 @@ const AgregarContactoModal: React.FC<AgregarContactoModalProps> = ({
               ))}
             </TextField>
           </Grid>
-          <Grid size = {{xs : 12, sm : 6}}>
+
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               name="posicion"
               label="Posición / Cargo"
@@ -153,7 +179,8 @@ const AgregarContactoModal: React.FC<AgregarContactoModalProps> = ({
               required
             />
           </Grid>
-          <Grid size = {{xs : 12, sm : 6}}>
+
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               name="fecha_creacion"
               label="Fecha de creación"
@@ -165,7 +192,8 @@ const AgregarContactoModal: React.FC<AgregarContactoModalProps> = ({
               required
             />
           </Grid>
-          <Grid size = {{xs : 12, sm : 6}}>
+
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               name="estatus_id"
               label="Estatus"
@@ -183,7 +211,8 @@ const AgregarContactoModal: React.FC<AgregarContactoModalProps> = ({
               ))}
             </TextField>
           </Grid>
-          <Grid size = {{xs : 12 }}>
+
+          <Grid size={{ xs: 12 }}>
             <TextField
               name="notas"
               label="Notas adicionales"
@@ -196,12 +225,13 @@ const AgregarContactoModal: React.FC<AgregarContactoModalProps> = ({
           </Grid>
         </Grid>
       </DialogContent>
+
       <DialogActions sx={{ pr: 3, pb: 2 }}>
         <Button onClick={handleClose} variant="outlined">
           Cancelar
         </Button>
         <Button onClick={handleSave} variant="contained" color="primary">
-          Guardar
+          {isEdit ? "Guardar cambios" : "Guardar"}
         </Button>
       </DialogActions>
     </Dialog>

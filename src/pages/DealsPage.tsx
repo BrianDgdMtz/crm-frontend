@@ -10,7 +10,6 @@ import { empresasMock } from "../mock/empresasMock";
 import { etapaDealsMock } from "../mock/etapaDealsMock";
 import { estadoDealsMock } from "../mock/estadoDealsMock";
 
-// Mapa tabs → estado_id (con ids únicos)
 const MAPA_ESTADO = {
   todos: null as number | null,
   abiertos: estadoDealsMock.find(e => e.nombre === "Abierto")?.id ?? 1,
@@ -27,14 +26,12 @@ const DealsPage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  // Filtrar por estado (si tab ≠ "todos")
   const dealsFiltrados = useMemo(() => {
     const estadoId = MAPA_ESTADO[estadoSeleccionado];
     if (!estadoId) return deals;
     return deals.filter(d => d.estado_id === estadoId);
   }, [deals, estadoSeleccionado]);
 
-  // Ordenar
   const dealsOrdenados = useMemo(() => {
     const arr = [...dealsFiltrados];
     switch (orden) {

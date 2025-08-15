@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -14,58 +14,89 @@ import { empresasMock } from "../../mock/empresasMock";
 import { contactosMock } from "../../mock/contactosMock";
 import { etapaDealsMock } from "../../mock/etapaDealsMock";
 import { estadoDealsMock } from "../../mock/estadoDealsMock";
+import { dealsMock } from "../../mock/dealsMock";
 
 interface AgregarDealModalProps {
   open: boolean;
   onClose: () => void;
-  onSave: (deal: any) => void; // Puedes tipar mejor según tu modelo
+  onSave: (deal: any) => void;
+  defaultEmpresaId?: number;
+  defaultContactoId?: number;
+  dealId?: number; // si viene => edición
 }
+
+const emptyForm = {
+  titulo: "",
+  empresa_id: "",
+  contacto_id: "",
+  etapa_id: "",
+  estado_id: "",
+  fecha_creacion: "",
+  fecha_cierre_estimada: "",
+  monto_estimado: "",
+  observaciones: "",
+};
 
 const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
   open,
   onClose,
   onSave,
+  defaultEmpresaId,
+  defaultContactoId,
+  dealId,
 }) => {
-  // Estado del formulario
-  const [form, setForm] = useState({
-    titulo: "",
-    empresa_id: "",
-    contacto_id: "",
-    etapa_id: "",
-    estado_id: "",
-    fecha_creacion: "",
-    fecha_cierre_estimada: "",
-    monto_estimado: "",
-    observaciones: "",
-  });
-
-  // Validación simple
+  const [form, setForm] = useState({ ...emptyForm });
   const [error, setError] = useState<string | null>(null);
+
+  // Prefill: edición por dealId o creación con defaults
+  useEffect(() => {
+    if (!open) return;
+
+    if (dealId) {
+      const d = dealsMock.find((x) => x.id === dealId);
+      if (d) {
+        setForm({
+          titulo: d.titulo ?? "",
+          empresa_id: d.empresa_id ? String(d.empresa_id) : "",
+          contacto_id: d.contacto_id ? String(d.contacto_id) : "",
+          etapa_id: d.etapa_id ? String(d.etapa_id) : "",
+          estado_id: d.estado_id ? String(d.estado_id) : "",
+          fecha_creacion: d.fecha_creacion ?? "",
+          fecha_cierre_estimada: d.fecha_cierre_esperada ?? "",
+          monto_estimado: d.monto_estimado ? String(d.monto_estimado) : "",
+          observaciones: d.observaciones ?? "",
+        });
+        setError(null);
+        return;
+      }
+    }
+
+    // modo crear: aplica defaults si vienen
+    setForm((_prev) => {
+      const empresa_id = defaultEmpresaId ? String(defaultEmpresaId) : "";
+      const contacto_id = defaultContactoId ? String(defaultContactoId) : "";
+      return { ...emptyForm, empresa_id, contacto_id };
+    });
+    setError(null);
+  }, [open, dealId, defaultEmpresaId, defaultContactoId]);
 
   // Filtrar contactos por empresa seleccionada
   const contactosFiltrados = useMemo(() => {
     if (!form.empresa_id) return [];
-    return contactosMock.filter(
-      (c) => c.empresa_id === Number(form.empresa_id)
-    );
+    return contactosMock.filter((c) => c.empresa_id === Number(form.empresa_id));
   }, [form.empresa_id]);
 
-  // Manejo de cambios
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
+    const { name, value } = e.target;
+    setForm((prev) => {
+      const next = { ...prev, [name]: value };
+      if (name === "empresa_id") next.contacto_id = ""; // al cambiar empresa, limpia contacto
+      setError(null);
+      return next;
     });
-    setError(null);
-    // Si cambió la empresa, limpia contacto seleccionado
-    if (e.target.name === "empresa_id") {
-      setForm((prev) => ({ ...prev, contacto_id: "" }));
-    }
   };
 
-  // Manejo de envío
-  const handleCrear = () => {
-    // Validación mínima
+  const handleGuardar = () => {
     if (
       !form.titulo ||
       !form.empresa_id ||
@@ -79,6 +110,7 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
       setError("Completa todos los campos obligatorios.");
       return;
     }
+
     onSave({
       ...form,
       empresa_id: Number(form.empresa_id),
@@ -87,46 +119,27 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
       estado_id: Number(form.estado_id),
       monto_estimado: Number(form.monto_estimado),
     });
-    setForm({
-      titulo: "",
-      empresa_id: "",
-      contacto_id: "",
-      etapa_id: "",
-      estado_id: "",
-      fecha_creacion: "",
-      fecha_cierre_estimada: "",
-      monto_estimado: "",
-      observaciones: "",
-    });
+
+    setForm({ ...emptyForm });
     setError(null);
     onClose();
   };
 
-  // Limpiar y cerrar modal
   const handleCancelar = () => {
-    setForm({
-      titulo: "",
-      empresa_id: "",
-      contacto_id: "",
-      etapa_id: "",
-      estado_id: "",
-      fecha_creacion: "",
-      fecha_cierre_estimada: "",
-      monto_estimado: "",
-      observaciones: "",
-    });
+    setForm({ ...emptyForm });
     setError(null);
     onClose();
   };
+
+  const isEdit = Boolean(dealId);
 
   return (
     <Dialog open={open} onClose={handleCancelar} maxWidth="sm" fullWidth>
-      <DialogTitle fontWeight="bold">Crear nuevo deal</DialogTitle>
+      <DialogTitle fontWeight="bold">{isEdit ? "Editar deal" : "Crear nuevo deal"}</DialogTitle>
       <DialogContent>
         <Box component="form" mt={1}>
           <Grid container spacing={2}>
-            {/* Primera fila */}
-            <Grid size = {{xs: 12, sm: 6}}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 name="titulo"
                 label="Título del deal"
@@ -136,7 +149,7 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
                 required
               />
             </Grid>
-            <Grid size = {{xs: 12, sm: 6}}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 select
                 name="empresa_id"
@@ -154,8 +167,8 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
                 ))}
               </TextField>
             </Grid>
-            {/* Segunda fila */}
-            <Grid size = {{xs: 12, sm: 6}}>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 select
                 name="contacto_id"
@@ -167,18 +180,19 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
                 disabled={!form.empresa_id}
               >
                 <MenuItem value="">Seleccionar</MenuItem>
-                {contactosFiltrados.map((contacto) => (
-                  <MenuItem key={contacto.id} value={contacto.id}>
-                    {contacto.nombre}
+                {contactosFiltrados.map((c) => (
+                  <MenuItem key={c.id} value={c.id}>
+                    {c.nombre}
                   </MenuItem>
                 ))}
               </TextField>
             </Grid>
-            <Grid size = {{xs: 12, sm: 6}}>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 select
                 name="etapa_id"
-                label="Etapa inicial"
+                label="Etapa"
                 value={form.etapa_id}
                 onChange={handleChange}
                 fullWidth
@@ -192,11 +206,12 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
                 ))}
               </TextField>
             </Grid>
-            <Grid size = {{xs: 12, sm: 6}}>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 select
                 name="estado_id"
-                label="Estado inicial"
+                label="Estado"
                 value={form.estado_id}
                 onChange={handleChange}
                 fullWidth
@@ -210,8 +225,8 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
                 ))}
               </TextField>
             </Grid>
-            {/* Tercera fila */}
-            <Grid size = {{xs: 12, sm: 6}}>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 name="fecha_creacion"
                 label="Fecha de creación"
@@ -223,7 +238,8 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
                 required
               />
             </Grid>
-            <Grid size = {{xs: 12, sm: 6}}>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 name="fecha_cierre_estimada"
                 label="Fecha de cierre estimada"
@@ -235,8 +251,8 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
                 required
               />
             </Grid>
-            {/* Cuarta fila */}
-            <Grid size = {{xs: 12, sm: 6}}>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 name="monto_estimado"
                 label="Monto estimado"
@@ -248,7 +264,8 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
                 inputProps={{ min: 0 }}
               />
             </Grid>
-            <Grid size = {{xs: 12 }}>
+
+            <Grid size={{ xs: 12 }}>
               <TextField
                 name="observaciones"
                 label="Observaciones"
@@ -260,6 +277,7 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
               />
             </Grid>
           </Grid>
+
           {error && (
             <Box color="error.main" mt={2} textAlign="center">
               {error}
@@ -271,8 +289,8 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
         <Button onClick={handleCancelar} color="inherit" variant="outlined">
           Cancelar
         </Button>
-        <Button onClick={handleCrear} color="primary" variant="contained">
-          Crear Deal
+        <Button onClick={handleGuardar} color="primary" variant="contained">
+          {isEdit ? "Guardar cambios" : "Crear Deal"}
         </Button>
       </DialogActions>
     </Dialog>
