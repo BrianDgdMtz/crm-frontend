@@ -13,9 +13,9 @@ export const empresasMock: Empresa[] = [
     {
         id: 1,
         nombre: "Grupo Omega",
-        industria_id: 1, // ID de la industria relacionada
-        zona_id: 1, // ID de la zona relacionada
-        estatus_id: 1, // ID del estatus relacionado
+        industria_id: 1,
+        zona_id: 1,
+        estatus_id: 1,
         fecha_alta: "2023-01-15",
         rfc: "OME123456789",
         fecha_ultima_actividad: "2023-10-01",

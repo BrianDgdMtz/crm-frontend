@@ -1,13 +1,13 @@
 export interface Deal {
     id: number;
     titulo: string;
-    empresa_id: number; // Relación con la empresa
-    contacto_id: number; // Relación con el contacto
+    empresa_id: number;
+    contacto_id: number;
     monto_estimado: number;
-    etapa_id: number; // Relación con la etapa del deal
-    estado_id: number; // Relación con el estado del deal;
+    etapa_id: number;
+    estado_id: number;
     prioridad: string;
-    usuario_id: number; // Relacion con el id del usuario asignado
+    usuario_id: number;
     fecha_creacion: string;
     fecha_cierre_esperada: string;
     fecha_ultima_actividad?: string;

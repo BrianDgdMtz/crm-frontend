@@ -4,9 +4,9 @@ export interface Usuario {
     email: string;
     contraseña: string;
     rol: string;
-    estado: string; // Ejemplo: "Activo", "Inactivo"
+    estado: string;
     fecha_creacion: string;
-    zona_id: number; // Relación con la zona del usuario
+    zona_id: number;
 }
 
 export const usuariosMock: Usuario[] = [

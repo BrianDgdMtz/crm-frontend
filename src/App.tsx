@@ -8,6 +8,7 @@ import DealsPage from "./pages/DealsPage";
 import DealDetallePage from "./pages/deals/DealDetallePage";
 import ActividadesPage from "./pages/ActividadesPage";
 import ActividadDetallePage from "./pages/actividades/ActividadDetallePage";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
         <Route path="deals/:id" element={<DealDetallePage />} />
         <Route path="actividades" element={<ActividadesPage />} />
         <Route path="actividades/:id" element={<ActividadDetallePage />} />
-        <Route path="dashboard" element={<div><h1>Contenido del Dashboard</h1></div>} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         {/* Ruta catch-all */}
         <Route path="*" element={<Navigate to="/" />} />
       </Route>

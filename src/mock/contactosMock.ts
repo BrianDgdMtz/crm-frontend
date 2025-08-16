@@ -4,8 +4,8 @@ export interface Contacto {
     correo: string;
     telefono: string;
     posicion: string;
-    empresa_id: number; //Relacion con la empresa
-    estatus_id: number; //Relacion con el estatusContacto;
+    empresa_id: number;
+    estatus_id: number;
     fecha_creacion: string;
     notas?: string;
 }

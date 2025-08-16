@@ -1,18 +1,18 @@
 export interface Actividad {
     id: number;
-    tipo_id: number; // ID del tipo de actividad desde tipoActividadMock
+    tipo_id: number;
     asunto: string;
     fecha_programada: string;
     realizada: boolean;
     fecha_realizacion?: string;
     notas?: string;
-    usuario_id: number; // ID del usuario que registra la actividad
-    empresa_id: number; // ID de la empresa relacionada
-    contacto_id: number; // ID del contacto relacionado
-    deal_id?: number; // ID del deal relacionado (opcional)
+    usuario_id: number;
+    empresa_id: number;
+    contacto_id: number;
+    deal_id?: number;
     fecha_creacion: string;
     fecha_modificacion?: string;
-    modificado_por?: number; // ID del usuario que modificó la actividad
+    modificado_por?: number;
 }
 
 export const actividadesMock: Actividad[] = [
@@ -35,7 +35,7 @@ export const actividadesMock: Actividad[] = [
         tipo_id: 2,
         asunto: "Envío de Propuesta Comercial",
         fecha_programada: "2023-10-20",
-        realizada: false,
+        realizada: true,
         notas: "Esperando respuesta del cliente.",
         usuario_id: 2,
         empresa_id: 2,
@@ -58,7 +58,7 @@ export const actividadesMock: Actividad[] = [
     },
     {
         id: 4,
-        tipo_id: 4,
+        tipo_id: 1,
         asunto: "Visita a la Sucursal",
         fecha_programada: "2023-10-30",
         realizada: false,
@@ -71,7 +71,7 @@ export const actividadesMock: Actividad[] = [
     },
     {
         id: 5,
-        tipo_id: 5,
+        tipo_id: 2,
         asunto: "Recordatorio de Pago",
         fecha_programada: "2023-11-01",
         realizada: false,
@@ -84,10 +84,10 @@ export const actividadesMock: Actividad[] = [
     },
     {
         id: 6,
-        tipo_id: 6,
+        tipo_id: 3,
         asunto: "Actualización de Producto",
         fecha_programada: "2023-11-05",
-        realizada: false,
+        realizada: true,
         notas: "Informar al cliente sobre nuevas características del producto.",
         usuario_id: 6,
         empresa_id: 6,
@@ -97,10 +97,10 @@ export const actividadesMock: Actividad[] = [
     },
     {
         id: 7,
-        tipo_id: 7,
+        tipo_id: 4,
         asunto: "Confirmación de Asistencia a Evento",
         fecha_programada: "2023-11-10",
-        realizada: false,
+        realizada: true,
         notas: "Esperando confirmación del cliente.",
         usuario_id: 7,
         empresa_id: 7,
@@ -110,7 +110,7 @@ export const actividadesMock: Actividad[] = [
     },
     {
         id: 8,
-        tipo_id: 8,
+        tipo_id: 5,
         asunto: "Planificación de Campaña Publicitaria",
         fecha_programada: "2023-11-15",
         realizada: true,
@@ -124,10 +124,10 @@ export const actividadesMock: Actividad[] = [
     },
     {
         id: 9,
-        tipo_id: 9,
+        tipo_id: 4,
         asunto: "Seguimiento de Satisfacción del Cliente",
         fecha_programada: "2023-11-20",
-        realizada: false,
+        realizada: true,
         notas: "Recoger feedback sobre el servicio recibido.",
         usuario_id: 9,
         empresa_id: 9,
@@ -137,10 +137,10 @@ export const actividadesMock: Actividad[] = [
     },
     {
         id: 10,
-        tipo_id: 10,
+        tipo_id: 1,
         asunto: "Renovación de Contrato",
         fecha_programada: "2023-11-25",
-        realizada: false,
+        realizada: true,
         notas: "Enviar propuesta de renovación al cliente.",
         usuario_id: 10,
         empresa_id: 10,

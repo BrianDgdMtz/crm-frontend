@@ -22,26 +22,6 @@ export const tipoActividadMock: tipoActividad[] = [
     },
     {
         id: 5,
-        nombre: "Llamada",
-    },
-    {
-        id: 6,
         nombre: "Mensaje via WhatsApp",
     },
-    {
-        id: 7,
-        nombre: "Correo",
-    },
-    {
-        id: 8,
-        nombre: "Reunión",
-    },
-    {
-        id: 9,
-        nombre: "Llamada",
-    },
-    {
-        id: 10,
-        nombre: "Correo",
-    }
 ];

@@ -1,4 +1,3 @@
-// src/mock/historialEtapaDealsMock.ts
 export interface HistorialEtapaDeal {
   id: number;
   deal_id: number;
@@ -9,7 +8,6 @@ export interface HistorialEtapaDeal {
 }
 
 export const historialEtapaDealsMock: HistorialEtapaDeal[] = [
-    // Deal 1
     {
         id: 1,
         deal_id: 1,
@@ -34,8 +32,6 @@ export const historialEtapaDealsMock: HistorialEtapaDeal[] = [
         fecha: "2023-03-18 11:40:00",
         usuario_id: 3
     },
-
-    // Deal 2
     {
         id: 4,
         deal_id: 2,
@@ -52,8 +48,6 @@ export const historialEtapaDealsMock: HistorialEtapaDeal[] = [
         fecha: "2023-03-05 16:10:00",
         usuario_id: 4
     },
-
-    // Deal 3
     {
         id: 6,
         deal_id: 3,
@@ -78,8 +72,6 @@ export const historialEtapaDealsMock: HistorialEtapaDeal[] = [
         fecha: "2023-04-01 09:05:00",
         usuario_id: 6
     },
-
-    // Deal 4
     {
         id: 9,
         deal_id: 4,
