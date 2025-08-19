@@ -1,24 +1,16 @@
-// src/components/dashboard/charts/ActivitiesDoneVsPending.tsx
 import { Bar } from "react-chartjs-2";
 import { getActivitiesDoneVsPendingByWeek } from "../../../utils/dashboard/adapters";
 
-/**
- * Barras apiladas por semana (últimas 8 semanas):
- * Realizadas vs Pendientes.
- */
 export default function ActivitiesDoneVsPending() {
   const { labels, datasets } = getActivitiesDoneVsPendingByWeek();
-
-  // Dataset base proveniente del adapter + estilos mínimos
   const chartData = {
     labels,
     datasets: datasets.map((ds) => ({
       ...ds,
       borderWidth: 1,
       borderRadius: 6,
-      // Colores (puedes mapear a tu tema):
       backgroundColor:
-        ds.label === "Realizadas" ? "#AB47BC" : "#EF5350",
+        ds.label === "Realizadas" ? "rgb(75, 192, 192)" : "rgb(192, 75, 75)",
     })),
   };
 
@@ -52,7 +44,7 @@ export default function ActivitiesDoneVsPending() {
       y: {
         stacked: true as const,
         beginAtZero: true,
-        ticks: { precision: 0 }, // enteros
+        ticks: { precision: 0 },
       },
     },
   };

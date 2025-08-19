@@ -1,11 +1,6 @@
-// src/components/dashboard/charts/CompaniesByStatus.tsx
 import { Pie } from "react-chartjs-2";
 import { getCompaniesByStatus } from "../../../utils/dashboard/adapters";
 
-/**
- * Muestra la distribución de empresas por estatus en un gráfico tipo Pie.
- * Usa los datos del adapter: { labels, data }.
- */
 export default function CompaniesByStatus() {
   const { labels, data } = getCompaniesByStatus();
   const total = data.reduce((a, b) => a + (b || 0), 0);
@@ -16,18 +11,17 @@ export default function CompaniesByStatus() {
       {
         label: "Empresas",
         data,
-        // Paleta básica (puedes mapearla a tu theme MUI si lo prefieres)
         backgroundColor: [
-          "#42A5F5", // azul
-          "#66BB6A", // verde
-          "#EF5350", // rojo
-          "#FFA726", // naranja
-          "#AB47BC", // morado
-          "#26C6DA", // cian
-          "#D4E157", // lima
-          "#8D6E63", // café
-          "#EC407A", // rosa
-          "#7E57C2", // púrpura
+          "#42A5F5",
+          "#66BB6A",
+          "#EF5350",
+          "#FFA726",
+          "#AB47BC",
+          "#26C6DA",
+          "#D4E157",
+          "#8D6E63",
+          "#EC407A",
+          "#7E57C2",
         ],
         borderWidth: 1,
       },

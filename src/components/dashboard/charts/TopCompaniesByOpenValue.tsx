@@ -1,11 +1,6 @@
-// src/components/dashboard/charts/TopCompaniesByOpenValue.tsx
 import { Bar } from "react-chartjs-2";
 import { getTopCompaniesByOpenValue } from "../../../utils/dashboard/adapters";
 
-/**
- * Muestra el Top N de empresas por valor abierto (suma de montos de deals en estado "Abierto").
- * El adapter por defecto regresa Top 5, pero puedes pasar otro límite si lo prefieres.
- */
 export default function TopCompaniesByOpenValue({ limit = 5 }: { limit?: number }) {
   const { labels, data } = getTopCompaniesByOpenValue(limit);
 
@@ -15,7 +10,13 @@ export default function TopCompaniesByOpenValue({ limit = 5 }: { limit?: number 
       {
         label: "Valor abierto",
         data,
-        backgroundColor: "#42A5F5",
+        backgroundColor: [
+          "#AB47BC",
+          "#42A5F5",
+          "#8D6E63",
+          "#26A69A",
+          "#EC407A",
+        ],
         borderRadius: 6,
       },
     ],

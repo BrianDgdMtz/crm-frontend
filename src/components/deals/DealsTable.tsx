@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  Table, TableBody, TableCell, TableHead, TableRow, Typography,
+  Table, TableBody, TableCell, TableHead, TableRow, Typography, TablePagination
 } from "@mui/material";
 import SectionCard from "../ui/SectionCard";
 
@@ -17,52 +17,85 @@ export interface DealTabla {
 interface DealsTableProps {
   deals: DealTabla[];
   onSeleccionarDeal?: (dealId: number) => void;
+  rowsPerPageOptions?: number[];
 }
 
-const DealsTable: React.FC<DealsTableProps> = ({ deals, onSeleccionarDeal }) => (
-  <SectionCard hover intro>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell><b>Deal</b></TableCell>
-          <TableCell><b>Empresa</b></TableCell>
-          <TableCell><b>Monto estimado</b></TableCell>
-          <TableCell><b>Etapa</b></TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {deals.length === 0 ? (
+const DealsTable: React.FC<DealsTableProps> = ({
+  deals,
+  onSeleccionarDeal,
+  rowsPerPageOptions = [10, 20, 50],
+}) => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0] ?? 10);
+
+  const handleChangePage = (_: unknown, newPage: number) => setPage(newPage);
+  const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(e.target.value, 10));
+    setPage(0);
+  };
+
+  const paginated =
+    deals.length > 0
+      ? deals.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      : [];
+
+  return (
+    <SectionCard hover intro={false}>
+      <Table>
+        <TableHead>
           <TableRow>
-            <TableCell colSpan={4}>
-              <Typography color="text.secondary" align="center">
-                No hay deals para mostrar.
-              </Typography>
-            </TableCell>
+            <TableCell><b>Deal</b></TableCell>
+            <TableCell><b>Empresa</b></TableCell>
+            <TableCell><b>Monto estimado</b></TableCell>
+            <TableCell><b>Etapa</b></TableCell>
           </TableRow>
-        ) : (
-          deals.map((deal) => (
-            <TableRow
-              key={deal.id}
-              hover
-              sx={{ cursor: onSeleccionarDeal ? "pointer" : "default" }}
-              onClick={() => onSeleccionarDeal && onSeleccionarDeal(deal.id)}
-            >
-              <TableCell>{deal.titulo}</TableCell>
-              <TableCell>{deal.nombreEmpresa ?? ""}</TableCell>
-              <TableCell>
-                {deal.monto_estimado.toLocaleString("es-MX", {
-                  style: "currency",
-                  currency: "MXN",
-                  maximumFractionDigits: 0,
-                })}
+        </TableHead>
+
+        <TableBody>
+          {deals.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={4}>
+                <Typography color="text.secondary" align="center">
+                  No hay deals para mostrar.
+                </Typography>
               </TableCell>
-              <TableCell>{deal.nombreEtapa}</TableCell>
             </TableRow>
-          ))
-        )}
-      </TableBody>
-    </Table>
-  </SectionCard>
-);
+          ) : (
+            paginated.map((deal) => (
+              <TableRow
+                key={deal.id}
+                hover
+                sx={{ cursor: onSeleccionarDeal ? "pointer" : "default" }}
+                onClick={() => onSeleccionarDeal?.(deal.id)}
+              >
+                <TableCell>{deal.titulo}</TableCell>
+                <TableCell>{deal.nombreEmpresa ?? ""}</TableCell>
+                <TableCell>
+                  {deal.monto_estimado.toLocaleString("es-MX", {
+                    style: "currency",
+                    currency: "MXN",
+                    maximumFractionDigits: 0,
+                  })}
+                </TableCell>
+                <TableCell>{deal.nombreEtapa}</TableCell>
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
+
+      <TablePagination
+        component="div"
+        count={deals.length}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        rowsPerPageOptions={rowsPerPageOptions}
+        labelRowsPerPage="Filas por página"
+      />
+    </SectionCard>
+  );
+};
 
 export default DealsTable;

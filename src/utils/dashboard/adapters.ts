@@ -1,6 +1,4 @@
-import { toDate, isInLastDays, weekKey } from "./date";
-
-// Mocks
+import { toDate, isInLastDays, weekKey, monthKey } from "./date";
 import { dealsMock } from "../../mock/dealsMock";
 import { usuariosMock } from "../../mock/usuariosMock";
 import { tipoActividadMock } from "../../mock/tipoActividadMock";
@@ -8,20 +6,32 @@ import { actividadesMock } from "../../mock/actividadesMock";
 import { etapaDealsMock } from "../../mock/etapaDealsMock";
 import { estadoDealsMock } from "../../mock/estadoDealsMock";
 import { empresasMock } from "../../mock/empresasMock";
+import { estatusEmpresasMock } from "../../mock/estatusEmpresasMock";
+import { industriasMock } from "../../mock/industriasMock";
+import { zonasMock } from "../../mock/zonasMock";
+import { contactosMock } from "../../mock/contactosMock";
+import { estatusContactosMock } from "../../mock/estatusContactosMock";
+
 
 const sum = (arr: number[]) => arr.reduce((a, b) => a + (b || 0), 0);
 const idOf = (obj: any, ...keys: string[]) => keys.map(k => obj?.[k]).find(v => v != null);
-const pick = <T extends object, K extends keyof T>(o: T, k: K) => o?.[k];
 
 const byId = <T extends { id: number }>(list: T[]) =>
   Object.fromEntries(list.map(x => [x.id, x]));
 
+// Helpers de estado
+const ID_ABIERTO = estadoDealsMock.find(e => e.nombre === "Abierto")?.id ?? 1;
+const ID_GANADO  = estadoDealsMock.find(e => e.nombre === "Ganado")?.id ?? 2;
+const ID_PERDIDO = estadoDealsMock.find(e => e.nombre === "Perdido")?.id ?? 3;
+
+// Helper: fecha “efectiva” de actividad
+const effectiveActivityDate = (a: any) =>
+  (a.realizada && a.fecha_realizacion) ? a.fecha_realizacion : a.fecha_programada;
+
 // Índices por id (para tolerar mocks con solo ids)
 const etapasIdx = byId(etapaDealsMock);
 const estadosIdx = byId(estadoDealsMock);
-const usuariosIdx = byId(usuariosMock);
 const empresasIdx = byId(empresasMock);
-const tiposActIdx = byId(tipoActividadMock);
 
 // Normalizadores de nombre (aceptan *_Nombre o *_Id)
 function etapaNombre(d: any) {
@@ -39,18 +49,8 @@ function empresaNombre(d: any) {
     ?? empresasIdx[idOf(d, "empresaId", "empresa_id")]?.nombre
     ?? "Sin empresa";
 }
-function responsableNombre(d: any) {
-  return d.responsableNombre
-    ?? usuariosIdx[idOf(d, "responsableId", "responsable_id")]?.nombre
-    ?? "Sin asignar";
-}
-function tipoActividadNombre(a: any) {
-  return a.tipoNombre
-    ?? tiposActIdx[idOf(a, "tipoId", "tipo_id")]?.nombre
-    ?? "Otro";
-}
 
-/** 1) Pipeline por Etapa (monto y conteo) */
+/* Pipeline por Etapa (monto y conteo) */
 export function getPipelineByStage() {
   const etapas = etapaDealsMock.map(e => e.nombre);
   const montoPorEtapa = etapas.map(et =>
@@ -66,7 +66,7 @@ export function getPipelineByStage() {
   };
 }
 
-/** 2) Deals por Estado (conteo) */
+/* Deals por Estado */
 export function getDealsByState() {
   const estados = estadoDealsMock.map(e => e.nombre);
   const data = estados.map(es =>
@@ -75,56 +75,49 @@ export function getDealsByState() {
   return { labels: estados, data };
 }
 
-/** 3) Valor del Pipeline por Vendedor (solo abiertos) */
-export function getPipelineValueByOwner() {
-  const abiertos = dealsMock.filter(d => estadoNombre(d).toLowerCase() === "abierto");
-  const owners = usuariosMock.map(u => u.nombre);
-  const data = owners.map(o =>
-    sum(abiertos.filter(d => responsableNombre(d) === o).map(d => Number(d.monto_estimado || 0)))
-  );
-  return { labels: owners, data };
-}
+/* Actividades por Tipo (últimos 30 días) */
+export function getActivitiesByTypePolar() {
+  const counts: Record<string, number> = {};
 
-/** 4) Actividades por Tipo (últimos 30 días, serie temporal) */
-export function getActivitiesByTypeLast30d() {
-  const tipos = tipoActividadMock.map(t => t.nombre);
-  const fechas = new Set<string>();
-  const mapa: Record<string, Record<string, number>> = {}; // {fechaKey: {tipo: count}}
-
-  actividadesMock.forEach(a => {
-    const f = toDate(pick(a as any, "fecha") || pick(a as any, "fechaProgramada") || new Date());
-    if (!isInLastDays(f, 30)) return;
-    const key = f.toISOString().slice(0, 10);
-    fechas.add(key);
-    mapa[key] ||= {};
-    const tipo = tipoActividadNombre(a);
-    mapa[key][tipo] = (mapa[key][tipo] || 0) + 1;
+  actividadesMock.forEach((a) => {
+    if (!isInLastDays(a.fecha_programada, 30)) return; 
+    const tipo = tipoActividadMock.find(t => t.id === a.tipo_id)?.nombre ?? "Otro";
+    counts[tipo] = (counts[tipo] || 0) + 1;
   });
 
-  const labels = Array.from(fechas).sort();
-  const datasets = tipos.map(tipo => ({
-    label: tipo,
-    data: labels.map(l => mapa[l]?.[tipo] || 0),
-  }));
-  return { labels, datasets };
+  return {
+    labels: Object.keys(counts),
+    datasets: [
+      {
+        data: Object.values(counts),
+      },
+    ],
+  };
 }
 
-/** 5) Realizadas vs Pendientes por Semana (últimas 8 semanas) */
+/* Realizadas vs Pendientes por Semana (últimas 8 semanas) */
 export function getActivitiesDoneVsPendingByWeek() {
   const now = new Date();
-  const oldest = new Date(now); oldest.setDate(now.getDate() - 7 * 8);
+  const oldest = new Date(now);
+  oldest.setDate(now.getDate() - 7 * 8);
+
+  const effectiveDateStr = (a: any) =>
+    (a.realizada && a.fecha_realizacion) ? a.fecha_realizacion : a.fecha_programada;
 
   const weeks = new Set<string>();
   const done: Record<string, number> = {};
   const pending: Record<string, number> = {};
 
   actividadesMock.forEach(a => {
-    const f = toDate(pick(a as any, "fecha") || pick(a as any, "fechaProgramada") || new Date());
+    const dateStr = effectiveDateStr(a);
+    if (!dateStr) return;
+    const f = toDate(dateStr);
     if (f < oldest || f > now) return;
+
     const key = weekKey(f);
     weeks.add(key);
-    const realizada = Boolean((a as any).realizada ?? (a as any).completada ?? false);
-    if (realizada) done[key] = (done[key] || 0) + 1;
+
+    if (a.realizada) done[key] = (done[key] || 0) + 1;
     else pending[key] = (pending[key] || 0) + 1;
   });
 
@@ -138,7 +131,7 @@ export function getActivitiesDoneVsPendingByWeek() {
   };
 }
 
-/** 6) Top 5 Empresas por Valor Abierto */
+/* Top 5 Empresas por Valor Abierto */
 export function getTopCompaniesByOpenValue(limit = 5) {
   const abiertos = dealsMock.filter(d => estadoNombre(d).toLowerCase() === "abierto");
   const acc: Record<string, number> = {};
@@ -150,28 +143,264 @@ export function getTopCompaniesByOpenValue(limit = 5) {
   return { labels: pairs.map(p => p[0]), data: pairs.map(p => p[1]) };
 }
 
-/** 7) Empresas por Estatus (conteo) */
+/* Empresas por Estatus (conteo) */
 export function getCompaniesByStatus() {
+  const statusById = Object.fromEntries(estatusEmpresasMock.map(e => [e.id, e.nombre]));
   const acc: Record<string, number> = {};
   empresasMock.forEach(e => {
-    const estatus =
-      (e as any).estatusNombre
-      ?? (e as any).estatus
-      ?? "Sin estatus";
-    acc[estatus] = (acc[estatus] || 0) + 1;
+    const name = statusById[(e as any).estatus_id] || "Sin estatus";
+    acc[name] = (acc[name] || 0) + 1;
   });
   const labels = Object.keys(acc);
   const data = labels.map(l => acc[l]);
   return { labels, data };
 }
 
-// Export default opcional (por conveniencia)
+/* Evolución mensual de deals cerrados (ganados/perdidos) */
+export function getClosedDealsByMonth() {
+  // Estados
+  const ID_GANADO = estadoDealsMock.find(e => e.nombre === "Ganado")?.id ?? 2;
+  const ID_PERDIDO = estadoDealsMock.find(e => e.nombre === "Perdido")?.id ?? 3;
+
+  const accWon: Record<string, number> = {};
+  const accLost: Record<string, number> = {};
+
+  dealsMock.forEach(d => {
+    if (d.estado_id !== ID_GANADO && d.estado_id !== ID_PERDIDO) return;
+    const key = monthKey(d.fecha_creacion);
+    if (d.estado_id === ID_GANADO) accWon[key] = (accWon[key] || 0) + 1;
+    if (d.estado_id === ID_PERDIDO) accLost[key] = (accLost[key] || 0) + 1;
+  });
+
+  const keysAll = Array.from(new Set([...Object.keys(accWon), ...Object.keys(accLost)])).sort();
+  const labels = keysAll;
+
+  return {
+    labels,
+    datasets: [
+      { label: "Ganados", data: labels.map(k => accWon[k] || 0) },
+      { label: "Perdidos", data: labels.map(k => accLost[k] || 0) },
+    ],
+  };
+}
+
+/* Contactos por estatus (doughnut) */
+export function getContactsByStatus() {
+  const labels = estatusContactosMock.map(e => e.nombre);
+  const counts = estatusContactosMock.map(
+    e => contactosMock.filter(c => c.estatus_id === e.id).length
+  );
+
+  return { labels, data: counts };
+}
+
+/* Contactos nuevos por mes (line) */
+export function getNewContactsByMonth() {
+  const acc: Record<string, number> = {};
+  contactosMock.forEach(c => {
+    const key = monthKey(c.fecha_creacion);
+    acc[key] = (acc[key] || 0) + 1;
+  });
+
+  const labels = Object.keys(acc).sort();
+  const data = labels.map(l => acc[l]);
+
+  return {
+    labels,
+    datasets: [{ label: "Contactos nuevos", data }],
+  };
+}
+
+/* Contactos Top N con más deals asociados */
+export function getTopContactsByDeals(limit = 10) {
+  const counter: Record<number, number> = {};
+  dealsMock.forEach(d => {
+    if (!d.contacto_id) return;
+    counter[d.contacto_id] = (counter[d.contacto_id] || 0) + 1;
+  });
+
+  const nameById = Object.fromEntries(contactosMock.map(c => [c.id, c.nombre]));
+
+  const pairs = Object.entries(counter)
+    .map(([id, count]) => ({ id: Number(id), count }))
+    .sort(
+      (a, b) =>
+        b.count - a.count ||
+        String(nameById[a.id]).localeCompare(String(nameById[b.id]))
+    )
+    .slice(0, limit);
+
+  return {
+    labels: pairs.map(p => nameById[p.id] ?? `ID ${p.id}`),
+    data: pairs.map(p => p.count),
+  };
+}
+
+/* Empresas por industria */
+export function getCompaniesByIndustry() {
+  const labels = industriasMock.map(i => i.nombre);
+  const counts = industriasMock.map(i =>
+    empresasMock.filter(e => e.industria_id === i.id).length
+  );
+  return { labels, data: counts };
+}
+
+/* Empresas por zona */
+export function getCompaniesByZone() {
+  const labels = zonasMock.map(z => z.nombre);
+  const counts = zonasMock.map(z =>
+    empresasMock.filter(e => e.zona_id === z.id).length
+  );
+  return { labels, data: counts };
+}
+
+/*
+  Empresas sin actividad en los últimos N días.
+  Considera fecha_ultima_actividad; si no existe, usa fecha_alta.
+  Retorna lista compacta (ordenada por más inactivas primero).
+ */
+export function getInactiveCompanies(days = 60, limit = 10) {
+  const today = new Date();
+  const MS_DAY = 86400000;
+
+  const industriaById = Object.fromEntries(industriasMock.map(i => [i.id, i.nombre]));
+  const zonaById = Object.fromEntries(zonasMock.map(z => [z.id, z.nombre]));
+
+  const rows = empresasMock
+    .map(e => {
+      const refStr = e.fecha_ultima_actividad || e.fecha_alta;
+      const refDate = toDate(refStr);
+      const diffDays = Math.floor((today.getTime() - refDate.getTime()) / MS_DAY);
+      return {
+        empresa_id: e.id,
+        nombre: e.nombre,
+        industria: industriaById[e.industria_id] || "—",
+        zona: zonaById[e.zona_id] || "—",
+        fecha_ultima_actividad: e.fecha_ultima_actividad ?? e.fecha_alta,
+        dias_inactivos: diffDays,
+      };
+    })
+    .filter(r => r.dias_inactivos > days)
+    .sort((a, b) => b.dias_inactivos - a.dias_inactivos)
+    .slice(0, limit);
+
+  return {
+    total: rows.length,
+    rows,
+  };
+}
+
+/* Actividades por usuario (últimos 30 días) */
+export function getActivitiesByUserLast30d() {
+  const rangeDays = 30;
+  const countsByUser: Record<number, number> = {};
+  actividadesMock.forEach(a => {
+    const ds = effectiveActivityDate(a);
+    if (!ds || !isInLastDays(ds, rangeDays)) return;
+    countsByUser[a.usuario_id] = (countsByUser[a.usuario_id] || 0) + 1;
+  });
+
+  const labels = usuariosMock.map(u => u.nombre);
+  const data = usuariosMock.map(u => countsByUser[u.id] || 0);
+  return { labels, data };
+}
+
+/* Realizadas vs Pendientes por usuario (últimos 30 días) */
+export function getActivitiesDoneVsPendingByUserLast30d() {
+  const rangeDays = 30;
+  const done: Record<number, number> = {};
+  const pending: Record<number, number> = {};
+
+  actividadesMock.forEach(a => {
+    const ds = effectiveActivityDate(a);
+    if (!ds || !isInLastDays(ds, rangeDays)) return;
+    if (a.realizada) done[a.usuario_id] = (done[a.usuario_id] || 0) + 1;
+    else             pending[a.usuario_id] = (pending[a.usuario_id] || 0) + 1;
+  });
+
+  const labels = usuariosMock.map(u => u.nombre);
+  const realizadas = usuariosMock.map(u => done[u.id] || 0);
+  const pendientes = usuariosMock.map(u => pending[u.id] || 0);
+
+  return {
+    labels,
+    datasets: [
+      { label: "Realizadas", data: realizadas, stack: "s" },
+      { label: "Pendientes", data: pendientes, stack: "s" },
+    ],
+  };
+}
+
+/* Valor del pipeline por usuario (solo deals abiertos) */
+export function getPipelineValueByUser() {
+  const abiertos = dealsMock.filter(d => d.estado_id === ID_ABIERTO);
+  const sumByUser: Record<number, number> = {};
+  abiertos.forEach(d => {
+    sumByUser[d.usuario_id] = (sumByUser[d.usuario_id] || 0) + Number(d.monto_estimado || 0);
+  });
+
+  const labels = usuariosMock.map(u => u.nombre);
+  const data = usuariosMock.map(u => sumByUser[u.id] || 0);
+  return { labels, data };
+}
+
+/* Valor del pipeline por zona del usuario (solo abiertos) */
+export function getPipelineValueByUserZone() {
+  const zonaNameById = Object.fromEntries(zonasMock.map(z => [z.id, z.nombre]));
+  const userById = Object.fromEntries(usuariosMock.map(u => [u.id, u]));
+  const abiertos = dealsMock.filter(d => d.estado_id === ID_ABIERTO);
+
+  const sumByZone: Record<string, number> = {};
+  abiertos.forEach(d => {
+    const user = userById[d.usuario_id];
+    const zonaName = user ? (zonaNameById[user.zona_id] || "Sin zona") : "Sin zona";
+    sumByZone[zonaName] = (sumByZone[zonaName] || 0) + Number(d.monto_estimado || 0);
+  });
+
+  const labels = Object.keys(sumByZone);
+  const data = labels.map(l => sumByZone[l] || 0);
+  return { labels, data };
+}
+
+/* Deals ganados vs perdidos por usuario */
+export function getWonLostByUser() {
+  const wonByUser: Record<number, number> = {};
+  const lostByUser: Record<number, number> = {};
+  dealsMock.forEach(d => {
+    if (d.estado_id === ID_GANADO)  wonByUser[d.usuario_id] = (wonByUser[d.usuario_id] || 0) + 1;
+    if (d.estado_id === ID_PERDIDO) lostByUser[d.usuario_id] = (lostByUser[d.usuario_id] || 0) + 1;
+  });
+
+  const labels = usuariosMock.map(u => u.nombre);
+  const ganados  = usuariosMock.map(u => wonByUser[u.id] || 0);
+  const perdidos = usuariosMock.map(u => lostByUser[u.id] || 0);
+
+  return {
+    labels,
+    datasets: [
+      { label: "Ganados", data: ganados, stack: "w" },
+      { label: "Perdidos", data: perdidos, stack: "w" },
+    ],
+  };
+}
+
 export default {
   getPipelineByStage,
   getDealsByState,
-  getPipelineValueByOwner,
-  getActivitiesByTypeLast30d,
+  getActivitiesByTypePolar,
   getActivitiesDoneVsPendingByWeek,
   getTopCompaniesByOpenValue,
   getCompaniesByStatus,
+  getClosedDealsByMonth,
+  getContactsByStatus,
+  getNewContactsByMonth,
+  getTopContactsByDeals,
+  getCompaniesByIndustry,
+  getCompaniesByZone,
+  getInactiveCompanies,
+  getActivitiesByUserLast30d,
+  getActivitiesDoneVsPendingByUserLast30d,
+  getPipelineValueByUser,
+  getPipelineValueByUserZone,
+  getWonLostByUser
 };

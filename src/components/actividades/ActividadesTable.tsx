@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table, TableBody, TableCell, TableHead, TableRow, Typography, Link,
+  TablePagination, Box
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import type { Actividad } from "../../mock/actividadesMock";
@@ -11,11 +12,27 @@ import SectionCard from "../ui/SectionCard";
 interface ActividadesTableProps {
   actividades: Actividad[];
   onRowClick?: (actividadId: number) => void;
+  rowsPerPageOptions?: number[];
 }
 
-const ActividadesTable: React.FC<ActividadesTableProps> = ({ actividades, onRowClick }) => {
+const ActividadesTable: React.FC<ActividadesTableProps> = ({
+  actividades,
+  onRowClick,
+  rowsPerPageOptions = [10, 20, 50],
+}) => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0] ?? 10);
+
+  const handleChangePage = (_: unknown, newPage: number) => setPage(newPage);
+  const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(e.target.value, 10));
+    setPage(0);
+  };
+
+  const paginated = actividades.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
   return (
-    <SectionCard hover intro>
+    <SectionCard hover intro={false}>
       <Table>
         <TableHead>
           <TableRow>
@@ -37,7 +54,7 @@ const ActividadesTable: React.FC<ActividadesTableProps> = ({ actividades, onRowC
               </TableCell>
             </TableRow>
           ) : (
-            actividades.map((a) => {
+            paginated.map((a) => {
               const contacto = contactosMock.find(c => c.id === a.contacto_id);
               const empresa = empresasMock.find(e => e.id === a.empresa_id);
               const estado = a.realizada ? "Completada" : "Pendiente";
@@ -87,6 +104,18 @@ const ActividadesTable: React.FC<ActividadesTableProps> = ({ actividades, onRowC
           )}
         </TableBody>
       </Table>
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <TablePagination
+          component="div"
+          count={actividades.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={rowsPerPageOptions}
+          labelRowsPerPage="Filas por página"
+        />
+      </Box>
     </SectionCard>
   );
 };
