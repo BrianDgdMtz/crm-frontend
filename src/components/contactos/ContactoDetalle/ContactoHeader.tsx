@@ -25,7 +25,6 @@ const ContactoHeader: React.FC<ContactoHeaderProps> = ({ nombre, onVolver, accio
           {nombre}
         </Typography>
         <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} gap={2}>
-          {/* Botón Volver alineado a la izquierda */}
           <Box>
             <Button
               variant="contained"
@@ -37,7 +36,6 @@ const ContactoHeader: React.FC<ContactoHeaderProps> = ({ nombre, onVolver, accio
               Volver
             </Button>
           </Box>
-          {/* Acciones alineadas a la derecha */}
           <Box display="flex" gap={2}>
             {acciones}
           </Box>

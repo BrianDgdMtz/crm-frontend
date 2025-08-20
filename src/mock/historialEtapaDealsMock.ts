@@ -1,4 +1,3 @@
-// src/mock/historialEtapaDealsMock.ts
 export interface HistorialEtapaDeal {
   id: number;
   deal_id: number;

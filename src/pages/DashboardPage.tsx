@@ -1,7 +1,11 @@
 import React from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import "../utils/chartjs";
 import SectionCard from "../components/ui/SectionCard";
+import KpiPipelineOpenTotal from "../components/dashboard/kpis/cards/KpiPipelineOpenTotal";
+import KpiPipelineOpenCurrentMonth from "../components/dashboard/kpis/cards/KpiPipelineOpenCurrentMonth";
+import KpiPipelineOpenPrevMonth from "../components/dashboard/kpis/cards/KpiPipelineOpenPrevMonth";
+import { KpiDealsOpenThisMonth, KpiDealsWonThisMonth, KpiDealsLostThisMonth } from "../components/dashboard/kpis/cards/KpiDealsOpenThisMonth";
 import PipelineByStage from "../components/dashboard/charts/PipelineByStage";
 import ActivitiesByTypePolar from "../components/dashboard/charts/ActivitiesByTypePolar";
 import ActivitiesDoneVsPending from "../components/dashboard/charts/ActivitiesDoneVsPending";
@@ -27,9 +31,14 @@ const Card: React.FC<{ title: string; children: React.ReactNode }> = ({ title, c
 export default function DashboardPage() {
   return (
     <Box sx={{ p: 2 }}>
-      <Typography variant="h5" sx={{ mb: 2, fontWeight: 800 }}>
-        Dashboard
-      </Typography>
+      <Grid container spacing={2} sx={{ mb: 2 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}><KpiPipelineOpenTotal /></Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}><KpiPipelineOpenCurrentMonth /></Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}><KpiPipelineOpenPrevMonth /></Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}><KpiDealsOpenThisMonth /></Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}><KpiDealsWonThisMonth /></Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}><KpiDealsLostThisMonth /></Grid>
+      </Grid>
 
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 4 }}>

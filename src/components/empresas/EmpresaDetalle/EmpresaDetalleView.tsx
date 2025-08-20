@@ -60,14 +60,11 @@ const EmpresaDetalleView: React.FC<EmpresaDetalleViewProps> = ({ empresa, onElim
 
   return (
     <Box>
-      {/* HEADER con botón volver y nombre empresa */}
       <EmpresaHeader
         nombre={empresa.nombre}
         onVolver={() => navigate("/empresas")}
         acciones={acciones}
       />
-
-      {/* Panel de información general */}
       <Box sx={{ mb: 2, p: 1 }}>
         <EmpresaInfoPanel
           industria={industriasMock.find((i) => i.id === empresa.industria_id)?.nombre || "—"}
@@ -78,8 +75,6 @@ const EmpresaDetalleView: React.FC<EmpresaDetalleViewProps> = ({ empresa, onElim
           fechaUltimaActividad={empresa.fecha_ultima_actividad || "—"}
         />
       </Box>
-
-      {/* Tablas de contactos, actividades y deals */}
       <Grid container spacing={2} sx={{ mt: 1 }}>
         <Grid size={{ xs: 12, md: 6 }}>
           <Box sx={{ p: 1 }}>

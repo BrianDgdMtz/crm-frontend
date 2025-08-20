@@ -1,4 +1,3 @@
-// src/mock/actividadesMock.ts
 export interface Actividad {
   id: number;
   tipo_id: number;

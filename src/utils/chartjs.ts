@@ -1,12 +1,33 @@
 import {
   Chart as ChartJS,
-  CategoryScale, LinearScale, TimeScale,
-  BarElement, LineElement, ArcElement, PointElement,
-  Tooltip, Legend, Filler,
+  ArcElement,
+  BarElement,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  RadialLinearScale,
+  Filler,
+  Tooltip,
+  Legend,
 } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 ChartJS.register(
-  CategoryScale, LinearScale, TimeScale,
-  BarElement, LineElement, ArcElement, PointElement,
-  Tooltip, Legend, Filler
+  ArcElement,
+  BarElement,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  RadialLinearScale,
+  Filler,
+  Tooltip,
+  Legend,
+  ChartDataLabels
 );
+
+// Desactivar por defecto en todas las gráficas el plugin de etiquetas
+ChartJS.defaults.set("plugins.datalabels", {
+  display: false,
+});

@@ -8,8 +8,8 @@ import HandshakeIcon from "@mui/icons-material/Handshake";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 
 const sections = [
-  { label: "Dashboard", icon: <DashboardIcon />, path: "/dashboard" },
-  { label: "Empresas", icon: <ApartmentIcon />, path: "/" },
+  { label: "Dashboard", icon: <DashboardIcon />, path: "/" },
+  { label: "Empresas", icon: <ApartmentIcon />, path: "/empresas" },
   { label: "Contactos", icon: <ContactsIcon />, path: "/contactos" },
   { label: "Deals", icon: <HandshakeIcon />, path: "/deals" },
   { label: "Actividades", icon: <EventNoteIcon />, path: "/actividades" },
@@ -19,10 +19,8 @@ export const Sidebar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Determina cuál sección está activa en base al pathname
   const getActiveSection = () => {
-    // La sección empresas es "/" y también debe activarse para rutas como /empresas/:id
-    if (location.pathname === "/" || location.pathname.startsWith("/empresas")) return "Empresas";
+    if (location.pathname === "/" || location.pathname.startsWith("/dashboard")) return "Dashboard";
     const found = sections.find((sec) => sec.path !== "/" && location.pathname.startsWith(sec.path));
     return found?.label ?? "";
   };

@@ -1,15 +1,6 @@
 import React from "react";
 import { PolarArea } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  RadialLinearScale,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
 import { getActivitiesByTypePolar } from "../../../utils/dashboard/adapters";
-
-ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
 const ActivitiesByTypePolar: React.FC = () => {
   const { labels, datasets } = getActivitiesByTypePolar();
@@ -42,18 +33,19 @@ const ActivitiesByTypePolar: React.FC = () => {
 
   const options = {
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false as const,
     plugins: {
-      legend: {
-        position: "right" as const,
+      legend: { position: "right" as const },
+      datalabels: {
+        display: true,
+        color: "#111",
+        font: { weight: "bold" as const, size: 12 },
+        formatter: (value: number) => value,
       },
-      tooltip: {
-        callbacks: {
-          label: (context: any) => {
-            const value = context.raw;
-            return `${context.label}: ${value} actividades`;
-          },
-        },
+    },
+    scales: {
+      r: {
+        beginAtZero: true,
       },
     },
   };

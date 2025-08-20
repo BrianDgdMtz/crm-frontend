@@ -22,7 +22,7 @@ interface AgregarDealModalProps {
   onSave: (deal: any) => void;
   defaultEmpresaId?: number;
   defaultContactoId?: number;
-  dealId?: number; // si viene => edición
+  dealId?: number;
 }
 
 const emptyForm = {
@@ -48,7 +48,6 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
   const [form, setForm] = useState({ ...emptyForm });
   const [error, setError] = useState<string | null>(null);
 
-  // Prefill: edición por dealId o creación con defaults
   useEffect(() => {
     if (!open) return;
 
@@ -70,8 +69,6 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
         return;
       }
     }
-
-    // modo crear: aplica defaults si vienen
     setForm((_prev) => {
       const empresa_id = defaultEmpresaId ? String(defaultEmpresaId) : "";
       const contacto_id = defaultContactoId ? String(defaultContactoId) : "";
@@ -80,7 +77,6 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
     setError(null);
   }, [open, dealId, defaultEmpresaId, defaultContactoId]);
 
-  // Filtrar contactos por empresa seleccionada
   const contactosFiltrados = useMemo(() => {
     if (!form.empresa_id) return [];
     return contactosMock.filter((c) => c.empresa_id === Number(form.empresa_id));
@@ -90,7 +86,7 @@ const AgregarDealModal: React.FC<AgregarDealModalProps> = ({
     const { name, value } = e.target;
     setForm((prev) => {
       const next = { ...prev, [name]: value };
-      if (name === "empresa_id") next.contacto_id = ""; // al cambiar empresa, limpia contacto
+      if (name === "empresa_id") next.contacto_id = "";
       setError(null);
       return next;
     });

@@ -80,7 +80,6 @@ const EmpresasPage: React.FC = () => {
         onRowClick={(empresaId) => navigate(`/empresas/${empresaId}`)}
       />
 
-      {/* MODAL AGREGAR EMPRESA */}
       <AgregarEmpresaModal
         open={openAgregar}
         onClose={() => setOpenAgregar(false)}

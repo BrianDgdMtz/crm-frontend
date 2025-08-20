@@ -47,7 +47,7 @@ const HoverableAppear: React.FC<HoverableAppearProps> = ({
 
   const blurInExpand = keyframes`
     0%   { transform: scale(${introFromScale}); filter: blur(${introBlurPx}px); opacity: 0; }
-    100% { transform: scale(1);                filter: blur(0);                opacity: 1; }
+    100% { transform: scale(1); filter: blur(0); opacity: 1; }
   `;
 
   const animatedSx: SxProps<Theme> = {

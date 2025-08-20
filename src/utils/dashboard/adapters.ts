@@ -1,4 +1,4 @@
-import { toDate, isInLastDays, weekKey, monthKey } from "./date";
+import { toDate, isInLastDays, weekKey, monthKey, monthRange, prevMonthRange, isWithin, pctDelta } from "./date";
 import { dealsMock } from "../../mock/dealsMock";
 import { usuariosMock } from "../../mock/usuariosMock";
 import { tipoActividadMock } from "../../mock/tipoActividadMock";
@@ -12,7 +12,6 @@ import { zonasMock } from "../../mock/zonasMock";
 import { contactosMock } from "../../mock/contactosMock";
 import { estatusContactosMock } from "../../mock/estatusContactosMock";
 
-
 const sum = (arr: number[]) => arr.reduce((a, b) => a + (b || 0), 0);
 const idOf = (obj: any, ...keys: string[]) => keys.map(k => obj?.[k]).find(v => v != null);
 
@@ -23,6 +22,7 @@ const byId = <T extends { id: number }>(list: T[]) =>
 const ID_ABIERTO = estadoDealsMock.find(e => e.nombre === "Abierto")?.id ?? 1;
 const ID_GANADO  = estadoDealsMock.find(e => e.nombre === "Ganado")?.id ?? 2;
 const ID_PERDIDO = estadoDealsMock.find(e => e.nombre === "Perdido")?.id ?? 3;
+const ID_EMPRESA_ACTIVA = estatusEmpresasMock.find(s => s.nombre.toLowerCase().includes("activo"))?.id;
 
 // Helper: fecha “efectiva” de actividad
 const effectiveActivityDate = (a: any) =>
@@ -49,6 +49,72 @@ function empresaNombre(d: any) {
     ?? empresasIdx[idOf(d, "empresaId", "empresa_id")]?.nombre
     ?? "Sin empresa";
 }
+/* Tarjetas KPI's */
+
+/* Valor total del pipeline (deals abiertos) */
+export function getKpi_PipelineOpen_Total() {
+  const total = dealsMock
+    .filter(d => d.estado_id === ID_ABIERTO)
+    .reduce((s, d) => s + Number(d.monto_estimado || 0), 0);
+  return { total };
+}
+
+/* Valor del pipeline del mes actual + Δ% vs mes anterior (nuevos abiertos) */
+export function getKpi_PipelineOpen_CurrentMonth() {
+  const { start, end } = monthRange();
+  const { start: ps, end: pe } = prevMonthRange();
+  const curr = dealsMock
+    .filter(d => d.estado_id === ID_ABIERTO && isWithin(d.fecha_creacion, start, end))
+    .reduce((s, d) => s + Number(d.monto_estimado || 0), 0);
+  const prev = dealsMock
+    .filter(d => d.estado_id === ID_ABIERTO && isWithin(d.fecha_creacion, ps, pe))
+    .reduce((s, d) => s + Number(d.monto_estimado || 0), 0);
+  return { value: curr, deltaPct: pctDelta(curr, prev) };
+}
+
+/* Valor del pipeline del mes anterior (nuevos abiertos mes previo) */
+export function getKpi_PipelineOpen_PrevMonth() {
+  const { start: ps, end: pe } = prevMonthRange();
+  const prev = dealsMock
+    .filter(d => d.estado_id === ID_ABIERTO && isWithin(d.fecha_creacion, ps, pe))
+    .reduce((s, d) => s + Number(d.monto_estimado || 0), 0);
+  return { value: prev };
+}
+
+/* Deals abiertos / ganados / perdidos del mes actual (3 tarjetas) */
+export function getKpi_DealsCounts_CurrentMonth() {
+  const { start, end } = monthRange();
+  const abiertos = dealsMock.filter(d => d.estado_id === ID_ABIERTO && isWithin(d.fecha_creacion, start, end)).length;
+  const ganados  = dealsMock.filter(d => d.estado_id === ID_GANADO  && isWithin(d.fecha_creacion, start, end)).length;
+  const perdidos = dealsMock.filter(d => d.estado_id === ID_PERDIDO && isWithin(d.fecha_creacion, start, end)).length;
+  return { abiertos, ganados, perdidos };
+}
+
+/* Actividades realizadas este mes vs pendientes (2 valores) */
+export function getKpi_Activities_DoneVsPending_CurrentMonth() {
+  const { start, end } = monthRange();
+  const acts = actividadesMock.filter(a => isWithin(a.fecha_programada, start, end));
+  const realizadas = acts.filter(a => a.realizada).length;
+  const pendientes = acts.length - realizadas;
+  return { realizadas, pendientes };
+}
+
+/* Empresas activas nuevas en el mes */
+export function getKpi_NewActiveCompanies_CurrentMonth() {
+  const { start, end } = monthRange();
+  const isActive = (id: number) => (ID_EMPRESA_ACTIVA ? id === ID_EMPRESA_ACTIVA : true);
+  const value = empresasMock.filter(e => isActive(e.estatus_id) && isWithin(e.fecha_alta, start, end)).length;
+  return { value };
+}
+
+/* Contactos nuevos en el mes */
+export function getKpi_NewContacts_CurrentMonth() {
+  const { start, end } = monthRange();
+  const value = contactosMock.filter(c => isWithin(c.fecha_creacion, start, end)).length;
+  return { value };
+}
+
+/* Graficas */
 
 /* Pipeline por Etapa (monto y conteo) */
 export function getPipelineByStage() {
@@ -402,5 +468,12 @@ export default {
   getActivitiesDoneVsPendingByUserLast30d,
   getPipelineValueByUser,
   getPipelineValueByUserZone,
-  getWonLostByUser
+  getWonLostByUser,
+  getKpi_PipelineOpen_Total,
+  getKpi_PipelineOpen_CurrentMonth,
+  getKpi_PipelineOpen_PrevMonth,
+  getKpi_DealsCounts_CurrentMonth,
+  getKpi_Activities_DoneVsPending_CurrentMonth,
+  getKpi_NewActiveCompanies_CurrentMonth,
+  getKpi_NewContacts_CurrentMonth
 };

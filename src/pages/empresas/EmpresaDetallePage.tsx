@@ -8,8 +8,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 const EmpresaDetallePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-
-  // Busca la empresa según el id recibido en la URL
   const empresa = empresasMock.find((e) => e.id === Number(id));
 
   if (!empresa) {

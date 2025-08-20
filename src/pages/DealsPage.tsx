@@ -67,11 +67,9 @@ const DealsPage: React.FC = () => {
     setEstadoSeleccionado("todos");
   };
 
-  // Modal
   const handleAbrirModal = () => setModalAbierto(true);
   const handleCerrarModal = () => setModalAbierto(false);
 
-  // Guardar y cerrar modal
   const handleGuardarDeal = (nuevoDeal: any) => {
     setDeals(prev => {
       const nextId = prev.length ? prev[prev.length - 1].id + 1 : 1;

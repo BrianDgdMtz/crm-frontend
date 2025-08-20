@@ -10,11 +10,8 @@ import { contactosMock } from "../../mock/contactosMock";
 const DealDetallePage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
-
-    //Busca el deal segun el id recibido
     const deal = dealsMock.find((d) => d.id === Number(id));
 
-    // Si no existe, muestra mensaje de error simple
     if (!deal) {
         return (
         <div>

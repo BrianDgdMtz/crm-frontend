@@ -15,22 +15,16 @@ function App() {
     <Routes>
       {/* Layout envuelve todas las rutas principales */}
        <Route path="/" element={<Layout />}>
-        {/* Página principal de empresas */}
-        <Route index element={<EmpresasPage />} />
-        {/* Detalle de empresa */}
+        <Route index element={<DashboardPage />} />
+        <Route path="empresas" element={<EmpresasPage />} />
         <Route path="empresas/:id" element={<EmpresaDetallePage />} />
-        {/* Rutas placeholder para otros módulos */}
-        {/* Página principal de empresas */}
         <Route path="contactos" element={<ContactosPage />} />
-        {/* Detalle de contacto */}
         <Route path="contactos/:id" element={<ContactoDetallePage />} />
         <Route path="deals" element= {<DealsPage />} />
-        {/* Detalle de deal */}
         <Route path="deals/:id" element={<DealDetallePage />} />
         <Route path="actividades" element={<ActividadesPage />} />
         <Route path="actividades/:id" element={<ActividadDetallePage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
-        {/* Ruta catch-all */}
         <Route path="*" element={<Navigate to="/" />} />
       </Route>
     </Routes>

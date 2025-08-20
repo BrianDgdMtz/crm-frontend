@@ -1,4 +1,3 @@
-// src/mock/contactosMock.ts
 export interface Contacto {
   id: number;
   nombre: string;

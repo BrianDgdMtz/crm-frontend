@@ -23,7 +23,6 @@ const DealsToolbar: React.FC<DealsToolbarProps> = ({
   onLimpiar,
 }) => (
   <Box mb={3}>
-    {/* Primera línea: Botón agregar deal a la derecha */}
     <Box display="flex" justifyContent="flex-end" mb={1}>
       <Button
         variant="contained"

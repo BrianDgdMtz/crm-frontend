@@ -27,7 +27,6 @@ const DealHeader: React.FC<DealHeaderProps> = ({ titulo, onVolver, acciones }) =
         </Typography>
 
         <Box display="flex" justifyContent="space-between" alignItems="center" gap={2}>
-          {/* Volver (izquierda) */}
           <Box>
             <Button
               variant="contained"
@@ -39,8 +38,6 @@ const DealHeader: React.FC<DealHeaderProps> = ({ titulo, onVolver, acciones }) =
               Volver
             </Button>
           </Box>
-
-          {/* Acciones (derecha) */}
           <Box display="flex" gap={2}>
             {acciones}
           </Box>

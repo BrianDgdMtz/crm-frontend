@@ -1,4 +1,3 @@
-// src/mock/empresasMock.ts
 export interface Empresa {
   id: number;
   nombre: string;

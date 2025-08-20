@@ -1,4 +1,3 @@
-// src/mock/dealsMock.ts
 export interface Deal {
   id: number;
   titulo: string;

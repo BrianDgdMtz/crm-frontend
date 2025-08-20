@@ -1,27 +1,29 @@
 import React from "react";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Paper } from "@mui/material";
 import HoverableAppear from "./HoverableAppear";
 
-type SectionCardProps = {
-  title?: string;
+type Props = {
   children: React.ReactNode;
   hover?: boolean;
   intro?: boolean;
+  elevation?: number;
+  sx?: any;
 };
 
-const SectionCard: React.FC<SectionCardProps> = ({
-  title,
+const KpiSectionCard: React.FC<Props> = ({
   children,
   hover = true,
   intro = true,
+  elevation = 2,
+  sx,
 }) => {
   const card = (
-    <Card
-      variant="outlined"
+    <Paper
+      elevation={elevation}
       sx={{
         borderRadius: 2,
-        borderColor: "divider",
-        boxShadow: 1,
+        overflow: "hidden",
+        p: 0,
         transition:
           "transform 0.4s cubic-bezier(.4,0,.2,1), box-shadow 0.3s cubic-bezier(.4,0,.2,1)",
         ...(hover && {
@@ -30,18 +32,13 @@ const SectionCard: React.FC<SectionCardProps> = ({
             boxShadow: 6,
           },
         }),
+        ...sx,
       }}
     >
-      <CardContent>
-        <Typography variant="h6" fontWeight="bold" gutterBottom>
-          {title}
-        </Typography>
-        {children}
-      </CardContent>
-    </Card>
+      {children}
+    </Paper>
   );
 
-  // Aplica blur/expand + hover al propio Card
   return intro ? (
     <HoverableAppear asChild introDurationMs={250} hoverScale={1.01} hoverShadow={6}>
       {card}
@@ -51,4 +48,4 @@ const SectionCard: React.FC<SectionCardProps> = ({
   );
 };
 
-export default SectionCard;
+export default KpiSectionCard;
