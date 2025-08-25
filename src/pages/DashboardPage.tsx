@@ -32,12 +32,24 @@ export default function DashboardPage() {
   return (
     <Box sx={{ p: 2 }}>
       <Grid container spacing={2} sx={{ mb: 2 }}>
-        <Grid size={{ xs: 12, sm: 6, md: 2 }}><KpiPipelineOpenTotal /></Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 2 }}><KpiPipelineOpenCurrentMonth /></Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 2 }}><KpiPipelineOpenPrevMonth /></Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 2 }}><KpiDealsOpenThisMonth /></Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 2 }}><KpiDealsWonThisMonth /></Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 2 }}><KpiDealsLostThisMonth /></Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}>
+          <KpiPipelineOpenTotal />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}>
+          <KpiPipelineOpenCurrentMonth />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}>
+          <KpiPipelineOpenPrevMonth />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}>
+          <KpiDealsOpenThisMonth />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}>
+          <KpiDealsWonThisMonth />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}>
+          <KpiDealsLostThisMonth />
+        </Grid>
       </Grid>
 
       <Grid container spacing={2}>

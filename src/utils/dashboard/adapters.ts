@@ -381,7 +381,7 @@ export function getActivitiesDoneVsPendingByUserLast30d() {
     const ds = effectiveActivityDate(a);
     if (!ds || !isInLastDays(ds, rangeDays)) return;
     if (a.realizada) done[a.usuario_id] = (done[a.usuario_id] || 0) + 1;
-    else             pending[a.usuario_id] = (pending[a.usuario_id] || 0) + 1;
+    else pending[a.usuario_id] = (pending[a.usuario_id] || 0) + 1;
   });
 
   const labels = usuariosMock.map(u => u.nombre);
