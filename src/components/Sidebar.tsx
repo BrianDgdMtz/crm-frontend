@@ -1,80 +1,274 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Box } from "@mui/material";
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  Box,
+  IconButton,
+  Avatar,
+  Badge,
+} from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import ContactsIcon from "@mui/icons-material/Contacts";
 import HandshakeIcon from "@mui/icons-material/Handshake";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
+import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import { useAuth } from "../auth/AuthContext";
+import crmLogo from "../assets/img/Logo3.png"
+import crmLogoIcon from "../assets/img/Logo2.png"
 
-const sections = [
-  { label: "Dashboard", icon: <DashboardIcon />, path: "/" },
-  { label: "Empresas", icon: <ApartmentIcon />, path: "/empresas" },
-  { label: "Contactos", icon: <ContactsIcon />, path: "/contactos" },
-  { label: "Deals", icon: <HandshakeIcon />, path: "/deals" },
-  { label: "Actividades", icon: <EventNoteIcon />, path: "/actividades" },
+type Section = { label: string; icon: React.ReactNode; path: string };
+
+const sections: Section[] = [
+  { label: "Dashboard", icon: <DashboardIcon />,  path: "/" },
+  { label: "Empresas", icon: <ApartmentIcon />,  path: "/empresas" },
+  { label: "Contactos", icon: <ContactsIcon />,   path: "/contactos" },
+  { label: "Deals", icon: <HandshakeIcon />,  path: "/deals" },
+  { label: "Actividades", icon: <EventNoteIcon />,  path: "/actividades" },
 ];
 
-export const Sidebar: React.FC = () => {
+const EXPANDED_WIDTH  = 280;
+const COLLAPSED_WIDTH = 108;
+
+const Sidebar: React.FC<{
+  defaultCollapsed?: boolean;
+  onOpenUserPanel?: () => void;
+}> = ({ defaultCollapsed = false, onOpenUserPanel }) => {
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
+  const [collapsed, setCollapsed] = useState(defaultCollapsed);
 
-  const getActiveSection = () => {
+  const { user } = useAuth();
+
+  const activeLabel = useMemo(() => {
     if (location.pathname === "/" || location.pathname.startsWith("/dashboard")) return "Dashboard";
-    const found = sections.find((sec) => sec.path !== "/" && location.pathname.startsWith(sec.path));
+    const found = sections.find(s => s.path !== "/" && location.pathname.startsWith(s.path));
     return found?.label ?? "";
-  };
+  }, [location.pathname]);
 
-  const activeSection = getActiveSection();
+  const width = collapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH;
 
   return (
     <Drawer
       variant="permanent"
       sx={{
-        width: 220,
+        width,
         flexShrink: 0,
-        [`& .MuiDrawer-paper`]: {
-          width: 220,
+        transition: (t) => 
+          t.transitions.create("width", { duration: t.transitions.duration.shorter }),
+        "& .MuiDrawer-paper": {
+          width,
           boxSizing: "border-box",
-          background: "#f9f5f4",
-          borderRight: "1px solid #ddd",
+          background: "#233044",
+          borderRight: "1px solid #000",
+          transition: (t) =>
+            t.transitions.create("width", { duration: t.transitions.duration.shorter }),
+          zIndex: (t) => t.zIndex.appBar - 1,
+          display: "flex",
+          flexDirection: "column",
         },
       }}
     >
-      <Box sx={{ p: 2, pb: 0 }}>
-        <Typography variant="h6" fontWeight="bold" color="primary" sx={{ letterSpacing: 1 }}>
-          CRM LOGO
-        </Typography>
-      </Box>
-      <List>
-        {sections.map(({ label, icon, path }) => (
-          <ListItem
-            key={label}
-            disablePadding
+      <Box
+        sx={{
+          px: 2,
+          pt: 2,
+          pb: 1.5,
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        }}
+      >
+        {!collapsed ? (
+          <Box
+            component="img"
+            src={crmLogo}
+            alt="CRM Logo"
             sx={{
-              background: label === activeSection ? "#e6dfdd" : "inherit",
-              borderLeft: label === activeSection ? "4px solid #1976d2" : "4px solid transparent",
-              "&:hover": {
-                background: "#ece6e4",
-              },
+              height: 38,
+              flex: 1,
+              objectFit: "contain",
+              cursor: "pointer",
             }}
-          >
-            <ListItemButton onClick={() => navigate(path)}>
-              <ListItemIcon sx={{ color: "#424242" }}>{icon}</ListItemIcon>
+            onClick={() => navigate("/")}
+          />
+        ) : (
+          <Box
+            component="img"
+            src={crmLogoIcon}
+            alt="CRM Logo Icon"
+            sx={{
+              height: 32,
+              flex: 1,
+              objectFit: "contain",
+              cursor: "pointer",
+            }}
+            onClick={() => navigate("/")}
+          />
+        )}
+
+        <IconButton
+          size="small"
+          onClick={() => setCollapsed((c) => !c)}
+          sx={{
+            color: "#fff",
+            bgcolor: "#1E293A",
+            "&:hover": { bgcolor: "#202C3F" },
+          }}
+          aria-label={collapsed ? "Expandir" : "Colapsar"}
+        >
+          {collapsed ? <ChevronRightRoundedIcon /> : <ChevronLeftRoundedIcon />}
+        </IconButton>
+      </Box>
+
+      <List sx={{ mt: 1, flex: 1, overflowY: "auto" }}>
+        {sections.map(({ label, icon, path }) => {
+          const isActive = label === activeLabel;
+
+          const ItemButton = (
+            <ListItemButton
+              onClick={() => navigate(path)}
+              sx={{
+                backgroundColor: isActive ? "#1E293A" : "transparent",
+                "&:hover": { backgroundColor: "#202C3F" },
+                borderLeft: isActive ? "4px solid #fff" : "4px solid transparent",
+                borderRadius: 2,
+                px: collapsed ? 1 : 2,
+                py: collapsed ? 1.25 : 1.25,
+                minHeight: collapsed ? 82 : 56,
+                display: "flex",
+                flexDirection: collapsed ? "column" : "row",
+                alignItems: "center",
+                justifyContent: collapsed ? "center" : "flex-start",
+                textAlign: collapsed ? "center" : "left",
+                gap: collapsed ? 0.5 : 0,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  color: "#fff",
+                  minWidth: collapsed ? 0 : 36,
+                  mb: collapsed ? 0.5 : 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {icon}
+              </ListItemIcon>
+
               <ListItemText
                 primary={
                   <Typography
-                    variant="subtitle1"
-                    fontWeight={label === activeSection ? "bold" : "normal"}
+                    variant={collapsed ? "caption" : "subtitle1"}
+                    fontWeight={isActive ? "bold" : "normal"}
+                    sx={{
+                      color: "#fff",
+                      lineHeight: 1.2,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      maxWidth: collapsed ? (COLLAPSED_WIDTH - 24) : "unset",
+                    }}
                   >
                     {label}
                   </Typography>
                 }
+                sx={{ my: 0 }}
               />
             </ListItemButton>
-          </ListItem>
-        ))}
+          );
+
+          return (
+            <ListItem key={label} disablePadding>
+              {collapsed ? (
+                <Box sx={{ width: "100%" }}>{ItemButton}</Box>
+              ) : (
+                ItemButton
+              )}
+            </ListItem>
+          );
+        })}
       </List>
+
+      <Box
+        onClick={onOpenUserPanel}
+        sx={{
+          cursor: onOpenUserPanel ? "pointer" : "default",
+          p: 2,
+          background: "#1E293A",
+        }}
+      >
+        {!collapsed ? (
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+            <Badge
+              overlap="circular"
+              variant="dot"
+              color="success"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              sx={{
+                "& .MuiBadge-badge": {
+                  boxShadow: "0 0 0 2px #213245",
+                },
+              }}
+            >
+              <Avatar src={user?.AvatarUrl} alt={user?.nombre} sx={{ width: 40, height: 40 }}>
+                {user?.nombre?.[0] ?? "U"}
+              </Avatar>
+            </Badge>
+
+            <Box sx={{ minWidth: 0 }}>
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  color: "#fff",
+                  fontWeight: 700,
+                  lineHeight: 1.1,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {user?.nombre ?? "Demo Admin"}
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "rgba(255,255,255,0.75)",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {user?.rol ?? "Admin"}
+              </Typography>
+            </Box>
+          </Box>
+        ) : (
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Badge
+              overlap="circular"
+              variant="dot"
+              color="success"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              sx={{
+                "& .MuiBadge-badge": { boxShadow: "0 0 0 2px #213245" },
+              }}
+            >
+              <Avatar src={user?.AvatarUrl} alt={user?.nombre} sx={{ width: 40, height: 40 }}>
+                {user?.nombre?.[0] ?? "U"}
+              </Avatar>
+            </Badge>
+          </Box>
+        )}
+      </Box>
     </Drawer>
   );
 };

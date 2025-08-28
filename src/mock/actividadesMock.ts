@@ -47,7 +47,7 @@ export const actividadesMock: Actividad[] = [
   {
     id: 3,
     tipo_id: 1,
-    asunto: "Seguimiento telefónico",
+    asunto: "Llamada de seguimiento a empresa Atlas",
     fecha_programada: "2025-06-02",
     realizada: false,
     notas: "Pendiente de feedback del cliente.",
@@ -196,9 +196,9 @@ export const actividadesMock: Actividad[] = [
   {
     id: 13,
     tipo_id: 2,
-    asunto: "Correo de seguimiento",
+    asunto: "Email enviado a Industrias Pulsar",
     fecha_programada: "2025-02-05",
-    realizada: false,
+    realizada: true,
     notas: "Se acordó enviar propuesta actualizada.",
     usuario_id: 7,
     empresa_id: 124,

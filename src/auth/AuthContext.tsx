@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
+import perfilAvatar from "../assets/img/perfilAvatar.jpg"
 
 type User = {
   id: number;
   nombre: string;
   email: string;
-  rol: "admin" | "vendedor" | "visor";
+  rol: "admin" | "Ejecutiva de ventas" | "visor";
+  AvatarUrl?: string
 };
 
 type AuthContextType = {
@@ -19,10 +21,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const DEMO_USER: Array<User & { password: string }> = [
   {
     id: 1,
-    nombre: "Demo Admin",
+    nombre: "Jane Doe",
     email: "demo@crm.com",
-    rol: "admin",
-    password: "Demo2025!"
+    rol: "Ejecutiva de ventas",
+    password: "Demo2025!",
+    AvatarUrl: perfilAvatar,
   },
 ];
 

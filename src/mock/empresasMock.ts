@@ -238,7 +238,7 @@ export const empresasMock: Empresa[] = [
   },
   {
     id: 24,
-    nombre: "Dinámica Avanzadas",
+    nombre: "Atlas",
     industria_id: 6,
     zona_id: 4,
     estatus_id: 2,
