@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import React, { useMemo, useState, useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import HeaderBar from "./Header/HeaderBar";
 import NotificationsPanel from "./Header/panels/NotificationsPanel";
@@ -12,10 +12,14 @@ import type { NotificationItem } from "../../types/notifications";
 import { countUnreadNotifications } from "../../types/notifications";
 import type { MessageItem } from "../../types/messages";
 import { countUnreadMessages } from "../../types/messages";
+import { resolvePageTitle } from "../../utils/pageTitle";
+
+const APP_NAME = "Synapse CRM";
 
 const Layout: React.FC = () => {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
+  const { pathname } = useLocation();
 
   // Estado UI
   const [openPanel, setOpenPanel] = useState<"notifications" | "messages" | null>(null);
@@ -31,6 +35,11 @@ const Layout: React.FC = () => {
   // Contadores
   const unreadNotis = useMemo(() => countUnreadNotifications(notis), [notis]);
   const unreadMsgs = useMemo(() => countUnreadMessages(msgs), [msgs]);
+
+  useEffect(() => {
+    const title = resolvePageTitle(pathname);
+    document.title = title === "CRM" ? APP_NAME : `${title} - ${APP_NAME}`;
+  }, [pathname]);
 
   // Handlers de apertura con latencia simulada
   const openNotifications = () => {
