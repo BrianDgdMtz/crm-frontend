@@ -34,8 +34,8 @@ const sections: Section[] = [
   { label: "Actividades", icon: <EventNoteIcon />,  path: "/actividades" },
 ];
 
-const EXPANDED_WIDTH  = 280;
-const COLLAPSED_WIDTH = 108;
+const EXPANDED_WIDTH  = 251.5;
+const COLLAPSED_WIDTH = 97.5;
 
 const Sidebar: React.FC<{
   defaultCollapsed?: boolean;
@@ -92,7 +92,7 @@ const Sidebar: React.FC<{
             src={crmLogo}
             alt="CRM Logo"
             sx={{
-              height: 38,
+              height: 34,
               flex: 1,
               objectFit: "contain",
               cursor: "pointer",
@@ -105,7 +105,7 @@ const Sidebar: React.FC<{
             src={crmLogoIcon}
             alt="CRM Logo Icon"
             sx={{
-              height: 32,
+              height: 30,
               flex: 1,
               objectFit: "contain",
               cursor: "pointer",
@@ -124,11 +124,11 @@ const Sidebar: React.FC<{
           }}
           aria-label={collapsed ? "Expandir" : "Colapsar"}
         >
-          {collapsed ? <ChevronRightRoundedIcon /> : <ChevronLeftRoundedIcon />}
+          {collapsed ? <ChevronRightRoundedIcon sx={{ fontSize: 22 }} /> : <ChevronLeftRoundedIcon sx={{ fontSize: 22 }} />}
         </IconButton>
       </Box>
 
-      <List sx={{ mt: 1, flex: 1, overflowY: "auto" }}>
+      <List sx={{ mt: 0.5, flex: 1, overflowY: "auto" }}>
         {sections.map(({ label, icon, path }) => {
           const isActive = label === activeLabel;
 
@@ -138,11 +138,11 @@ const Sidebar: React.FC<{
               sx={{
                 backgroundColor: isActive ? "#1E293A" : "transparent",
                 "&:hover": { backgroundColor: "#202C3F" },
-                borderLeft: isActive ? "4px solid #fff" : "4px solid transparent",
+                borderLeft: isActive ? "3.5px solid #fff" : "3.5px solid transparent",
                 borderRadius: 2,
-                px: collapsed ? 1 : 2,
+                px: collapsed ? 0.5 : 1.5,
                 py: collapsed ? 1.25 : 1.25,
-                minHeight: collapsed ? 82 : 56,
+                minHeight: collapsed ? 75 : 50,
                 display: "flex",
                 flexDirection: collapsed ? "column" : "row",
                 alignItems: "center",
@@ -167,10 +167,10 @@ const Sidebar: React.FC<{
               <ListItemText
                 primary={
                   <Typography
-                    variant={collapsed ? "caption" : "subtitle1"}
-                    fontWeight={isActive ? "bold" : "normal"}
-                    sx={{
-                      color: "#fff",
+                  sx={{
+                    fontSize: collapsed ? "0.75rem" : "0.9rem",
+                    fontWeight: isActive ? "bold" : "normal",
+                    color: "#fff",
                       lineHeight: 1.2,
                       whiteSpace: "nowrap",
                       overflow: "hidden",
@@ -219,15 +219,15 @@ const Sidebar: React.FC<{
                 },
               }}
             >
-              <Avatar src={user?.AvatarUrl} alt={user?.nombre} sx={{ width: 40, height: 40 }}>
+              <Avatar src={user?.AvatarUrl} alt={user?.nombre} sx={{ width: 37, height: 37 }}>
                 {user?.nombre?.[0] ?? "U"}
               </Avatar>
             </Badge>
 
             <Box sx={{ minWidth: 0 }}>
               <Typography
-                variant="subtitle2"
                 sx={{
+                  fontSize: "0.85rem",
                   color: "#fff",
                   fontWeight: 700,
                   lineHeight: 1.1,
@@ -262,7 +262,7 @@ const Sidebar: React.FC<{
                 "& .MuiBadge-badge": { boxShadow: "0 0 0 2px #213245" },
               }}
             >
-              <Avatar src={user?.AvatarUrl} alt={user?.nombre} sx={{ width: 40, height: 40 }}>
+              <Avatar src={user?.AvatarUrl} alt={user?.nombre} sx={{ width: 37, height: 37 }}>
                 {user?.nombre?.[0] ?? "U"}
               </Avatar>
             </Badge>

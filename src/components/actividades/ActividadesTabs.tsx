@@ -25,9 +25,9 @@ const ActividadesTabs: React.FC<ActividadesTabsProps> = ({
         onChange={(_, v: TabKey) => onChange(v)}
         sx={{ mb: 2 }}
       >
-        <Tab value="todos" label={`Todos (${total})`} sx={{ fontWeight: "bold", minWidth: 120}} />
-        <Tab value="completadas" label={`Completadas (${completadas})`} sx={{ fontWeight: "bold", minWidth: 120}} />
-        <Tab value="sin-realizar" label={`Sin realizar (${pendientes})`} sx={{ fontWeight: "bold", minWidth: 120}} />
+        <Tab value="todos" label={`Todos (${total})`} sx={{ fontWeight: "bold", minWidth: 100, fontSize: "0.80rem"}} />
+        <Tab value="completadas" label={`Completadas (${completadas})`} sx={{ fontWeight: "bold", minWidth: 100, fontSize: "0.80rem"}} />
+        <Tab value="sin-realizar" label={`Sin realizar (${pendientes})`} sx={{ fontWeight: "bold", minWidth: 100, fontSize: "0.80rem"}} />
       </Tabs>
     </Box>
   );

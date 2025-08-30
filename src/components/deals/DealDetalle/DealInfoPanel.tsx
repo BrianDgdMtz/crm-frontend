@@ -35,7 +35,7 @@ const DealInfoPanel: React.FC<DealInfoPanelProps> = ({
     <CardContent>
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Typography variant="subtitle1" fontWeight="bold">Empresa</Typography>
+          <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>Empresa</Typography>
           {empresa?.id ? (
             <Tooltip title="Ver detalle de la empresa" arrow>
               <Link
@@ -44,7 +44,7 @@ const DealInfoPanel: React.FC<DealInfoPanelProps> = ({
               color="primary"
               underline="hover"
               variant="subtitle1"
-              sx={{ fontWeight: 500, cursor: "pointer" }}
+              sx={{ fontWeight: 500, cursor: "pointer", fontSize: "0.9rem" }}
             >
               {empresa.nombre}
             </Link>
@@ -55,7 +55,7 @@ const DealInfoPanel: React.FC<DealInfoPanelProps> = ({
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
-          <Typography variant="subtitle1" fontWeight="bold">Contacto</Typography>
+          <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>Contacto</Typography>
           {contacto?.id ? (
             <Tooltip title="Ver detalle del contacto" arrow>
               <Link
@@ -64,7 +64,7 @@ const DealInfoPanel: React.FC<DealInfoPanelProps> = ({
               color="primary"
               underline="hover"
               variant="subtitle1"
-              sx={{ fontWeight: 500, cursor: "pointer" }}
+              sx={{ fontWeight: 500, cursor: "pointer", fontSize: "0.9rem" }}
             >
               {contacto.nombre}
             </Link>
@@ -75,13 +75,13 @@ const DealInfoPanel: React.FC<DealInfoPanelProps> = ({
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
-          <Typography variant="subtitle1" fontWeight="bold">Prioridad</Typography>
-          <Typography sx={{ mb: 1 }}>{prioridad || "—"}</Typography>
+          <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>Prioridad</Typography>
+          <Typography sx={{ mb: 1, fontSize: "0.9rem" }}>{prioridad || "—"}</Typography>
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
-          <Typography variant="subtitle1" fontWeight="bold">Monto estimado</Typography>
-          <Typography sx={{ mb: 1 }}>
+          <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>Monto estimado</Typography>
+          <Typography sx={{ mb: 1, fontSize: "0.9rem" }}>
             {Number.isFinite(montoEstimado)
               ? `$${montoEstimado.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`
               : "—"}
@@ -89,27 +89,27 @@ const DealInfoPanel: React.FC<DealInfoPanelProps> = ({
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
-          <Typography variant="subtitle1" fontWeight="bold">Fecha de creación</Typography>
-          <Typography sx={{ mb: 1 }}>{fechaCreacion || "—"}</Typography>
+          <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>Fecha de creación</Typography>
+          <Typography sx={{ mb: 1, fontSize: "0.9rem" }}>{fechaCreacion || "—"}</Typography>
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
-          <Typography variant="subtitle1" fontWeight="bold">Fecha estimada de cierre</Typography>
-          <Typography sx={{ mb: 1 }}>{fechaCierreEstimada || "—"}</Typography>
+          <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>Fecha estimada de cierre</Typography>
+          <Typography sx={{ mb: 1, fontSize: "0.9rem" }}>{fechaCierreEstimada || "—"}</Typography>
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
-          <Typography variant="subtitle1" fontWeight="bold">Estado</Typography>
-          <Typography sx={{ mb: 1 }}>{estado || "—"}</Typography>
+          <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>Estado</Typography>
+          <Typography sx={{ mb: 1, fontSize: "0.9rem" }}>{estado || "—"}</Typography>
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
-          <Typography variant="subtitle1" fontWeight="bold">Etapa</Typography>
-          <Typography sx={{ mb: 1 }}>{etapa || "—"}</Typography>
+          <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>Etapa</Typography>
+          <Typography sx={{ mb: 1, fontSize: "0.9rem" }}>{etapa || "—"}</Typography>
         </Grid>
 
         <Grid size={{ xs: 12 }}>
-          <Typography variant="subtitle1" fontWeight="bold">Observaciones</Typography>
+          <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>Observaciones</Typography>
           <Typography
             sx={{
               bgcolor: "#d1caca3a",
@@ -117,7 +117,8 @@ const DealInfoPanel: React.FC<DealInfoPanelProps> = ({
               minHeight: 60,
               p: 2,
               mt: 0.2,
-              mb: 0
+              mb: 0,
+              fontSize: "0.9rem"
             }}
           >
             {observaciones || "—"}

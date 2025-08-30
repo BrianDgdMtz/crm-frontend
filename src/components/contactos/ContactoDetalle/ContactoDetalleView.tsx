@@ -84,7 +84,7 @@ const ContactoDetalleView: React.FC<ContactoDetalleViewProps> = ({
 
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, md: 4 }}>
-          <Box sx={{ mb: 3, p: 1 }}>
+          <Box sx={{ mb: 2, p: 0.5 }}>
             <ContactoInfoPanel
               contacto={contacto}
               empresa={empresa}
@@ -96,7 +96,7 @@ const ContactoDetalleView: React.FC<ContactoDetalleViewProps> = ({
         </Grid>
 
         <Grid size={{ xs: 12, md: 8 }}>
-          <Box sx={{ mb: 3, p: 1 }}>
+          <Box sx={{ mb: 3, p: 0.5 }}>
             <ContactoDealsTable
               deals={deals}
               estadoDeals={estadoDeals}
@@ -105,7 +105,7 @@ const ContactoDetalleView: React.FC<ContactoDetalleViewProps> = ({
             />
           </Box>
 
-          <Box sx={{ p: 1 }}>
+          <Box sx={{ p: 0.5 }}>
             <ContactoActividadesTable
               actividades={actividades}
               tiposActividad={tiposActividad}

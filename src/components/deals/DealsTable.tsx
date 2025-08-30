@@ -44,10 +44,10 @@ const DealsTable: React.FC<DealsTableProps> = ({
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell><b>Deal</b></TableCell>
-            <TableCell><b>Empresa</b></TableCell>
-            <TableCell><b>Monto estimado</b></TableCell>
-            <TableCell><b>Etapa</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Deal</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Empresa</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Monto estimado</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Etapa</b></TableCell>
           </TableRow>
         </TableHead>
 
@@ -68,16 +68,16 @@ const DealsTable: React.FC<DealsTableProps> = ({
                 sx={{ cursor: onSeleccionarDeal ? "pointer" : "default" }}
                 onClick={() => onSeleccionarDeal?.(deal.id)}
               >
-                <TableCell>{deal.titulo}</TableCell>
-                <TableCell>{deal.nombreEmpresa ?? ""}</TableCell>
-                <TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{deal.titulo}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{deal.nombreEmpresa ?? ""}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>
                   {deal.monto_estimado.toLocaleString("es-MX", {
                     style: "currency",
                     currency: "MXN",
                     maximumFractionDigits: 0,
                   })}
                 </TableCell>
-                <TableCell>{deal.nombreEtapa}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{deal.nombreEtapa}</TableCell>
               </TableRow>
             ))
           )}

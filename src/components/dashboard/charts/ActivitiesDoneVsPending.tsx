@@ -40,11 +40,22 @@ export default function ActivitiesDoneVsPending() {
       },
     },
     scales: {
-      x: { stacked: true as const },
+      x: { stacked: true as const,
+        ticks: {
+          font: {
+            size: 11,
+          },
+        },
+       },
       y: {
         stacked: true as const,
         beginAtZero: true,
-        ticks: { precision: 0 },
+        ticks: {
+          precision: 0,
+          font: {
+            size: 11,
+          },
+        },
       },
     },
   };

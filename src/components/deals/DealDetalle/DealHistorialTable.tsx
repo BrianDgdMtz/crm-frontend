@@ -16,10 +16,10 @@ const DealHistorialTable: React.FC<DealHistorialTableProps> = ({ items }) => (
     <Table size="small">
       <TableHead>
         <TableRow>
-          <TableCell><b>Fecha</b></TableCell>
-          <TableCell><b>De</b></TableCell>
-          <TableCell><b>A</b></TableCell>
-          <TableCell><b>Usuario</b></TableCell>
+          <TableCell sx={{fontSize: "0.8rem"}}><b>Fecha</b></TableCell>
+          <TableCell sx={{fontSize: "0.8rem"}}><b>De</b></TableCell>
+          <TableCell sx={{fontSize: "0.8rem"}}><b>A</b></TableCell>
+          <TableCell sx={{fontSize: "0.8rem"}}><b>Usuario</b></TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -38,10 +38,10 @@ const DealHistorialTable: React.FC<DealHistorialTableProps> = ({ items }) => (
             const usuario = usuariosMock.find(u => u.id === h.usuario_id)?.nombre || "—";
             return (
               <TableRow key={h.id}>
-                <TableCell>{h.fecha}</TableCell>
-                <TableCell>{etapaAnterior || "—"}</TableCell>
-                <TableCell>{etapaNueva}</TableCell>
-                <TableCell>{usuario}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{h.fecha}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{etapaAnterior || "—"}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{etapaNueva}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{usuario}</TableCell>
               </TableRow>
             );
           })

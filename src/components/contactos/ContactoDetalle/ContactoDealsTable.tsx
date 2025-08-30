@@ -30,11 +30,11 @@ const ContactoDealsTable: React.FC<ContactoDealsTableProps> = ({
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell><b>Deal</b></TableCell>
-            <TableCell><b>Monto</b></TableCell>
-            <TableCell><b>Estado</b></TableCell>
-            <TableCell><b>Etapa</b></TableCell>
-            <TableCell><b>Fecha de cierre estimada</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Deal</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Monto</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Estado</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Etapa</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Fecha de cierre estimada</b></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -54,20 +54,20 @@ const ContactoDealsTable: React.FC<ContactoDealsTableProps> = ({
                 sx={{ cursor: "pointer" }}
                 onClick={() => onRowClick?.(deal.id)}
               >
-                <TableCell>{deal.titulo}</TableCell>
-                <TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{deal.titulo}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>
                   {deal.monto_estimado?.toLocaleString("es-MX", {
                     style: "currency",
                     currency: "MXN",
                   })}
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>
                   {estadoDeals.find((e) => e.id === deal.estado_id)?.nombre || "—"}
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>
                   {etapaDeals.find((e) => e.id === deal.etapa_id)?.nombre || "—"}
                 </TableCell>
-                <TableCell>{deal.fecha_cierre_esperada}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{deal.fecha_cierre_esperada}</TableCell>
               </TableRow>
             ))
           )}

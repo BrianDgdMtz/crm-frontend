@@ -24,7 +24,7 @@ import WonLostByUser from "../components/dashboard/charts/WonLostByUser";
 
 const Card: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <SectionCard title={title}>
-    <Box sx={{ height: 320 }}>{children}</Box>
+    <Box sx={{ height: 300 }}>{children}</Box>
   </SectionCard>
 );
 

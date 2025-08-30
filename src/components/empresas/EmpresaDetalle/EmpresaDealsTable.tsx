@@ -18,11 +18,11 @@ const EmpresaDealsTable: React.FC<EmpresaDealsTableProps> = ({
         <Table size="small">
             <TableHead>
                 <TableRow>
-                    <TableCell><b>Deal</b></TableCell>
-                    <TableCell><b>Monto</b></TableCell>
-                    <TableCell><b>Estado</b></TableCell>
-                    <TableCell><b>Etapa</b></TableCell>
-                    <TableCell><b>Fecha cierre estimada</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Deal</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Monto</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Estado</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Etapa</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Fecha cierre estimada</b></TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -40,15 +40,15 @@ const EmpresaDealsTable: React.FC<EmpresaDealsTableProps> = ({
                         sx={{ cursor:"pointer" }}
                         onClick={() => onRowClick?.(deal.id)}
                     >
-                        <TableCell>{deal.titulo}</TableCell>
-                        <TableCell>${deal.monto_estimado.toLocaleString("es-MX", { minimumFractionDigits: 2 })}</TableCell>
-                        <TableCell>
+                        <TableCell sx={{fontSize: "0.8rem"}}>{deal.titulo}</TableCell>
+                        <TableCell sx={{fontSize: "0.8rem"}}>${deal.monto_estimado.toLocaleString("es-MX", { minimumFractionDigits: 2 })}</TableCell>
+                        <TableCell sx={{fontSize: "0.8rem"}}>
                             {estadoDealsMock.find(e => e.id === deal.estado_id)?.nombre || "—"}
                         </TableCell>
-                        <TableCell>
+                        <TableCell sx={{fontSize: "0.8rem"}}>
                             {etapaDealsMock.find(et => et.id === deal.etapa_id)?.nombre || "—"}
                         </TableCell>
-                        <TableCell>{deal.fecha_cierre_esperada}</TableCell>
+                        <TableCell sx={{fontSize: "0.8rem"}}>{deal.fecha_cierre_esperada}</TableCell>
                     </TableRow>
                 ))
                 )}

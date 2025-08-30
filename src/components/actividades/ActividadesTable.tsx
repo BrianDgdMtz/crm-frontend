@@ -36,11 +36,11 @@ const ActividadesTable: React.FC<ActividadesTableProps> = ({
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell><b>Tarea</b></TableCell>
-            <TableCell><b>Contacto</b></TableCell>
-            <TableCell><b>Empresa</b></TableCell>
-            <TableCell><b>Estado</b></TableCell>
-            <TableCell><b>Fecha límite</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Tarea</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Contacto</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Empresa</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Estado</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Fecha límite</b></TableCell>
           </TableRow>
         </TableHead>
 
@@ -66,9 +66,9 @@ const ActividadesTable: React.FC<ActividadesTableProps> = ({
                   sx={{ cursor: onRowClick ? "pointer" : "default" }}
                   onClick={() => onRowClick?.(a.id)}
                 >
-                  <TableCell>{a.asunto}</TableCell>
+                  <TableCell sx={{fontSize: "0.8rem"}}>{a.asunto}</TableCell>
 
-                  <TableCell onClick={(e) => e.stopPropagation()}>
+                  <TableCell sx={{fontSize: "0.8rem"}} onClick={(e) => e.stopPropagation()}>
                     {contacto ? (
                       <Link
                         component={RouterLink}
@@ -82,7 +82,7 @@ const ActividadesTable: React.FC<ActividadesTableProps> = ({
                     ) : "—"}
                   </TableCell>
 
-                  <TableCell onClick={(e) => e.stopPropagation()}>
+                  <TableCell sx={{fontSize: "0.8rem"}} onClick={(e) => e.stopPropagation()}>
                     {empresa ? (
                       <Link
                         component={RouterLink}
@@ -96,8 +96,8 @@ const ActividadesTable: React.FC<ActividadesTableProps> = ({
                     ) : "—"}
                   </TableCell>
 
-                  <TableCell>{estado}</TableCell>
-                  <TableCell>{a.fecha_programada || "—"}</TableCell>
+                  <TableCell sx={{fontSize: "0.8rem"}}>{estado}</TableCell>
+                  <TableCell sx={{fontSize: "0.8rem"}}>{a.fecha_programada || "—"}</TableCell>
                 </TableRow>
               );
             })

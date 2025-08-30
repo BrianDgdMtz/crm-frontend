@@ -29,37 +29,37 @@ const ActividadDetallesPanel: React.FC<ActividadDetallesPanelProps> = ({
       <CardContent>
         <Grid container spacing={2}>
           <Grid size={{ xs: 12, md: 12 }}>
-            <Typography variant="subtitle1" fontWeight="bold">
+            <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>
               Estado de la actividad:
             </Typography>
-            <Typography sx={{ mb: 2 }}>
+            <Typography sx={{ mb: 2, fontSize: "0.9rem" }}>
               {estado || "—"}
             </Typography>
           </Grid>
 
           <Grid size={{ xs: 12, md: 12 }}>
-            <Typography variant="subtitle1" fontWeight="bold">
+            <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>
               Tipo de actividad:
             </Typography>
-            <Typography sx={{ mb: 2 }}>
+            <Typography sx={{ mb: 2, fontSize: "0.9rem" }}>
               {tipo || "—"}
             </Typography>
           </Grid>
 
           <Grid size={{ xs: 12, md: 12 }}>
-            <Typography variant="subtitle1" fontWeight="bold">
+            <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>
               Fecha programada:
             </Typography>
-            <Typography sx={{ mb: 2 }}>
+            <Typography sx={{ mb: 2, fontSize: "0.9rem" }}>
               {fechaProgramada ? fechaLegible : "—"}
             </Typography>
           </Grid>
 
           <Grid size={{ xs: 12 }}>
-            <Typography variant="subtitle1" fontWeight="bold">
+            <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>
               Notas adicionales:
             </Typography>
-            <Typography sx={{ mb: 0 }}>
+            <Typography sx={{ mb: 0, fontSize: "0.9rem" }}>
               {notas?.trim() ? notas : "—"}
             </Typography>
           </Grid>

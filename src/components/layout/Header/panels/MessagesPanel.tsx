@@ -52,7 +52,7 @@ const MessagesPanel: React.FC<Props> = ({
       }}
       PaperProps={{
         sx: {
-          width: { xs: "100%", sm: 420 },
+          width: { xs: "100%", sm: 380 },
           borderRadius: { xs: 0, sm: "16px 0 0 16px" },
           overflow: "hidden",
           backgroundColor: "rgba(255, 255, 255, 0.65)",
@@ -72,11 +72,11 @@ const MessagesPanel: React.FC<Props> = ({
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="h6" fontWeight={800}>
+        <Typography sx={{ fontSize: 18 }} fontWeight={800}>
           Mensajes
         </Typography>
 
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" spacing={0.5}>
           <Tooltip title="Marcar todo como leido">
             <IconButton
                 onClick={onMarkAllRead}
@@ -87,11 +87,11 @@ const MessagesPanel: React.FC<Props> = ({
                     "&:hover": { bgcolor: (t) => t.palette.success.light + "1F" },
                 }}
             >
-              <DoneAllRoundedIcon fontSize="small" />
+              <DoneAllRoundedIcon fontSize="inherit" />
             </IconButton>
           </Tooltip>
           <IconButton onClick={onClose} size="small" aria-label="Close panel">
-            <CloseRoundedIcon fontSize="small" />
+            <CloseRoundedIcon fontSize="inherit" />
           </IconButton>
         </Stack>
       </Box>
@@ -112,26 +112,31 @@ const MessagesPanel: React.FC<Props> = ({
       ) : (
         <List sx={{ py: 1.5 }}>
           {items.map((it) => (
-            <Box key={it.id} sx={{ px: 2.5, mb: 1.5 }}>
+            <Box key={it.id} sx={{ px: 2.5, mb: 1.25 }}>
               <ListItem disableGutters sx={{ p: 0 }}>
                 <ListItemButton
                   onClick={() => onItemClick(it)}
                   sx={{
                     alignItems: "flex-start",
                     borderRadius: 2,
-                    px: 1.25,
-                    py: 1.25,
-                    gap: 1,
+                    px: 1,
+                    py: 1,
+                    gap: 1.25,
                     bgcolor: "background.paper",
                     boxShadow: it.read ? 0 : 1,
                     position: "relative",
                     "&:hover": { bgcolor: "action.hover" },
                   }}
                 >
-                  <ListItemAvatar sx={{ mt: 0.5, mr: 1 }}>
+                  <ListItemAvatar sx={{ mt: 0.5, mr: 2, minWidth: 0 }}>
                     <Avatar
                         src={it.from.avatarUrl}
-                        sx={{ bgcolor: it.read ? "grey.200" : "primary.light" }}
+                        sx={{
+                          width: 36,
+                          height: 36,
+                          fontSize: "1.2rem",
+                          bgcolor: it.read ? "grey.200" :     "primary.light",
+                        }}
                     >
                       {it.from.name[0]}
                     </Avatar>
@@ -139,7 +144,7 @@ const MessagesPanel: React.FC<Props> = ({
 
                   <ListItemText
                     primary={
-                      <Typography variant="body1" sx={{ fontWeight: it.read ? 600 : 800 }}>
+                      <Typography variant="body1" sx={{ fontWeight: it.read ? 600 : 800, fontSize: "0.9rem" }}>
                         {it.from.name}
                       </Typography>
                     }
@@ -147,12 +152,12 @@ const MessagesPanel: React.FC<Props> = ({
                       <Stack spacing={0.5}>
                         <Typography
                           variant="body2"
-                          color="text.secondary"
                           noWrap
+                          sx={{ fontSize: "0.8rem", color: "text.secondary" }}
                         >
                           {it.preview}
                         </Typography>
-                        <Typography variant="caption" color="text.disabled">
+                        <Typography variant="caption" sx={{fontSize: "0.7rem", color: "text.disabled"}}>
                           {timeAgo(it.createdAt)}
                         </Typography>
                       </Stack>
@@ -180,8 +185,8 @@ const MessagesPanel: React.FC<Props> = ({
 
       <Divider />
 
-      <Box sx={{ p: 2, textAlign: "center" }}>
-        <Button variant="text" onClick={onClose} sx={{ fontWeight: 700 }}>
+      <Box sx={{ p: 1.5, textAlign: "center" }}>
+        <Button variant="text" onClick={onClose} sx={{ fontWeight: 700, fontSize: ".8rem" }}>
           Ver todo
         </Button>
       </Box>

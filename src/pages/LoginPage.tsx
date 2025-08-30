@@ -64,10 +64,10 @@ const LoginPage: React.FC<LoginPageProps> = ({
         }}
       >
         <Box maxWidth={520}>
-          <Typography variant="h3" fontWeight={800} textAlign="center" gutterBottom>
+          <Typography variant="h3" fontWeight={800} textAlign="center" gutterBottom sx={{fontSize: "2.7rem"}}>
             Hola, bienvenido
           </Typography>
-          <Typography variant="h6" color="text.secondary" textAlign="center" mb={4}>
+          <Typography variant="h6" color="text.secondary" textAlign="center" mb={4} sx={{fontSize: "1.16rem"}}>
             Más efectividad con flujos de trabajo optimizados.
           </Typography>
           <Box
@@ -90,14 +90,14 @@ const LoginPage: React.FC<LoginPageProps> = ({
           p: { xs: 3, md: 8 },
         }}
       >
-        <Card variant="outlined" sx={{ width: 520, maxWidth: "100%", border: "none" }}>
+        <Card variant="outlined" sx={{ width: 480, maxWidth: "100%", border: "none" }}>
           <CardContent sx={{ p: { xs: 3, md: 5 } }}>
             <Stack spacing={2} mb={2}>
-              <Typography variant="h5" fontWeight={700}>
+              <Typography variant="h5" fontWeight={700} sx={{fontSize: "1.35rem"}}>
                 Inicia sesión con tu cuenta
               </Typography>
 
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{fontSize: "0.8rem"}}>
                 ¿No tienes cuenta?{" "}
                 <Link component={RouterLink} to="#" underline="hover">
                   ¡Empieza ya!
@@ -110,20 +110,28 @@ const LoginPage: React.FC<LoginPageProps> = ({
                 display: "flex",
                 alignItems: "center",
                 gap: 1.5,
-                p: 2,
+                p: 1.6,
                 borderRadius: 2,
-                mb: 3,
+                mb: 2.5,
                 bgcolor: (t) => t.palette.success.light + "22",
               }}
             >
-              <InfoOutlinedIcon fontSize="medium" sx={{ mt: "1px", color: "success.main" }} />
-              <Typography variant="body2" sx={{ color: "success.darker" }}>
+              <InfoOutlinedIcon sx={{ mt: "1px", color: "success.main", fontSize: "1.4rem" }} />
+              <Typography variant="body2" sx={{ color: "success.darker", fontSize: "0.8rem" }}>
                 Utilice <b>demo@crm.com</b> con la contraseña <b>Demo2025!</b>
               </Typography>
             </Box>
 
             {errorMsg && (
-              <Alert severity="error" sx={{ mb: 2 }}>
+              <Alert severity="error"
+              sx={{
+                mb: 2,
+                fontSize: "0.8rem",
+                "& .MuiAlert-icon": {
+                  fontSize: "1.3rem",
+                },
+              }}
+            >
                 {errorMsg}
               </Alert>
             )}
@@ -131,37 +139,55 @@ const LoginPage: React.FC<LoginPageProps> = ({
             <Box component="form" onSubmit={onSubmit}>
               <Stack spacing={2.5}>
                 <Stack>
-                  <Typography variant="caption" color="text.secondary" sx={{ mb: 0.5 }}>
+                  <Typography variant="caption" color="text.secondary" sx={{ mb: 0.5, fontSize: "0.7rem" }}>
                     Correo electrónico
                   </Typography>
                   <TextField
                     fullWidth
-                    size="medium"
                     type="email"
                     placeholder="demo@crm.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    size="small"
+                    InputProps={{
+                      sx: {
+                        height: 50,            // 👈 altura total del input
+                        fontSize: "0.9rem",    // 👈 texto escrito
+                        "&::placeholder": {
+                          fontSize: "0.9rem",  // 👈 placeholder
+                          color: "text.secondary",
+                        },
+                      },
+                    }}
                   />
                 </Stack>
 
                 <Stack>
                   <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5 }}>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" color="text.secondary" sx={{fontSize: "0.7rem"}}>
                       Contraseña
                     </Typography>
-                    <Link component={RouterLink} to="#" underline="hover" variant="subtitle1">
+                    <Link component={RouterLink} to="#" underline="hover" variant="subtitle1" sx={{fontSize: "0.9rem"}}>
                       ¿Olvidaste tu contraseña?
                     </Link>
                   </Stack>
 
                   <TextField
                     fullWidth
-                    size="medium"
+                    size="small"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     InputProps={{
+                      sx: {
+                        height: 50,            // 👈 altura total del input
+                        fontSize: "0.9rem",    // 👈 texto escrito
+                        "&::placeholder": {
+                          fontSize: "0.9rem",  // 👈 placeholder
+                          color: "text.secondary",
+                        },
+                      },
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
@@ -186,6 +212,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
                     mt: 1,
                     py: 1.2,
                     borderRadius: 2,
+                    fontSize: "0.85rem",
                     fontWeight: 700,
                     bgcolor: "grey.900",
                     "&:hover": { bgcolor: "grey.800" },

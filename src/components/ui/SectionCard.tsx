@@ -33,7 +33,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
       }}
     >
       <CardContent>
-        <Typography variant="h6" fontWeight="bold" gutterBottom>
+        <Typography variant="h6" fontWeight="bold" gutterBottom sx={{ fontSize: "1.13rem" }}>
           {title}
         </Typography>
         {children}

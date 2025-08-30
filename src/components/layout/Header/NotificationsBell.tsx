@@ -20,9 +20,9 @@ const NotificationsBell: React.FC<
           }}
           sx={{
             "& .MuiBadge-badge": {
-              fontSize: "0.75rem",
-              minWidth: 22,
-              height: 22,
+              fontSize: "0.70rem",
+              minWidth: 20,
+              height: 20,
               borderRadius: 5,
               top: 2,
               right: 2,
@@ -30,7 +30,7 @@ const NotificationsBell: React.FC<
           }}
         >
           <NotificationsNoneRoundedIcon
-            sx={{ fontSize: 28 }}
+            sx={{ fontSize: 24 }}
           />
         </Badge>
       </IconButton>

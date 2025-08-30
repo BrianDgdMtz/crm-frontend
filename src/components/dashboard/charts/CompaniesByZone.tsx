@@ -20,7 +20,13 @@ const CompaniesByZone: React.FC = () => {
   responsive: true,
   maintainAspectRatio: false as const,
   plugins: {
-    legend: { position: "bottom" as const },
+    legend: { position: "bottom" as const,
+      labels: {
+        font: {
+          size: 11,
+        }
+      }
+    },
     tooltip: {
       callbacks: {
         label: (ctx: any) => {

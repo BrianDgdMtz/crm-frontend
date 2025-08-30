@@ -41,11 +41,18 @@ export default function TopCompaniesByOpenValue({ limit = 5 }: { limit?: number 
         beginAtZero: true,
         ticks: {
           callback: (val: any) => `$${Number(val).toLocaleString()}`,
+          font: {
+            size: 11,
+          },
         },
         title: { display: true, text: "Monto (MXN)" },
       },
       x: {
-        ticks: { maxRotation: 0, minRotation: 0 },
+        ticks: { maxRotation: 0, minRotation: 0,
+          font: {
+            size: 11,
+          },
+        },
       },
     },
   };

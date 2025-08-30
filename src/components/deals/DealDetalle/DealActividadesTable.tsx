@@ -17,11 +17,11 @@ const DealActividadesTable: React.FC<DealActividadesTableProps> = ({ actividades
     <Table size="small">
       <TableHead>
         <TableRow>
-          <TableCell><b>Actividad</b></TableCell>
-          <TableCell><b>Tipo</b></TableCell>
-          <TableCell><b>Responsable</b></TableCell>
-          <TableCell><b>Estado</b></TableCell>
-          <TableCell><b>Fecha</b></TableCell>
+          <TableCell sx={{fontSize: "0.8rem"}}><b>Actividad</b></TableCell>
+          <TableCell sx={{fontSize: "0.8rem"}}><b>Tipo</b></TableCell>
+          <TableCell sx={{fontSize: "0.8rem"}}><b>Responsable</b></TableCell>
+          <TableCell sx={{fontSize: "0.8rem"}}><b>Estado</b></TableCell>
+          <TableCell sx={{fontSize: "0.8rem"}}><b>Fecha</b></TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -45,11 +45,11 @@ const DealActividadesTable: React.FC<DealActividadesTableProps> = ({ actividades
                 sx={{ cursor: "pointer" }}
                 onClick={() => onRowClick?.(a.id)}
               >
-                <TableCell>{a.asunto}</TableCell>
-                <TableCell>{tipo}</TableCell>
-                <TableCell>{responsable}</TableCell>
-                <TableCell>{estado}</TableCell>
-                <TableCell>{fecha}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{a.asunto}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{tipo}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{responsable}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{estado}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{fecha}</TableCell>
               </TableRow>
             );
           })

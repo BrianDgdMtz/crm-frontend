@@ -63,8 +63,8 @@ const DealDetalleView: React.FC<DealDetalleViewProps> = ({ deal, empresa, contac
     <Box>
       <DealHeader titulo={deal.titulo} onVolver={() => navigate("/deals")} acciones={acciones} />
       <Grid container spacing={2} sx={{ mt: 1 }}>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Box mb={2}>
+        <Grid size={{ xs: 12, md: 5 }}>
+          <Box sx={{mb: 1}}>
             <DealInfoPanel
               empresa={empresa}
               contacto={contacto}
@@ -79,7 +79,7 @@ const DealDetalleView: React.FC<DealDetalleViewProps> = ({ deal, empresa, contac
           </Box>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, md: 7 }}>
           <Box mb={3}>
             <DealHistorialTable items={historial} />
           </Box>

@@ -50,6 +50,9 @@ export default function ActionBar<TContext>({
               onClick={() => handleClick(a)}
               disabled={a.isDisabled}
               data-testid={a.testId ?? `action-${a.id}`}
+              sx={{
+                fontSize: "0.8rem", py: 0.7, px: 1.5
+              }}
             >
               {a.label}
             </Button>

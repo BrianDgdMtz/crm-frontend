@@ -34,7 +34,19 @@ const ActivitiesByUser: React.FC = () => {
       tooltip: { callbacks: { label: (ctx: any) => `${ctx.parsed.x} actividades` } },
     },
     scales: {
-      x: { beginAtZero: true, ticks: { precision: 0 } },
+      x: { beginAtZero: true, ticks: { precision: 0,
+          font: {
+            size: 11,
+          },
+        }
+      },
+      y: {
+        ticks: {
+          font: {
+            size: 11,
+          },
+        }
+      },
     },
   };
 

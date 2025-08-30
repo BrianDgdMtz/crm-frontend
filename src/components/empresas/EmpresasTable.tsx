@@ -39,10 +39,10 @@ export const EmpresasTable: React.FC<EmpresasTableProps> = ({
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell><b>Nombre</b></TableCell>
-            <TableCell><b>Industria</b></TableCell>
-            <TableCell><b>Zona</b></TableCell>
-            <TableCell><b>Última actividad</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Nombre</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Industria</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Zona</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Última actividad</b></TableCell>
           </TableRow>
         </TableHead>
 
@@ -54,10 +54,10 @@ export const EmpresasTable: React.FC<EmpresasTableProps> = ({
               sx={{ cursor: "pointer" }}
               onClick={() => onRowClick?.(empresa.id)}
             >
-              <TableCell>{empresa.nombre}</TableCell>
-              <TableCell>{empresa.industria}</TableCell>
-              <TableCell>{empresa.zona}</TableCell>
-              <TableCell>{empresa.fecha_ultima_actividad || "—"}</TableCell>
+              <TableCell sx={{fontSize: "0.8rem"}}>{empresa.nombre}</TableCell>
+              <TableCell sx={{fontSize: "0.8rem"}}>{empresa.industria}</TableCell>
+              <TableCell sx={{fontSize: "0.8rem"}}>{empresa.zona}</TableCell>
+              <TableCell sx={{fontSize: "0.8rem"}}>{empresa.fecha_ultima_actividad || "—"}</TableCell>
             </TableRow>
           ))}
         </TableBody>

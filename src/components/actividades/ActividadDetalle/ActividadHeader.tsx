@@ -29,7 +29,7 @@ const ActividadHeader: React.FC<ActividadHeaderProps> = ({
       <Typography
         variant="h4"
         fontWeight="bold"
-        sx={{ wordBreak: "break-word", minWidth: 200 }}
+        sx={{ fontSize: "1.9rem", wordBreak: "break-word", minWidth: 200 }}
       >
         {titulo}
       </Typography>
@@ -53,7 +53,7 @@ const ActividadHeader: React.FC<ActividadHeaderProps> = ({
           color="primary"
           startIcon={<ArrowBackIcon />}
           onClick={onVolver}
-          sx={{ minWidth: 130, fontWeight: "bold" }}
+          sx={{ minWidth: 120, fontSize: "0.8rem", fontWeight: "bold", py: 0.7, px: 1.5 }}
         >
           Volver
         </Button>

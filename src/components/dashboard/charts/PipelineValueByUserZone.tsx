@@ -30,10 +30,20 @@ const PipelineValueByUserZone: React.FC = () => {
     scales: {
       y: {
         beginAtZero: true,
-        ticks: { callback: (v: any) => `$${Number(v).toLocaleString()}` },
+        ticks: { callback: (v: any) => `$${Number(v).toLocaleString()}`,
+        font: {
+            size: 11,
+          },
+        },
         title: { display: true, text: "Valor abierto (MXN)" },
       },
-      x: { title: { display: true, text: "Zona del usuario" } },
+      x: {
+        ticks: {
+          font: {
+            size: 11,
+          },
+        },
+        title: { display: true, text: "Zona del usuario" } },
     },
   };
 

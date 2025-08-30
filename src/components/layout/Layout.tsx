@@ -86,7 +86,7 @@ const Layout: React.FC = () => {
           avatarUrl={user?.AvatarUrl}
         />
 
-        <main style={{ flex: 1, padding: "2rem", background: "#F7F9FC" }}>
+        <main style={{ flex: 1, padding: "1.5rem", background: "#F7F9FC" }}>
           <Outlet />
         </main>
       </div>

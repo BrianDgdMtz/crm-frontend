@@ -18,11 +18,11 @@ const EmpresaActividadesTable: React.FC<EmpresaActividadesTableProps> = ({
         <Table size="small">
             <TableHead>
                 <TableRow>
-                    <TableCell><b>Actividad</b></TableCell>
-                    <TableCell><b>Tipo</b></TableCell>
-                    <TableCell><b>Responsable</b></TableCell>
-                    <TableCell><b>Estado</b></TableCell>
-                    <TableCell><b>Fecha</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Actividad</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Tipo</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Responsable</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Estado</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Fecha</b></TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -40,19 +40,19 @@ const EmpresaActividadesTable: React.FC<EmpresaActividadesTableProps> = ({
                             sx={{ cursor: "pointer" }}
                             onClick={() => onRowClick?.(actividad.id)}
                         >
-                            <TableCell>
+                            <TableCell sx={{fontSize: "0.8rem"}}>
                                 {actividad.asunto}
                             </TableCell>
-                            <TableCell>
+                            <TableCell sx={{fontSize: "0.8rem"}}>
                                 {tipoActividadMock.find(t => t.id === actividad.tipo_id)?.nombre || "—"}
                             </TableCell>
-                            <TableCell>
+                            <TableCell sx={{fontSize: "0.8rem"}}>
                                 {usuariosMock.find(u => u.id === actividad.usuario_id)?.nombre || "—"}
                             </TableCell>
-                            <TableCell>
+                            <TableCell sx={{fontSize: "0.8rem"}}>
                                 {actividad.realizada ? "Realizada" : "Pendiente"}
                             </TableCell>
-                            <TableCell>
+                            <TableCell sx={{fontSize: "0.8rem"}}>
                                 {actividad.realizada && actividad.fecha_realizacion ? actividad.fecha_realizacion : actividad.fecha_programada}
                             </TableCell>
                         </TableRow>

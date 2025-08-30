@@ -31,10 +31,20 @@ export default function PipelineByStage() {
       },
     },
     scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 11,
+          },
+        },
+      },
       y: {
         beginAtZero: true,
         ticks: {
           callback: (val: any) => `$${Number(val).toLocaleString()}`,
+          font: {
+            size: 11,
+          },
         },
       },
     },

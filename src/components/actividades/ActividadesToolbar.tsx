@@ -14,9 +14,9 @@ const ActividadesToolbar: React.FC<ActividadesToolbarProps> = ({
             <Button
                 variant="contained"
                 color="primary"
-                startIcon={<AddIcon />}
+                startIcon={<AddIcon sx={{ fontSize: 18}} />}
                 onClick={onAgregarActividad}
-                sx={{ minWidth: 200, fontWeight: "bold" }}
+                sx={{ minWidth: 140, fontWeight: "bold", fontSize: "0.8rem", py: 0.7, px: 1.5 }}
             >
                 Agregar actividad
             </Button>

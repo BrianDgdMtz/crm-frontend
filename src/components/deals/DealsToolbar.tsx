@@ -27,22 +27,36 @@ const DealsToolbar: React.FC<DealsToolbarProps> = ({
       <Button
         variant="contained"
         color="primary"
-        startIcon={<AddIcon />}
+        startIcon={<AddIcon sx={{ fontSize: 18}} />}
         onClick={onAgregarDeal}
-        sx={{ minWidth: 160, fontWeight: "bold" }}
+        sx={{ minWidth: 140, fontWeight: "bold", fontSize: "0.8rem", py: 0.7, px: 1.5 }}
       >
         Nuevo deal
       </Button>
     </Box>
     <Box display="flex" gap={2}>
-        <FormControl size="small" sx={{ minWidth: 170 }}>
-        <InputLabel id="ordenar-label">Ordenar por</InputLabel>
+        <FormControl size="small" sx={{ minWidth: 160 }}>
+        <InputLabel id="ordenar-label" sx={{fontSize: "0.9rem"}}>Ordenar por</InputLabel>
         <Select
             labelId="ordenar-label"
             id="ordenar-select"
             value={orden}
             label="Ordenar por"
             onChange={(e) => onOrdenChange(e.target.value)}
+            sx={{
+                fontSize: "0.9rem",
+                height: 36
+            }}
+            MenuProps={{
+                PaperProps: {
+                    sx: {
+                        "& .MuiMenuItem-root": {
+                            fontSize: "0.9rem",
+                            py: 0.75
+                        }
+                    }
+                }
+            }}
         >
             {opcionesOrdenamiento.map((opcion) => (
             <MenuItem key={opcion.valor} value={opcion.valor}>
@@ -51,7 +65,13 @@ const DealsToolbar: React.FC<DealsToolbarProps> = ({
             ))}
         </Select>
         </FormControl>
-        <Button variant="contained" color="primary" onClick={onLimpiar}>
+        <Button variant="contained" color="primary" onClick={onLimpiar}
+        sx={{
+            fontSize: "0.8rem",
+            minWidth: 120,
+            py: 0.7,
+            px: 1.5,
+        }}>
             Limpiar Filtro
         </Button>
     </Box>

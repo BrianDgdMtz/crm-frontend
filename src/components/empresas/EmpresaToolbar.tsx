@@ -23,18 +23,22 @@ export const EmpresaToolbar: React.FC<EmpresaToolbarProps> = ({
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <SearchIcon />
+            <SearchIcon sx={{fontSize: 22}} />
           </InputAdornment>
         ),
+        sx: {
+          fontSize: "0.90rem",
+          height: "36"
+        }
       }}
-      sx={{ width: 250 }}
+      sx={{ width: 225 }}
     />
     <Button
       variant="contained"
       color="primary"
-      startIcon={<AddIcon />}
+      startIcon={<AddIcon sx={{ fontSize: 18}} />}
       onClick={onAgregarEmpresa}
-      sx={{ minWidth: 180, fontWeight: "bold" }}
+      sx={{ minWidth: 190, fontSize: "0.8rem", fontWeight: "bold", py: 0.7, px: 1.5 }}
     >
       Agregar empresa
     </Button>

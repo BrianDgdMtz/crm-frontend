@@ -33,7 +33,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
         zIndex: (t) => t.zIndex.appBar,
       }}
     >
-      <Toolbar sx={{ minHeight: 64, display: "flex", gap: 1 }}>
+      <Toolbar sx={{ minHeight: 64, display: "flex", gap: 0.2 }}>
         <Box sx={{ flexGrow: 1 }} />
         <NotificationsBell count={notificationsCount} onClick={onOpenNotifications} />
         <MessagesBell count={messagesCount} onClick={onOpenMessages} />
@@ -45,7 +45,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
               color="success"
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             >
-              <Avatar src={avatarUrl} alt="User" />
+              <Avatar src={avatarUrl} alt="User" sx={{ width: 37, height: 37 }} />
             </Badge>
           </IconButton>
         </Tooltip>

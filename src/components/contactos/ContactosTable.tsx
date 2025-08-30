@@ -39,10 +39,10 @@ const ContactosTable: React.FC<ContactosTableProps> = ({
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell><b>Nombre</b></TableCell>
-            <TableCell><b>Empresa</b></TableCell>
-            <TableCell><b>Correo</b></TableCell>
-            <TableCell><b>Teléfono</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Nombre</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Empresa</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Correo</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Teléfono</b></TableCell>
           </TableRow>
         </TableHead>
 
@@ -54,10 +54,10 @@ const ContactosTable: React.FC<ContactosTableProps> = ({
               sx={{ cursor: "pointer" }}
               onClick={() => onRowClick?.(contacto.id)}
             >
-              <TableCell>{contacto.nombre}</TableCell>
-              <TableCell>{contacto.empresa}</TableCell>
-              <TableCell>{contacto.correo}</TableCell>
-              <TableCell>{contacto.telefono}</TableCell>
+              <TableCell sx={{fontSize: "0.8rem"}}>{contacto.nombre}</TableCell>
+              <TableCell sx={{fontSize: "0.8rem"}}>{contacto.empresa}</TableCell>
+              <TableCell sx={{fontSize: "0.8rem"}}>{contacto.correo}</TableCell>
+              <TableCell sx={{fontSize: "0.8rem"}}>{contacto.telefono}</TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -14,10 +14,10 @@ const EmpresaContactosTable: React.FC<EmpresaContactosTableProps> = ({ contactos
         <Table size="small">
             <TableHead>
                 <TableRow>
-                    <TableCell><b>Nombre</b></TableCell>
-                    <TableCell><b>Cargo</b></TableCell>
-                    <TableCell><b>Telefono</b></TableCell>
-                    <TableCell><b>Correo</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Nombre</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Cargo</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Telefono</b></TableCell>
+                    <TableCell sx={{fontSize: "0.8rem"}}><b>Correo</b></TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -35,10 +35,10 @@ const EmpresaContactosTable: React.FC<EmpresaContactosTableProps> = ({ contactos
                             sx={{ cursor: "pointer" }}
                             onClick={() => onRowClick?.(contacto.id)}
                         >
-                            <TableCell>{contacto.nombre}</TableCell>
-                            <TableCell>{contacto.posicion}</TableCell>
-                            <TableCell>{contacto.telefono}</TableCell>
-                            <TableCell>{contacto.correo}</TableCell>
+                            <TableCell sx={{fontSize: "0.8rem"}}>{contacto.nombre}</TableCell>
+                            <TableCell sx={{fontSize: "0.8rem"}}>{contacto.posicion}</TableCell>
+                            <TableCell sx={{fontSize: "0.8rem"}}>{contacto.telefono}</TableCell>
+                            <TableCell sx={{fontSize: "0.8rem"}}>{contacto.correo}</TableCell>
                         </TableRow>
                     ))
                 )}

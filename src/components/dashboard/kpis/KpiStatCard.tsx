@@ -21,13 +21,13 @@ const KpiStatCard: React.FC<Props> = ({
           bgcolor: barColor,
           color: "white",
           px: 1.5,
-          py: 0.75,
+          py: 0.5,
           textAlign: "center",
           fontWeight: 800,
           letterSpacing: 0.5,
         }}
       >
-        <Typography variant="subtitle2" sx={{ fontWeight: 800 }}>
+        <Typography variant="subtitle2" sx={{ fontSize: 13, fontWeight: 800 }}>
           {title}
         </Typography>
       </Box>
@@ -40,7 +40,7 @@ const KpiStatCard: React.FC<Props> = ({
           borderColor: "divider",
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: 800, lineHeight: 1.05 }}>
+        <Typography variant="h5" sx={{ fontWeight: 800, lineHeight: 1.05, fontSize: 21 }}>
           {typeof value === "number" ? value.toLocaleString() : value}
         </Typography>
         {!!subtitle && (

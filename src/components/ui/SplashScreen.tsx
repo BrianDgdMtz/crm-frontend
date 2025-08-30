@@ -12,7 +12,7 @@ const SplashScreen = () => (
     }}
     aria-label="Cargando aplicación"
   >
-    <Lottie animationData={splashAnim} loop style={{ width: 400, height: 400 }} />
+    <Lottie animationData={splashAnim} loop style={{ width: 350, height: 350 }} />
   </Box>
 );
 

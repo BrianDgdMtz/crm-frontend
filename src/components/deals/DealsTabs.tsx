@@ -35,7 +35,7 @@ const DealsTabs: React.FC<DealsTabsProps> = ({
                         key={estado.valor}
                         value={estado.valor}
                         label={estado.etiqueta}
-                        sx={{ fontWeight: "bold", minWidth: 120 }}
+                        sx={{ fontWeight: "bold", minWidth: 100, fontSize: "0.85rem" }}
                     />
                 ))}
             </Tabs>

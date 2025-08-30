@@ -43,11 +43,19 @@ const ClosedDealsTrend: React.FC = () => {
     scales: {
       y: {
         beginAtZero: true,
-        ticks: { precision: 0 },
+        ticks: { precision: 0,
+          font: {
+            size: 11,
+          },
+        },
         title: { display: true, text: "Deals" },
       },
       x: {
-        title: { display: true, text: "Mes (YYYY-MM)" },
+        title: { display: true, text: "Mes (YYYY-MM)" }, ticks: { precision: 0,
+          font: {
+            size: 11,
+          },
+        },
       },
     },
   };

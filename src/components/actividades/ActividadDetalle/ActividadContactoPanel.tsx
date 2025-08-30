@@ -27,7 +27,7 @@ const ActividadContactoPanel: React.FC<ActividadContactoPanelProps> = ({
         color="primary"
         underline="hover"
         variant="subtitle1"
-        sx={{ fontWeight: 500, display: "inline-block" }}
+        sx={{ fontWeight: 500, display: "inline-block", fontSize: "0.9rem" }}
       >
         {entidad.nombre}
       </Link>
@@ -39,7 +39,7 @@ const ActividadContactoPanel: React.FC<ActividadContactoPanelProps> = ({
         <CardContent>
             <Grid container spacing={2}>
             <Grid size={{ xs: 12 }}>
-                <Typography variant="subtitle1" fontWeight="bold">Contacto:</Typography>
+                <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>Contacto:</Typography>
                 {contacto ? (
                     <Tooltip title="Ver detalle del contacto" arrow>
                         {renderLink(contacto, "contactos")}
@@ -49,7 +49,7 @@ const ActividadContactoPanel: React.FC<ActividadContactoPanelProps> = ({
                 )}
             </Grid>
             <Grid size={{ xs: 12 }}>
-                <Typography variant="subtitle1" fontWeight="bold">Empresa:</Typography>
+                <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>Empresa:</Typography>
                 {contacto ? (
                     <Tooltip title="Ver detalle de la empresa" arrow>
                         {renderLink(empresa, "empresas")}
@@ -59,7 +59,7 @@ const ActividadContactoPanel: React.FC<ActividadContactoPanelProps> = ({
                 )}
             </Grid>
             <Grid size={{ xs: 12 }}>
-                <Typography variant="subtitle1" fontWeight="bold">Deal relacionado:</Typography>
+                <Typography variant="subtitle1" fontWeight="bold" sx={{fontSize: "0.9rem"}}>Deal relacionado:</Typography>
                 {contacto ? (
                     <Tooltip title="Ver detalle del deal" arrow>
                         {renderLink(deal, "deals")}

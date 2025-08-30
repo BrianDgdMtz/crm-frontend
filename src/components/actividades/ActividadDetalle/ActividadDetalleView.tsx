@@ -94,7 +94,7 @@ const ActividadDetalleView: React.FC<ActividadDetalleViewProps> = ({
       />
 
       <Grid container spacing={2} sx={{ mt: 1 }}>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Box mb={1}>
             <ActividadDetallesPanel
               estado={estadoTexto}
@@ -105,13 +105,13 @@ const ActividadDetalleView: React.FC<ActividadDetalleViewProps> = ({
           </Box>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Box mb={1}>
             <ActividadContactoPanel contacto={contacto} empresa={empresa} deal={deal} />
           </Box>
         </Grid>
 
-        <Grid size={{ xs: 12 }}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Box>
             <ActividadResponsabilidadPanel
               creadaPor={creadaPor}

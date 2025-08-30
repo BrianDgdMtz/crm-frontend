@@ -30,11 +30,11 @@ const ContactoActividadesTable: React.FC<ContactoActividadesTableProps> = ({
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell><b>Actividad</b></TableCell>
-            <TableCell><b>Tipo</b></TableCell>
-            <TableCell><b>Responsable</b></TableCell>
-            <TableCell><b>Estado</b></TableCell>
-            <TableCell><b>Fecha</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Actividad</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Tipo</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Responsable</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Estado</b></TableCell>
+            <TableCell sx={{fontSize: "0.8rem"}}><b>Fecha</b></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -54,11 +54,11 @@ const ContactoActividadesTable: React.FC<ContactoActividadesTableProps> = ({
                 sx={{ cursor: "pointer" }}
                 onClick={() => onRowClick?.(actividad.id)}
               >
-                <TableCell>{actividad.asunto}</TableCell>
-                <TableCell>{tiposActividad.find(t => t.id === actividad.tipo_id)?.nombre || "—"}</TableCell>
-                <TableCell>{usuarios.find(u => u.id === actividad.usuario_id)?.nombre || "—"}</TableCell>
-                <TableCell>{actividad.realizada ? "Realizada" : "Pendiente"}</TableCell>
-                <TableCell>{actividad.realizada ? actividad.fecha_realizacion : actividad.fecha_programada}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{actividad.asunto}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{tiposActividad.find(t => t.id === actividad.tipo_id)?.nombre || "—"}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{usuarios.find(u => u.id === actividad.usuario_id)?.nombre || "—"}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{actividad.realizada ? "Realizada" : "Pendiente"}</TableCell>
+                <TableCell sx={{fontSize: "0.8rem"}}>{actividad.realizada ? actividad.fecha_realizacion : actividad.fecha_programada}</TableCell>
               </TableRow>
             ))
           )}

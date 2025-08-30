@@ -24,8 +24,21 @@ const DonePendingByUser: React.FC = () => {
       tooltip: { callbacks: { label: (ctx: any) => `${ctx.parsed.x} actividades` } },
     },
     scales: {
-      x: { stacked: true, beginAtZero: true, ticks: { precision: 0 } },
-      y: { stacked: true },
+      x: { stacked: true, beginAtZero: true,
+        ticks: {
+          precision: 0,
+          font: {
+            size: 11,
+          },
+        }
+      },
+      y: { stacked: true,
+        ticks: {
+          font: {
+            size: 11,
+          },
+        },
+       },
     },
   };
 

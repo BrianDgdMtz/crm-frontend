@@ -35,7 +35,13 @@ const ActivitiesByTypePolar: React.FC = () => {
     responsive: true,
     maintainAspectRatio: false as const,
     plugins: {
-      legend: { position: "right" as const },
+      legend: { position: "right" as const,
+        labels: {
+          font: {
+            size: 11,
+          }
+        }
+      },
       datalabels: {
         display: true,
         color: "#111",
@@ -51,7 +57,7 @@ const ActivitiesByTypePolar: React.FC = () => {
   };
 
   return (
-    <div style={{ width: "100%", height: "340px" }}>
+    <div style={{ width: "100%", height: "320px" }}>
       <PolarArea data={data} options={options} />
     </div>
   );

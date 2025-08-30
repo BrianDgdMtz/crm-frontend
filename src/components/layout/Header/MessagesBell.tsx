@@ -20,17 +20,17 @@ const MessagesBell: React.FC<
           }}
           sx={{
             "& .MuiBadge-badge": {
-              fontSize: "0.75rem",
-              minWidth: 22,
-              height: 22,
+              fontSize: "0.70rem",
+              minWidth: 20,
+              height: 20,
               borderRadius: 5,
-              top: 1,
-              right: 1,
+              top: 0,
+              right: 0,
             },
           }}
           >
           <ChatBubbleOutlineRoundedIcon 
-            sx={{ fontSize: 26 }}
+            sx={{ fontSize: 22 }}
           />
         </Badge>
       </IconButton>

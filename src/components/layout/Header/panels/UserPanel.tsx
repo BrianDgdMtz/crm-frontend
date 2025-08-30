@@ -55,7 +55,7 @@ const UserPanel: React.FC<UserPanelProps> = ({
       }}
       PaperProps={{
         sx: {
-        width: { xs: "100%", sm: 360 },
+        width: { xs: "100%", sm: 325 },
         borderRadius: { xs: 0, sm: "16px 0 0 16px" },
         overflow: "hidden",
         backgroundColor: "rgba(255, 255, 255, 0.65)",
@@ -68,13 +68,13 @@ const UserPanel: React.FC<UserPanelProps> = ({
     >
       <Box sx={{ position: "relative", p: 2 }}>
         <IconButton onClick={onClose} aria-label="Cerrar panel">
-          <CloseRoundedIcon />
+          <CloseRoundedIcon fontSize="small"/>
         </IconButton>
       </Box>
       <Box
         sx={{
-          px: 3,
-          pb: 3,
+          px: 2,
+          pb: 2,
           pt: 0,
           background:
             "radial-gradient(120px 80px at 85% -20%, #8FFDF533, transparent 40%), radial-gradient(140px 100px at -15% 0%, #8FFDF51A, transparent 45%)",
@@ -84,8 +84,8 @@ const UserPanel: React.FC<UserPanelProps> = ({
           <Box
             sx={{
               // Variables Ajustables
-              "--size": "120px",        // tamaño del avatar (ancho/alto)
-              "--thickness": "5px",     // grosor del anillo
+              "--size": "110px",        // tamaño del avatar (ancho/alto)
+              "--thickness": "4.5px",     // grosor del anillo
               "--arc": "-360deg",        // longitud del arco
               "--fade": "120deg",        // fade en extremos
               "--offset": "11px",        // separación del anillo respecto al borde del avatar
@@ -144,11 +144,11 @@ const UserPanel: React.FC<UserPanelProps> = ({
               {user.name?.[0] ?? "U"}
             </Avatar>
           </Box>
-          <Typography variant="h6" fontWeight={800} textAlign="center">
+          <Typography variant="h6" sx={{fontWeight: 800, textAlign:"center", fontSize: "1.15rem"}}>
             {user.name}
           </Typography>
           {user.email && (
-            <Typography variant="body2" color="text.secondary" textAlign="center">
+            <Typography variant="body2" sx={{color: "text.secondary", textAlign: "center", fontSize: "0.8rem"}}>
               {user.email}
             </Typography>
           )}
@@ -160,22 +160,28 @@ const UserPanel: React.FC<UserPanelProps> = ({
       <List sx={{ py: 0 }}>
         <ListItem disablePadding>
           <ListItemButton onClick={() => { onClose(); onGoHome(); }}>
-            <ListItemIcon><HomeRoundedIcon /></ListItemIcon>
-            <ListItemText primary="Inicio" />
+            <ListItemIcon sx={{mr: -1}}>
+              <HomeRoundedIcon sx={{ fontSize: 20 }} />
+            </ListItemIcon>
+            <ListItemText primary="Inicio" primaryTypographyProps={{fontSize: "0.9rem"}} />
           </ListItemButton>
         </ListItem>
 
         <ListItem disablePadding>
           <ListItemButton onClick={() => { onClose(); onProfile(); }}>
-            <ListItemIcon><PersonRoundedIcon /></ListItemIcon>
-            <ListItemText primary="Perfil" />
+            <ListItemIcon sx={{mr: -1}}>
+              <PersonRoundedIcon sx={{ fontSize: 20 }} />
+            </ListItemIcon>
+            <ListItemText primary="Perfil" primaryTypographyProps={{fontSize: "0.9rem"}} />
           </ListItemButton>
         </ListItem>
 
         <ListItem disablePadding>
           <ListItemButton onClick={() => { onClose(); onSettings(); }}>
-            <ListItemIcon><SettingsRoundedIcon /></ListItemIcon>
-            <ListItemText primary="Configuración" />
+            <ListItemIcon sx={{mr: -1}}>
+              <SettingsRoundedIcon sx={{ fontSize: 20 }} />
+            </ListItemIcon>
+            <ListItemText primary="Configuración" primaryTypographyProps={{fontSize: "0.9rem"}} />
           </ListItemButton>
         </ListItem>
       </List>
@@ -187,13 +193,17 @@ const UserPanel: React.FC<UserPanelProps> = ({
           onClick={() => { onClose(); onLogout(); }}
           startIcon={<LogoutRoundedIcon />}
           sx={{
+            fontSize: "0.8rem",
             bgcolor: "grey.900",
             color: "#fff",
             boxShadow: "none",
             fontWeight: 700,
             borderRadius: 2,
-            minHeight: 48,
+            minHeight: 44,
             "&:hover": { bgcolor: "grey.800" },
+            "& .MuiButton-startIcon": {
+            "& svg": { fontSize: 18 },
+            },
           }}
         >
           Cerrar Sesión

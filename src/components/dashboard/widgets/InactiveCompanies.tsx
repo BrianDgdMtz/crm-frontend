@@ -30,11 +30,11 @@ const InactiveCompanies: React.FC<Props> = ({ days = 60, limit = 10 }) => {
             <TableBody>
               {rows.map((r) => (
                 <TableRow key={r.empresa_id} hover>
-                  <TableCell>{r.nombre}</TableCell>
-                  <TableCell>{r.industria}</TableCell>
-                  <TableCell>{r.zona}</TableCell>
-                  <TableCell>{r.fecha_ultima_actividad}</TableCell>
-                  <TableCell align="right">{r.dias_inactivos}</TableCell>
+                  <TableCell sx={{fontSize: "0.8rem"}}>{r.nombre}</TableCell>
+                  <TableCell sx={{fontSize: "0.8rem"}}>{r.industria}</TableCell>
+                  <TableCell sx={{fontSize: "0.8rem"}}>{r.zona}</TableCell>
+                  <TableCell sx={{fontSize: "0.8rem"}}>{r.fecha_ultima_actividad}</TableCell>
+                  <TableCell align="right" sx={{fontSize: "0.8rem"}}>{r.dias_inactivos}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

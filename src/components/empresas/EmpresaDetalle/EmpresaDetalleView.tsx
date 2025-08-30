@@ -65,7 +65,7 @@ const EmpresaDetalleView: React.FC<EmpresaDetalleViewProps> = ({ empresa, onElim
         onVolver={() => navigate("/empresas")}
         acciones={acciones}
       />
-      <Box sx={{ mb: 2, p: 1 }}>
+      <Box sx={{ mb: 2, p: 0.5 }}>
         <EmpresaInfoPanel
           industria={industriasMock.find((i) => i.id === empresa.industria_id)?.nombre || "—"}
           zona={zonasMock.find((z) => z.id === empresa.zona_id)?.nombre || "—"}
@@ -75,17 +75,17 @@ const EmpresaDetalleView: React.FC<EmpresaDetalleViewProps> = ({ empresa, onElim
           fechaUltimaActividad={empresa.fecha_ultima_actividad || "—"}
         />
       </Box>
-      <Grid container spacing={2} sx={{ mt: 1 }}>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Box sx={{ p: 1 }}>
+      <Grid container spacing={1.5} sx={{ mt: 1 }}>
+        <Grid size={{ xs: 12, md: 6.3 }}>
+          <Box sx={{ p: 0.5 }}>
             <EmpresaContactosTable
               contactos={contactosEmpresa}
               onRowClick={(id) => navigate(`/contactos/${id}`)}
             />
           </Box>
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Box sx={{ p: 1 }}>
+        <Grid size={{ xs: 12, md: 5.7 }}>
+          <Box sx={{ p: 0.5 }}>
             <EmpresaActividadesTable
               actividades={actividadesEmpresa}
               onRowClick={(id) => navigate(`/actividades/${id}`)}
@@ -93,7 +93,7 @@ const EmpresaDetalleView: React.FC<EmpresaDetalleViewProps> = ({ empresa, onElim
           </Box>
         </Grid>
         <Grid size={{ xs: 12 }}>
-          <Box sx={{ p: 1 }}>
+          <Box sx={{ p: 0.5 }}>
             <EmpresaDealsTable
               deals={dealsEmpresa}
               onRowClick={(id) => navigate(`/deals/${id}`)}

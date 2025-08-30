@@ -23,8 +23,24 @@ const WonLostByUser: React.FC = () => {
       tooltip: { callbacks: { label: (ctx: any) => `${ctx.parsed.y} deals` } },
     },
     scales: {
-      x: { stacked: true },
-      y: { stacked: true, beginAtZero: true, ticks: { precision: 0 } },
+      x: {
+        stacked: true,
+        ticks: {
+          font: {
+            size: 11 
+          }
+        }
+      },
+      y: {
+        stacked: true,
+        beginAtZero: true,
+        ticks: {
+          precision: 0,
+          font: {
+            size: 11 
+          }
+        }
+      },
     },
   };
 

@@ -16,6 +16,7 @@ const ContactoHeader: React.FC<ContactoHeaderProps> = ({ nombre, onVolver, accio
           variant="h4"
           fontWeight="bold"
           sx={{
+            fontSize: "1.9rem",
             wordBreak: "break-word",
             mb: 2,
             textAlign: "left",
@@ -31,7 +32,7 @@ const ContactoHeader: React.FC<ContactoHeaderProps> = ({ nombre, onVolver, accio
               color="primary"
               startIcon={<ArrowBackIcon />}
               onClick={onVolver}
-              sx={{ minWidth: 130, fontWeight: "bold" }}
+              sx={{ minWidth: 120, fontSize: "0.8rem", fontWeight: "bold", py: 0.7, px: 1.5 }}
             >
               Volver
             </Button>

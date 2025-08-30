@@ -27,7 +27,13 @@ const ContactoInfoPanel: React.FC<ContactoInfoPanelProps> = ({
 }) => {
   return (
     <SectionCard title="Información del contacto" hover intro>
-      <CardContent>
+      <CardContent
+        sx={{
+          "& .MuiTypography-body2": {
+            fontSize: "0.8rem",
+          },
+        }}
+      >
           <Stack spacing={1.5}>
             <Row label="Posición / Cargo:" value={contacto.posicion} />
             <Row label="Teléfono:" value={contacto.telefono} />

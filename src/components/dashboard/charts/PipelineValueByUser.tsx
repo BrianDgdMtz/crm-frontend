@@ -37,8 +37,19 @@ const PipelineValueByUser: React.FC = () => {
     scales: {
       x: {
         beginAtZero: true,
-        ticks: { callback: (v: any) => `$${Number(v).toLocaleString()}` },
+        ticks: { callback: (v: any) => `$${Number(v).toLocaleString()}`,
+        font: {
+            size: 11,
+          },
+        },
         title: { display: true, text: "Valor abierto (MXN)" },
+      },
+      y: {
+        ticks: {
+          font: {
+            size: 11,
+          },
+        },
       },
     },
   };
