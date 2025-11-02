@@ -151,10 +151,10 @@ const LoginPage: React.FC<LoginPageProps> = ({
                     size="small"
                     InputProps={{
                       sx: {
-                        height: 50,            // 👈 altura total del input
-                        fontSize: "0.9rem",    // 👈 texto escrito
+                        height: 50,
+                        fontSize: "0.9rem",
                         "&::placeholder": {
-                          fontSize: "0.9rem",  // 👈 placeholder
+                          fontSize: "0.9rem",
                           color: "text.secondary",
                         },
                       },
@@ -181,10 +181,10 @@ const LoginPage: React.FC<LoginPageProps> = ({
                     onChange={(e) => setPassword(e.target.value)}
                     InputProps={{
                       sx: {
-                        height: 50,            // 👈 altura total del input
-                        fontSize: "0.9rem",    // 👈 texto escrito
+                        height: 50,
+                        fontSize: "0.9rem",
                         "&::placeholder": {
-                          fontSize: "0.9rem",  // 👈 placeholder
+                          fontSize: "0.9rem",
                           color: "text.secondary",
                         },
                       },
