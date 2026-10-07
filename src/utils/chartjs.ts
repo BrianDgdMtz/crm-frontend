@@ -31,3 +31,10 @@ ChartJS.register(
 ChartJS.defaults.set("plugins.datalabels", {
   display: false,
 });
+
+// Animaciones más fluidas para gráficas sin romper interactividad
+if (ChartJS.defaults.animation && typeof ChartJS.defaults.animation === 'object') {
+  ChartJS.defaults.animation.duration = 1200;
+  // @ts-ignore
+  ChartJS.defaults.animation.easing = 'easeOutQuart';
+}

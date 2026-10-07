@@ -4,3 +4,14 @@ html, body, #root {
   height: 100%;
   width: 100%;
 }
+
+/* Transición suave para el cambio de Light / Dark mode */
+body, 
+#root,
+main,
+.MuiPaper-root, 
+.MuiCard-root, 
+.MuiAppBar-root, 
+.MuiDrawer-paper {
+  transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out, box-shadow 0.35s ease-in-out, border-color 0.35s ease-in-out, transform 0.35s ease-in-out !important;
+}

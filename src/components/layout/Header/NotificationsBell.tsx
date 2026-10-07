@@ -5,7 +5,7 @@ import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneR
 const NotificationsBell: React.FC<
     {
         count: number;
-        onClick: () => void
+        onClick: (e: React.MouseEvent<HTMLElement>) => void
     }
 > = ({ count, onClick }) => {
   return (

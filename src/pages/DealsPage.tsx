@@ -1,9 +1,12 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import ViewListIcon from '@mui/icons-material/ViewList';
+import ViewKanbanIcon from '@mui/icons-material/ViewKanban';
 import DealsToolbar, { opcionesOrdenamiento } from "../components/deals/DealsToolbar";
 import DealsTabs from "../components/deals/DealsTabs";
 import DealsTable from "../components/deals/DealsTable";
+import DealsKanbanBoard from "../components/deals/DealsKanbanBoard";
 import AgregarDealModal from "../components/deals/AgregarDealModal";
 import { dealsMock } from "../mock/dealsMock";
 import { empresasMock } from "../mock/empresasMock";
@@ -23,6 +26,7 @@ const DealsPage: React.FC = () => {
   const [orden, setOrden] = useState(opcionesOrdenamiento[0].valor);
   const [estadoSeleccionado, setEstadoSeleccionado] =
     useState<keyof typeof MAPA_ESTADO>("todos");
+  const [vista, setVista] = useState<"kanban" | "tabla">("kanban");
 
   const navigate = useNavigate();
 
@@ -78,6 +82,10 @@ const DealsPage: React.FC = () => {
     setModalAbierto(false);
   };
 
+  const handleDealMove = (dealId: number, nuevaEtapaId: number) => {
+    setDeals(prev => prev.map(d => d.id === dealId ? { ...d, etapa_id: nuevaEtapaId } : d));
+  };
+
   return (
     <Box>
       <DealsToolbar
@@ -87,15 +95,35 @@ const DealsPage: React.FC = () => {
         onLimpiar={handleLimpiar}
       />
 
-      <DealsTabs
-        estadoSeleccionado={estadoSeleccionado}
-        onCambiarEstado={setEstadoSeleccionado}
-      />
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <DealsTabs
+          estadoSeleccionado={estadoSeleccionado}
+          onCambiarEstado={setEstadoSeleccionado}
+        />
+        <ToggleButtonGroup
+          value={vista}
+          exclusive
+          onChange={(_, value) => { if (value) setVista(value); }}
+          size="small"
+          sx={{ bgcolor: 'background.paper' }}
+        >
+          <ToggleButton value="kanban"><ViewKanbanIcon fontSize="small" sx={{ mr: 1 }}/> Kanban</ToggleButton>
+          <ToggleButton value="tabla"><ViewListIcon fontSize="small" sx={{ mr: 1 }}/> Tabla</ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
 
-      <DealsTable
-        deals={dealsParaTabla}
-        onSeleccionarDeal={(id) => navigate(`/deals/${id}`)}
-      />
+      {vista === "tabla" ? (
+        <DealsTable
+          deals={dealsParaTabla}
+          onSeleccionarDeal={(id) => navigate(`/deals/${id}`)}
+        />
+      ) : (
+        <DealsKanbanBoard 
+          deals={dealsParaTabla} 
+          onSeleccionarDeal={(id) => navigate(`/deals/${id}`)}
+          onDealMove={handleDealMove}
+        />
+      )}
 
       <AgregarDealModal
         open={modalAbierto}

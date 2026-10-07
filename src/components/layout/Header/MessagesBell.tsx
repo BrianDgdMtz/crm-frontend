@@ -5,7 +5,7 @@ import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineR
 const MessagesBell: React.FC<
     {
         count: number;
-        onClick: () => void
+        onClick: (e: React.MouseEvent<HTMLElement>) => void
     }
 > = ({ count, onClick }) => {
   return (

@@ -4,7 +4,7 @@ import {
   Box,
   Button,
   Divider,
-  Drawer,
+  Popover,
   IconButton,
   List,
   ListItem,
@@ -21,7 +21,7 @@ import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 type UserPanelProps = {
-  open: boolean;
+  anchorEl: HTMLElement | null;
   onClose: () => void;
   user: { name: string; email?: string; role?: string; avatarUrl?: string };
   onGoHome: () => void;
@@ -31,7 +31,7 @@ type UserPanelProps = {
 };
 
 const UserPanel: React.FC<UserPanelProps> = ({
-  open,
+  anchorEl,
   onClose,
   user,
   onGoHome,
@@ -40,35 +40,40 @@ const UserPanel: React.FC<UserPanelProps> = ({
   onLogout,
 }) => {
   return (
-    <Drawer
-      anchor="right"
-      open={open}
+    <Popover
+      open={Boolean(anchorEl)}
+      anchorEl={anchorEl}
       onClose={onClose}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      transitionDuration={{ enter: 350, exit: 300 }}
       slotProps={{
-        backdrop: {
-            sx: {
-            backgroundColor: "rgba(15, 23, 42, 0.25)",
-            backdropFilter: "blur(6px)",
-            WebkitBackdropFilter: "blur(6px)",
-            },
+        paper: {
+          sx: {
+            width: 300,
+            mt: 1.5,
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+            borderRadius: 3,
+            backgroundColor: "rgba(255, 255, 255, 0.65)",
+            backdropFilter: "blur(20px) saturate(125%)",
+            WebkitBackdropFilter: "blur(20px) saturate(125%)",
+            border: (t) => `1px solid ${t.palette.divider}`,
+            boxShadow: 8,
+          },
         },
       }}
-      PaperProps={{
-        sx: {
-        width: { xs: "100%", sm: 325 },
-        borderRadius: { xs: 0, sm: "16px 0 0 16px" },
-        overflow: "hidden",
-        backgroundColor: "rgba(255, 255, 255, 0.65)",
-        backdropFilter: "blur(20px) saturate(125%)",
-        WebkitBackdropFilter: "blur(20px) saturate(125%)",
-        border: (t) => `1px solid ${t.palette.divider}`,
-        boxShadow: 3,
-        },
-    }}
     >
       <Box sx={{ position: "relative", p: 2 }}>
         <IconButton onClick={onClose} aria-label="Cerrar panel">
-          <CloseRoundedIcon fontSize="small"/>
+          <CloseRoundedIcon fontSize="small" />
         </IconButton>
       </Box>
       <Box
@@ -144,11 +149,11 @@ const UserPanel: React.FC<UserPanelProps> = ({
               {user.name?.[0] ?? "U"}
             </Avatar>
           </Box>
-          <Typography variant="h6" sx={{fontWeight: 800, textAlign:"center", fontSize: "1.15rem"}}>
+          <Typography variant="h6" sx={{ fontWeight: 800, textAlign: "center", fontSize: "1.15rem" }}>
             {user.name}
           </Typography>
           {user.email && (
-            <Typography variant="body2" sx={{color: "text.secondary", textAlign: "center", fontSize: "0.8rem"}}>
+            <Typography variant="body2" sx={{ color: "text.secondary", textAlign: "center", fontSize: "0.8rem" }}>
               {user.email}
             </Typography>
           )}
@@ -160,28 +165,28 @@ const UserPanel: React.FC<UserPanelProps> = ({
       <List sx={{ py: 0 }}>
         <ListItem disablePadding>
           <ListItemButton onClick={() => { onClose(); onGoHome(); }}>
-            <ListItemIcon sx={{mr: -1}}>
+            <ListItemIcon sx={{ mr: -1 }}>
               <HomeRoundedIcon sx={{ fontSize: 20 }} />
             </ListItemIcon>
-            <ListItemText primary="Inicio" primaryTypographyProps={{fontSize: "0.9rem"}} />
+            <ListItemText primary="Inicio" primaryTypographyProps={{ fontSize: "0.9rem" }} />
           </ListItemButton>
         </ListItem>
 
         <ListItem disablePadding>
           <ListItemButton onClick={() => { onClose(); onProfile(); }}>
-            <ListItemIcon sx={{mr: -1}}>
+            <ListItemIcon sx={{ mr: -1 }}>
               <PersonRoundedIcon sx={{ fontSize: 20 }} />
             </ListItemIcon>
-            <ListItemText primary="Perfil" primaryTypographyProps={{fontSize: "0.9rem"}} />
+            <ListItemText primary="Perfil" primaryTypographyProps={{ fontSize: "0.9rem" }} />
           </ListItemButton>
         </ListItem>
 
         <ListItem disablePadding>
           <ListItemButton onClick={() => { onClose(); onSettings(); }}>
-            <ListItemIcon sx={{mr: -1}}>
+            <ListItemIcon sx={{ mr: -1 }}>
               <SettingsRoundedIcon sx={{ fontSize: 20 }} />
             </ListItemIcon>
-            <ListItemText primary="Configuración" primaryTypographyProps={{fontSize: "0.9rem"}} />
+            <ListItemText primary="Configuración" primaryTypographyProps={{ fontSize: "0.9rem" }} />
           </ListItemButton>
         </ListItem>
       </List>
@@ -202,14 +207,14 @@ const UserPanel: React.FC<UserPanelProps> = ({
             minHeight: 44,
             "&:hover": { bgcolor: "grey.800" },
             "& .MuiButton-startIcon": {
-            "& svg": { fontSize: 18 },
+              "& svg": { fontSize: 18 },
             },
           }}
         >
           Cerrar Sesión
         </Button>
       </Box>
-    </Drawer>
+    </Popover>
   );
 };
 

@@ -4,7 +4,7 @@ import {
   Box,
   Button,
   Divider,
-  Drawer,
+  Popover,
   IconButton,
   List,
   ListItem,
@@ -20,7 +20,7 @@ import DoneAllRoundedIcon from "@mui/icons-material/DoneAllRounded";
 import type { MessageItem } from "../../../../types/messages";
 
 type Props = {
-  open: boolean;
+  anchorEl: HTMLElement | null;
   onClose: () => void;
   items: MessageItem[];
   onMarkAllRead: () => void;
@@ -29,7 +29,7 @@ type Props = {
 };
 
 const MessagesPanel: React.FC<Props> = ({
-  open,
+  anchorEl,
   onClose,
   items,
   onMarkAllRead,
@@ -37,29 +37,35 @@ const MessagesPanel: React.FC<Props> = ({
   loading,
 }) => {
   return (
-    <Drawer
-      anchor="right"
-      open={open}
+    <Popover
+      open={Boolean(anchorEl)}
+      anchorEl={anchorEl}
       onClose={onClose}
-      slotProps={{
-        backdrop: {
-            sx: {
-            backgroundColor: "rgba(15, 23, 42, 0.25)",
-            backdropFilter: "blur(6px)",
-            WebkitBackdropFilter: "blur(6px)",
-            },
-        },
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
       }}
-      PaperProps={{
-        sx: {
-          width: { xs: "100%", sm: 380 },
-          borderRadius: { xs: 0, sm: "16px 0 0 16px" },
-          overflow: "hidden",
-          backgroundColor: "rgba(255, 255, 255, 0.65)",
-          backdropFilter: "blur(16px) saturate(125%)",
-          WebkitBackdropFilter: "blur(16px) saturate(125%)",
-          border: (t) => `1px solid ${t.palette.divider}`,
-          boxShadow: 3,
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      transitionDuration={{ enter: 350, exit: 300 }}
+      slotProps={{
+        paper: {
+          sx: {
+            width: 360,
+            maxHeight: 500,
+            mt: 1.5,
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+            borderRadius: 3,
+            backgroundColor: "rgba(255, 255, 255, 0.65)",
+            backdropFilter: "blur(16px) saturate(125%)",
+            WebkitBackdropFilter: "blur(16px) saturate(125%)",
+            border: (t) => `1px solid ${t.palette.divider}`,
+            boxShadow: 8,
+          },
         },
       }}
     >
@@ -79,13 +85,13 @@ const MessagesPanel: React.FC<Props> = ({
         <Stack direction="row" spacing={0.5}>
           <Tooltip title="Marcar todo como leido">
             <IconButton
-                onClick={onMarkAllRead}
-                size="small"
-                aria-label="Mark all as read"
-                color="success"
-                sx={{
-                    "&:hover": { bgcolor: (t) => t.palette.success.light + "1F" },
-                }}
+              onClick={onMarkAllRead}
+              size="small"
+              aria-label="Mark all as read"
+              color="success"
+              sx={{
+                "&:hover": { bgcolor: (t) => t.palette.success.light + "1F" },
+              }}
             >
               <DoneAllRoundedIcon fontSize="inherit" />
             </IconButton>
@@ -110,7 +116,7 @@ const MessagesPanel: React.FC<Props> = ({
           </Typography>
         </Box>
       ) : (
-        <List sx={{ py: 1.5 }}>
+        <List sx={{ py: 1.5, overflowY: "auto", flex: 1 }}>
           {items.map((it) => (
             <Box key={it.id} sx={{ px: 2.5, mb: 1.25 }}>
               <ListItem disableGutters sx={{ p: 0 }}>
@@ -130,13 +136,13 @@ const MessagesPanel: React.FC<Props> = ({
                 >
                   <ListItemAvatar sx={{ mt: 0.5, mr: 2, minWidth: 0 }}>
                     <Avatar
-                        src={it.from.avatarUrl}
-                        sx={{
-                          width: 36,
-                          height: 36,
-                          fontSize: "1.2rem",
-                          bgcolor: it.read ? "grey.200" :     "primary.light",
-                        }}
+                      src={it.from.avatarUrl}
+                      sx={{
+                        width: 36,
+                        height: 36,
+                        fontSize: "1.2rem",
+                        bgcolor: it.read ? "grey.200" : "primary.light",
+                      }}
                     >
                       {it.from.name[0]}
                     </Avatar>
@@ -157,7 +163,7 @@ const MessagesPanel: React.FC<Props> = ({
                         >
                           {it.preview}
                         </Typography>
-                        <Typography variant="caption" sx={{fontSize: "0.7rem", color: "text.disabled"}}>
+                        <Typography variant="caption" sx={{ fontSize: "0.7rem", color: "text.disabled" }}>
                           {timeAgo(it.createdAt)}
                         </Typography>
                       </Stack>
@@ -190,7 +196,7 @@ const MessagesPanel: React.FC<Props> = ({
           Ver todo
         </Button>
       </Box>
-    </Drawer>
+    </Popover>
   );
 };
 

@@ -1,5 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useOutlet } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Box } from "@mui/material";
 import Sidebar from "../Sidebar";
 import HeaderBar from "./Header/HeaderBar";
 import NotificationsPanel from "./Header/panels/NotificationsPanel";
@@ -20,10 +22,13 @@ const Layout: React.FC = () => {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
   const { pathname } = useLocation();
+  const currentOutlet = useOutlet();
 
   // Estado UI
-  const [openPanel, setOpenPanel] = useState<"notifications" | "messages" | null>(null);
-  const [openUserPanel, setOpenUserPanel] = useState(false);
+  const [anchorElNotis, setAnchorElNotis] = useState<HTMLElement | null>(null);
+  const [anchorElMsgs, setAnchorElMsgs] = useState<HTMLElement | null>(null);
+  const [anchorElUser, setAnchorElUser] = useState<HTMLElement | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const [loadingNotis, setLoadingNotis] = useState(false);
   const [loadingMsgs, setLoadingMsgs] = useState(false);
@@ -42,14 +47,14 @@ const Layout: React.FC = () => {
   }, [pathname]);
 
   // Handlers de apertura con latencia simulada
-  const openNotifications = () => {
-    setOpenPanel("notifications");
+  const openNotifications = (e: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNotis(e.currentTarget);
     setLoadingNotis(true);
     setTimeout(() => setLoadingNotis(false), 300);
   };
 
-  const openMessages = () => {
-    setOpenPanel("messages");
+  const openMessages = (e: React.MouseEvent<HTMLElement>) => {
+    setAnchorElMsgs(e.currentTarget);
     setLoadingMsgs(true);
     setTimeout(() => setLoadingMsgs(false), 300);
   };
@@ -63,37 +68,49 @@ const Layout: React.FC = () => {
 
   const onClickNotif = (it: NotificationItem) => {
     setNotis((arr) => arr.map((n) => (n.id === it.id ? { ...n, read: true } : n)));
-    setOpenPanel(null);
+    setAnchorElNotis(null);
     if (it.href) navigate(it.href);
   };
 
   const onClickMsg = (it: MessageItem) => {
     setMsgs((arr) => arr.map((m) => (m.id === it.id ? { ...m, read: true } : m)));
-    setOpenPanel(null);
+    setAnchorElMsgs(null);
   };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
-      <Sidebar />
+    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "background.default" }}>
+      <Sidebar mobileOpen={mobileOpen} onMobileClose={() => setMobileOpen(false)} />
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+      <Box sx={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
         <HeaderBar
           notificationsCount={unreadNotis}
           messagesCount={unreadMsgs}
           onOpenNotifications={openNotifications}
           onOpenMessages={openMessages}
-          onOpenUserPanel={() => setOpenUserPanel(true)}
+          onOpenUserPanel={(e) => setAnchorElUser(e.currentTarget)}
+          onToggleSidebar={() => setMobileOpen(!mobileOpen)}
           avatarUrl={user?.AvatarUrl}
         />
 
-        <main style={{ flex: 1, padding: "1.5rem", background: "#F7F9FC" }}>
-          <Outlet />
-        </main>
-      </div>
+        <Box component="main" sx={{ flex: 1, p: 3, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={pathname}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
+            >
+              {currentOutlet}
+            </motion.div>
+          </AnimatePresence>
+        </Box>
+      </Box>
 
       <NotificationsPanel
-        open={openPanel === "notifications"}
-        onClose={() => setOpenPanel(null)}
+        anchorEl={anchorElNotis}
+        onClose={() => setAnchorElNotis(null)}
         items={notis}
         onMarkAllRead={markAllNotisRead}
         onItemClick={onClickNotif}
@@ -101,8 +118,8 @@ const Layout: React.FC = () => {
       />
 
       <MessagesPanel
-        open={openPanel === "messages"}
-        onClose={() => setOpenPanel(null)}
+        anchorEl={anchorElMsgs}
+        onClose={() => setAnchorElMsgs(null)}
         items={msgs}
         onMarkAllRead={markAllMsgsRead}
         onItemClick={onClickMsg}
@@ -110,8 +127,8 @@ const Layout: React.FC = () => {
       />
 
       <UserPanel
-        open={openUserPanel}
-        onClose={() => setOpenUserPanel(false)}
+        anchorEl={anchorElUser}
+        onClose={() => setAnchorElUser(null)}
         user={{
           name: user?.nombre ?? "Demo Admin",
           email: user?.email ?? "demo@crm.com",
@@ -126,7 +143,7 @@ const Layout: React.FC = () => {
           navigate("/login");
         }}
       />
-    </div>
+    </Box>
   );
 };
 

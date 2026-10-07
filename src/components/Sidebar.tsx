@@ -27,22 +27,24 @@ import crmLogoIcon from "../assets/img/Logo2.png"
 type Section = { label: string; icon: React.ReactNode; path: string };
 
 const sections: Section[] = [
-  { label: "Dashboard", icon: <DashboardIcon />,  path: "/" },
-  { label: "Empresas", icon: <ApartmentIcon />,  path: "/empresas" },
-  { label: "Contactos", icon: <ContactsIcon />,   path: "/contactos" },
-  { label: "Deals", icon: <HandshakeIcon />,  path: "/deals" },
-  { label: "Actividades", icon: <EventNoteIcon />,  path: "/actividades" },
+  { label: "Dashboard", icon: <DashboardIcon />, path: "/" },
+  { label: "Empresas", icon: <ApartmentIcon />, path: "/empresas" },
+  { label: "Contactos", icon: <ContactsIcon />, path: "/contactos" },
+  { label: "Deals", icon: <HandshakeIcon />, path: "/deals" },
+  { label: "Actividades", icon: <EventNoteIcon />, path: "/actividades" },
 ];
 
-const EXPANDED_WIDTH  = 251.5;
+const EXPANDED_WIDTH = 251.5;
 const COLLAPSED_WIDTH = 97.5;
 
 const Sidebar: React.FC<{
   defaultCollapsed?: boolean;
   onOpenUserPanel?: () => void;
-}> = ({ defaultCollapsed = false, onOpenUserPanel }) => {
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
+}> = ({ defaultCollapsed = false, onOpenUserPanel, mobileOpen, onMobileClose }) => {
   const location = useLocation();
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
 
   const { user } = useAuth();
@@ -55,27 +57,8 @@ const Sidebar: React.FC<{
 
   const width = collapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH;
 
-  return (
-    <Drawer
-      variant="permanent"
-      sx={{
-        width,
-        flexShrink: 0,
-        transition: (t) => 
-          t.transitions.create("width", { duration: t.transitions.duration.shorter }),
-        "& .MuiDrawer-paper": {
-          width,
-          boxSizing: "border-box",
-          background: "#233044",
-          borderRight: "1px solid #000",
-          transition: (t) =>
-            t.transitions.create("width", { duration: t.transitions.duration.shorter }),
-          zIndex: (t) => t.zIndex.appBar - 1,
-          display: "flex",
-          flexDirection: "column",
-        },
-      }}
-    >
+  const drawerContent = (
+    <>
       <Box
         sx={{
           px: 2,
@@ -167,10 +150,10 @@ const Sidebar: React.FC<{
               <ListItemText
                 primary={
                   <Typography
-                  sx={{
-                    fontSize: collapsed ? "0.75rem" : "0.9rem",
-                    fontWeight: isActive ? "bold" : "normal",
-                    color: "#fff",
+                    sx={{
+                      fontSize: collapsed ? "0.75rem" : "0.9rem",
+                      fontWeight: isActive ? "bold" : "normal",
+                      color: "#fff",
                       lineHeight: 1.2,
                       whiteSpace: "nowrap",
                       overflow: "hidden",
@@ -269,7 +252,56 @@ const Sidebar: React.FC<{
           </Box>
         )}
       </Box>
-    </Drawer>
+    </>
+  );
+
+  return (
+    <Box component="nav" sx={{
+      width: { md: width },
+      flexShrink: { md: 0 },
+      transition: (t) => t.transitions.create("width", { duration: 400, easing: "cubic-bezier(0.4, 0, 0.2, 1)" })
+    }}>
+      {/* Drawer para móviles */}
+      <Drawer
+        variant="temporary"
+        open={mobileOpen}
+        onClose={onMobileClose}
+        ModalProps={{ keepMounted: true }} // Better open performance on mobile.
+        sx={{
+          display: { xs: 'block', md: 'none' },
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            width: EXPANDED_WIDTH,
+            background: "#233044",
+            borderRight: "none",
+            display: "flex",
+            flexDirection: "column",
+          },
+        }}
+      >
+        {drawerContent}
+      </Drawer>
+      {/* Drawer para desktop */}
+      <Drawer
+        variant="permanent"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          width,
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            width,
+            background: "#233044",
+            borderRight: "1px solid #000",
+            transition: (t) => t.transitions.create("width", { duration: 400, easing: "cubic-bezier(0.4, 0, 0.2, 1)" }),
+            display: "flex",
+            flexDirection: "column",
+          },
+        }}
+        open
+      >
+        {drawerContent}
+      </Drawer>
+    </Box>
   );
 };
 
